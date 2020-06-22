@@ -1,6 +1,28 @@
 import Head from "next/head";
+import { useSession, Session } from "next-auth/client";
+
+const renderMain = (loading: boolean, session?: Session) => {
+  if (loading) return <div>Loading...</div>;
+  if (!session)
+    return (
+      <p>
+        <a href="/api/auth/signin">Sign in</a>
+      </p>
+    );
+  return (
+    <>
+      <h1 className="title">Welcome to Reditus</h1>
+      <p>Welcome {session.user.email} </p>
+      <p>
+        <a href="/api/auth/signout">Sign out</a>
+      </p>
+    </>
+  );
+};
 
 export default function Home() {
+  const [session, loading] = useSession();
+
   return (
     <div className="container">
       <Head>
@@ -8,9 +30,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main>
-        <h1 className="title">Welcome to Reditus</h1>
-      </main>
+      <main>{renderMain(loading, session)}</main>
 
       <style jsx>{`
         main {
