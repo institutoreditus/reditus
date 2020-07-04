@@ -18,18 +18,10 @@ export default function Home() {
 
       <main>
         <GridRow>
-          <GridCell
-            className="leftSide"
-            span={4}
-            align={"middle"}
-          >
+          <GridCell className="leftSide" span={4} align={"middle"}>
             <></>
           </GridCell>
-          <GridCell
-            className="rightSide"
-            span={8}
-            align={"middle"}
-          >
+          <GridCell className="rightSide" span={8} align={"middle"}>
             <>
               <h1 className="title">Welcome to Reditus</h1>
               <TextField fullwidth label="fullWidth..." />
