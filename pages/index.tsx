@@ -9,6 +9,7 @@ export default function Home() {
     <div>
       <Head>
         <title>Reditus</title>
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&display=swap" rel="stylesheet"></link>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
