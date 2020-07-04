@@ -1,8 +1,10 @@
-import "../styles.scss";
-import "rmwc/dist/styles";
-
+import "@material/theme/dist/mdc.theme.css";
+import "@rmwc/theme/theme.css";
 import "@material/button/dist/mdc.button.css";
 import "@material/layout-grid/dist/mdc.layout-grid.css";
+import "@material/textfield/dist/mdc.textfield.css";
+
+import "../styles.css";
 
 import { AppProps } from "next/app";
 

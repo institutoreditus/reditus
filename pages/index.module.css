@@ -1,0 +1,17 @@
+.rightSide {
+  color: white;
+  background-image: url("/loginBkg.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100vh;
+  padding: 10px 25rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  vertical-align: middle;
+}
+
+.leftSide {
+  background-image: url("/loginBkgI.png");
+  padding: "10px 2rem";
+}

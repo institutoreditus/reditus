@@ -1,6 +1,7 @@
 import Head from "next/head";
 import { GridRow, GridCell } from "@rmwc/grid";
 import { TextField } from "@rmwc/textfield";
+import styles from "./index.module.css";
 
 // Components
 
@@ -22,15 +23,13 @@ export default function Home() {
 
       <main>
         <GridRow>
-          <GridCell className="leftSide" span={4} align={"middle"}>
+          <GridCell className={styles.leftSide} span={4} align={"middle"}>
             <></>
           </GridCell>
-          <GridCell className="rightSide" span={8} align={"middle"}>
-            <>
-              <h1 className="title">Welcome to Reditus</h1>
-              <TextField fullwidth label="fullWidth..." />
-              <TextField fullwidth label="standard..." />
-            </>
+          <GridCell className={styles.rightSide} span={8} align={"middle"}>
+            <h1 className="title">Welcome to Reditus</h1>
+            <TextField fullwidth label="fullWidth..." />
+            <TextField fullwidth label="standard..." />
           </GridCell>
         </GridRow>
       </main>
