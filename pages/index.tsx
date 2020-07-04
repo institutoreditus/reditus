@@ -1,49 +1,38 @@
 import Head from "next/head";
+import { GridRow, GridCell } from "@rmwc/grid";
+import { TextField } from "@rmwc/textfield";
+import styles from "./index.module.css";
+
+// Components
 
 export default function Home() {
   return (
-    <div className="container">
+    <div>
       <Head>
         <title>Reditus</title>
+        <link
+          href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&display=swap"
+          rel="stylesheet"
+        ></link>
+        <link
+          href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          rel="stylesheet"
+        ></link>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main>
-        <h1 className="title">Welcome to Reditus</h1>
+        <GridRow>
+          <GridCell className={styles.leftSide} span={4} align={"middle"}>
+            <></>
+          </GridCell>
+          <GridCell className={styles.rightSide} span={8} align={"middle"}>
+            <h1 className="title">Welcome to Reditus</h1>
+            <TextField fullwidth label="fullWidth..." />
+            <TextField fullwidth label="standard..." />
+          </GridCell>
+        </GridRow>
       </main>
-
-      <style jsx>{`
-        main {
-          padding: 5rem 0;
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-        }
-
-        .title {
-          margin: 0;
-          line-height: 1.15;
-          font-size: 4rem;
-          text-align: center;
-        }
-      `}</style>
-
-      <style jsx global>{`
-        html,
-        body {
-          padding: 0;
-          margin: 0;
-          font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
-            Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
-            sans-serif;
-        }
-
-        * {
-          box-sizing: border-box;
-        }
-      `}</style>
     </div>
   );
 }

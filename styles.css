@@ -1,0 +1,15 @@
+:root {
+  --mdc-theme-primary: red;
+  --mdc-theme-secondary: red;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: "Open Sans", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
