@@ -5,7 +5,7 @@ const withImages = require('next-images');
 global.navigator = () => null;
 
 if (typeof require !== 'undefined') {
-  require.extensions['.sass'] = () => {};
+  require.extensions['.scss'] = () => {};
   require.extensions['.css'] = file => {};
 }
 

@@ -1,4 +1,4 @@
-import "../styles.sass";
+import "../styles.scss";
 import "rmwc/dist/styles";
 
 import "@material/button/dist/mdc.button.css";

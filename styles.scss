@@ -1,0 +1,15 @@
+@import './components/Index.module.scss';
+  
+$mdc-theme-primary: #0063dd;
+$mdc-theme-secondary: #870186;
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: 'Open Sans', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
