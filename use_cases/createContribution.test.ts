@@ -31,13 +31,13 @@ test("creates a contribution in the database and returns it", async () => {
 test("throws error if amount is invalid", async () => {
   await expect(
     createContribution({ email: "email@example.com", amountInCents: -1 })
-  ).rejects.toContain("amount");
+  ).rejects.toThrow("Invalid amount");
 });
 
 test("throws error if email is invalid", async () => {
   await expect(
     createContribution({ email: "not-an-email", amountInCents: 1000 })
-  ).rejects.toContain("email");
+  ).rejects.toThrow("Invalid email");
 });
 
 export {};
