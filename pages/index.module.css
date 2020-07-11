@@ -11,6 +11,11 @@
   vertical-align: middle;
 }
 
+.rightSide img {
+  width: 100px;
+  height: auto;
+}
+
 .leftSide {
   padding: 10px 6rem;
   display: flex;

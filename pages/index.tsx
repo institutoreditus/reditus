@@ -44,9 +44,11 @@ export default function Home() {
             </>
           </GridCell>
           <GridCell className={styles.rightSide} span={8} align={"middle"}>
-            <h1 className="title">Welcome to Reditus</h1>
-            <TextField fullwidth label="fullWidth..." />
-            <TextField fullwidth label="standard..." />
+            <img src="./logoReditusWhite.png" />
+            <p className="title">
+              Faça parte dessa corrente do bem! Ajude a fomentar uma cultura de
+              retribuição.
+            </p>
           </GridCell>
         </GridRow>
       </main>
