@@ -12,6 +12,28 @@
 }
 
 .leftSide {
-  background-image: url("/loginBkgI.png");
-  padding: "10px 2rem";
+  padding: 10px 6rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  vertical-align: middle;
+}
+
+.leftSide p {
+  font-family: 'Open sans' sans-serif !important;
+  font-size: 18px;
+  color: #919BB0;
+
+  padding-left: 20px;
+}
+
+.leftSide ul {
+  font-family: 'Open sans' sans-serif !important;
+  font-size: 18px;
+  font-weight: 300;
+  color: #919BB0;
+}
+
+.leftSide i {
+  color: #e2e2e2;
 }
