@@ -14,10 +14,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   } = req;
 
   if (req.method === "POST") {
+    const signature = getFirstHeader(req, "x-hub-signature");
+
     const validPostBack = await validatePagarmePostback({
       requestBodyText: stringify(req.body),
-      requestSignatureHeader: req.headers["x-hub-signature"] ?? "",
+      requestSignatureHeader: signature ?? "",
     });
+
     if (validPostBack) {
       const numberId: number = +id; // convert to number
       await runProcessPostback(req, res, numberId);
@@ -39,7 +42,8 @@ async function runProcessPostback(
   res.statusCode = 200;
 
   // we only care for events that represent a change in the status of a Pagarme transaction
-  const event: string = req.headers["x-pagarme-event"] ?? "";
+  const event = getFirstHeader(req, "x-pagarme-event") ?? "";
+
   if (event != "transaction_status_changed") {
     res.send("");
   }
@@ -58,3 +62,12 @@ async function runProcessPostback(
     res.send("");
   }
 }
+
+const getFirstHeader = (
+  req: NextApiRequest,
+  key: string
+): string | undefined => {
+  const headers = req.headers[key];
+  if (Array.isArray(headers)) return headers[0];
+  return headers;
+};

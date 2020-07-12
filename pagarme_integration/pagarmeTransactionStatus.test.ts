@@ -18,7 +18,9 @@ test.each([
 ])(
   "is completable pagarme transaction status",
   async (status, expectedResult) => {
-    const enumStatus: PagarmeTransactionStatus = (<any>PagarmeTransactionStatus)[status];
+    const enumStatus: PagarmeTransactionStatus = (<any>(
+      PagarmeTransactionStatus
+    ))[status];
     const result = await isCompletableStatus(enumStatus);
     expect(result).toBe(expectedResult);
   }
@@ -38,7 +40,9 @@ test.each([
 ])(
   "is cancelable pagarme transaction status",
   async (status, expectedResult) => {
-    const enumStatus: PagarmeTransactionStatus = (<any>PagarmeTransactionStatus)[status];
+    const enumStatus: PagarmeTransactionStatus = (<any>(
+      PagarmeTransactionStatus
+    ))[status];
     const result = await isCancelableStatus(enumStatus);
     expect(result).toBe(expectedResult);
   }
