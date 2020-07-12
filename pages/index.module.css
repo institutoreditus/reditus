@@ -16,6 +16,12 @@
   height: auto;
 }
 
+.rightSide button {
+  margin-top: 1rem;
+  height: 50px;
+  border-radius: 0;
+}
+
 .leftSide {
   padding: 10px 6rem;
   display: flex;

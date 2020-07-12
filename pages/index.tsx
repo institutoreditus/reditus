@@ -1,10 +1,10 @@
 import Head from "next/head";
 import { GridRow, GridCell } from "@rmwc/grid";
-import { List, SimpleListItem} from "@rmwc/list";
-import { TextField } from "@rmwc/textfield";
+import { List, SimpleListItem } from "@rmwc/list";
 import styles from "./index.module.css";
 
 // Components
+import { ContributionButton } from "../components/ContributionButton";
 
 export default function Home() {
   return (
@@ -19,6 +19,7 @@ export default function Home() {
           href="https://fonts.googleapis.com/icon?family=Material+Icons"
           rel="stylesheet"
         ></link>
+        <script src="https://assets.pagar.me/checkout/checkout.js"></script>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -49,6 +50,7 @@ export default function Home() {
               Faça parte dessa corrente do bem! Ajude a fomentar uma cultura de
               retribuição.
             </p>
+            <ContributionButton />
           </GridCell>
         </GridRow>
       </main>
