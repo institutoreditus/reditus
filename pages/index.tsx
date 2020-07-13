@@ -26,23 +26,21 @@ export default function Home() {
       <main>
         <GridRow>
           <GridCell className={styles.leftSide} span={4} align={"middle"}>
-            <>
-              <p>Tornando-se parte dessa iniciativa você...</p>
-              <List twoLine>
-                <SimpleListItem
-                  graphic="radio_button_checked"
-                  text="retorna um bem a comunidade UFRJ"
-                />
-                <SimpleListItem
-                  graphic="radio_button_checked"
-                  text="ajuda a fomentar uma estrutura de auxílio a alunos e equipes de competição"
-                />
-                <SimpleListItem
-                  graphic="radio_button_checked"
-                  text="perpetua uma cultura de retribuição"
-                />
-              </List>
-            </>
+            <p>Tornando-se parte dessa iniciativa você...</p>
+            <List twoLine>
+              <SimpleListItem
+                graphic="radio_button_checked"
+                text="retorna um bem a comunidade UFRJ"
+              />
+              <SimpleListItem
+                graphic="radio_button_checked"
+                text="ajuda a fomentar uma estrutura de auxílio a alunos e equipes de competição"
+              />
+              <SimpleListItem
+                graphic="radio_button_checked"
+                text="perpetua uma cultura de retribuição"
+              />
+            </List>
           </GridCell>
           <GridCell className={styles.rightSide} span={8} align={"middle"}>
             <img src="./logoReditusWhite.png" />
