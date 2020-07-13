@@ -3,11 +3,11 @@ import { PrismaClient } from "@prisma/client";
 
 let prisma: PrismaClient;
 
-beforeEach(() => {
+beforeAll(() => {
   prisma = new PrismaClient();
 });
 
-afterEach(async () => {
+afterAll(async () => {
   await prisma.disconnect();
 });
 

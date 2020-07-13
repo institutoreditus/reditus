@@ -45,4 +45,4 @@ jobs:
     - name: Setup database
       run: npx prisma migrate up --experimental
     - name: Run Tests
-      run: npm test
+      run: npm test -- --detectOpenHandles --forceExit
