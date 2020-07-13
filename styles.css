@@ -1,6 +1,6 @@
 :root {
-  --mdc-theme-primary: red;
-  --mdc-theme-secondary: red;
+  --mdc-theme-primary: #00d4ff;
+  --mdc-theme-secondary: rgba(255, 255, 255, 0.692);
 }
 
 html,

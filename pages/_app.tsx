@@ -3,6 +3,9 @@ import "@rmwc/theme/theme.css";
 import "@material/button/dist/mdc.button.css";
 import "@material/layout-grid/dist/mdc.layout-grid.css";
 import "@material/textfield/dist/mdc.textfield.css";
+import "@material/list/dist/mdc.list.css";
+import "@material/ripple/dist/mdc.ripple.css";
+import "@rmwc/icon/icon.css";
 
 import "../styles.css";
 

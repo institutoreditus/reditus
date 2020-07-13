@@ -1,9 +1,10 @@
 import Head from "next/head";
 import { GridRow, GridCell } from "@rmwc/grid";
-import { TextField } from "@rmwc/textfield";
+import { List, SimpleListItem } from "@rmwc/list";
 import styles from "./index.module.css";
 
 // Components
+import { ContributionButton } from "../components/ContributionButton";
 
 export default function Home() {
   return (
@@ -18,18 +19,36 @@ export default function Home() {
           href="https://fonts.googleapis.com/icon?family=Material+Icons"
           rel="stylesheet"
         ></link>
+        <script src="https://assets.pagar.me/checkout/checkout.js"></script>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main>
         <GridRow>
           <GridCell className={styles.leftSide} span={4} align={"middle"}>
-            <></>
+            <p>Tornando-se parte dessa iniciativa você...</p>
+            <List twoLine>
+              <SimpleListItem
+                graphic="radio_button_checked"
+                text="retorna um bem a comunidade UFRJ"
+              />
+              <SimpleListItem
+                graphic="radio_button_checked"
+                text="ajuda a fomentar uma estrutura de auxílio a alunos e equipes de competição"
+              />
+              <SimpleListItem
+                graphic="radio_button_checked"
+                text="perpetua uma cultura de retribuição"
+              />
+            </List>
           </GridCell>
           <GridCell className={styles.rightSide} span={8} align={"middle"}>
-            <h1 className="title">Welcome to Reditus</h1>
-            <TextField fullwidth label="fullWidth..." />
-            <TextField fullwidth label="standard..." />
+            <img src="./logoReditusWhite.png" />
+            <p className="title">
+              Faça parte dessa corrente do bem! Ajude a fomentar uma cultura de
+              retribuição.
+            </p>
+            <ContributionButton />
           </GridCell>
         </GridRow>
       </main>
