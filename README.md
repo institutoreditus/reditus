@@ -2,12 +2,30 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
+### Install dependencies
 First, install the dependencies
 ```bash
 npm install
 ```
 
-Then, run the development server:
+### Setup database
+
+Then, you will need to setup the database. This app uses a Postgresql database. You can use a local installation. Alternatively, you can also run Postgresql on Docker.
+
+A docker-compose file is already configured in the case you would like to run Postgresql on Docker. In this case, just run the following command:
+```bash
+docker-compose up -d
+```
+
+After making sure Postgresql is running, run the migrations to configure the database
+
+```bash
+npx prisma migrate up --experimental
+```
+
+### Run server
+
+Finally, run the development server:
 
 ```bash
 npm run dev
@@ -19,6 +37,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
 
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
@@ -27,6 +46,11 @@ To learn more about Next.js, take a look at the following resources:
 - [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+
+If you need help installing Docker, check the following links:
+- [Installing Docker](https://docs.docker.com/engine/install/)
+- [Installing Docker Compose](https://docs.docker.com/compose/install/)
+
 
 ## Deploy on Vercel
 
