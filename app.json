@@ -4,4 +4,5 @@
     "review": {
       "addons": ["heroku-postgresql:hobby-dev"]
     }
+  }
 }
