@@ -3,8 +3,9 @@ import schema, { string, number } from "computed-types";
 import createContribution from "../../../use_cases/createContribution";
 import axios from "axios";
 import url from "url";
-const publicUrl = process.env.PUBLIC_URL || "http://localhost:3000";
 
+const herokuAppName = process.env.HEROKU_APP_NAME || `reditus-staging`
+const publicUrl = process.env.PUBLIC_URL || `https://${herokuAppName}.herokuapp.com/`;
 const postbackUrl = url.resolve(publicUrl, "/api/pagarme/postback");
 
 // This follows the schema defined by pagar.me checkout
