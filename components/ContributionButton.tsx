@@ -1,31 +1,39 @@
 import { Button } from "@rmwc/button";
+import axios from "axios";
 
 declare let PagarMeCheckout: any;
+const encryptionKey = process.env.PAGARME_ENC_KEY;
 
-function onCheckout(e: any) {
+async function onCheckout(e: any) {
   e.preventDefault();
+  // TODO: Ask that somewhere in the frontend
+  const amountInCents = 1000;
 
-  // inicia a instância do checkout
+  // Create checkout instance
   const checkout = new PagarMeCheckout.Checkout({
-    encryption_key: "SUA ENCRYPTION KEY",
-    success: function (data: any) {
-      console.log(data);
+    encryption_key: encryptionKey,
+    success: async function (data: any) {
+      try {
+        await axios.post("/api/contributions", data);
+      } catch (err) {
+        alert("Erro ao doar");
+      }
     },
-    error: function (err: any) {
-      console.log(err);
+    error: function () {
+      alert("Erro ao doar");
     },
     close: function () {
       console.log("The modal has been closed.");
     },
   });
 
-  // Obs.: é necessário passar os valores boolean como string
+  // Checkout API require booleans to be passed as strings
   checkout.open({
-    amount: 50000,
+    amount: amountInCents,
     buttonText: "Contribuir",
     buttonClass: "botao-pagamento",
     customerData: "true",
-    createToken: "true",
+    createToken: "false",
     paymentMethods: "credit_card",
     uiColor: "#00d4ff",
     headerText: "Vou contribuir com {price_info}",

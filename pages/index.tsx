@@ -19,7 +19,7 @@ export default function Home() {
           href="https://fonts.googleapis.com/icon?family=Material+Icons"
           rel="stylesheet"
         ></link>
-        <script src="https://assets.pagar.me/checkout/checkout.js"></script>
+        <script src="https://assets.pagar.me/checkout/1.1.0/checkout.js"></script>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 

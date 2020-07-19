@@ -1,12 +1,45 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import schema, { string, number } from "computed-types";
 import createContribution from "../../../use_cases/createContribution";
+import axios from "axios";
+import url from "url";
+const publicUrl = process.env.PUBLIC_URL || "http://localhost:3000";
+
+const postbackUrl = url.resolve(publicUrl, "/api/pagarme/postback");
+
+// This follows the schema defined by pagar.me checkout
+enum PaymentMethod {
+  creditCard = "credit_card",
+}
+
+const Phone = schema({
+  ddd: string,
+  number: string,
+});
+
+const Address = schema({
+  city: string,
+  complementary: string,
+  neighborhood: string,
+  state: string,
+  street: string,
+  street_number: string,
+  zipcode: string,
+});
+
+const CustomerData = schema({
+  document_number: string,
+  email: string,
+  name: string,
+  phone: Phone,
+  address: Address,
+});
 
 const CreateContributionSchema = schema({
-  email: string
-    .trim()
-    .test((email) => email.indexOf("@") >= 0, "Invalid Email"),
-  amountInCents: number.gte(1),
+  amount: number.gte(1),
+  card_hash: string,
+  payment_method: schema.enum(PaymentMethod, "Invalid payment method"),
+  customer: CustomerData,
 });
 
 async function runCreateContribution(
@@ -14,11 +47,75 @@ async function runCreateContribution(
   res: NextApiResponse
 ) {
   const validator = CreateContributionSchema.destruct();
-  const [err, contributionArgs] = validator(req.body);
-  if (!err && contributionArgs) {
-    const contribution = await createContribution(contributionArgs);
-    res.statusCode = 201;
-    res.json(contribution);
+  const [err, args] = validator(req.body);
+  if (!err && args) {
+    const contribution = await createContribution({
+      email: args.customer.email,
+      amountInCents: args.amount,
+    });
+
+    try {
+      const pagarmeData = {
+        api_key: process.env.PAGARME_API_KEY,
+        payment_method: args.payment_method,
+        amount: args.amount,
+        card_hash: args.card_hash,
+        customer: {
+          type:
+            args.customer.document_number.length > 11
+              ? "company"
+              : "individual",
+          external_id: args.customer.email,
+          name: args.customer.name,
+          email: args.customer.email,
+          country: "br",
+          phone_numbers: [
+            `+55${args.customer.phone.ddd}${args.customer.phone.number}`,
+          ],
+          documents: [
+            {
+              type: args.customer.document_number.length > 11 ? "cnpj" : "cpf",
+              number: args.customer.document_number,
+            },
+          ],
+        },
+        billing: {
+          name: args.customer.name,
+          address: {
+            street: args.customer.address.street,
+            street_number: args.customer.address.street_number,
+            zipcode: args.customer.address.zipcode,
+            country: "br",
+            state: args.customer.address.state,
+            city: args.customer.address.city,
+          },
+        },
+        items: [
+          {
+            id: "1",
+            title: "Contribuição",
+            unit_price: args.amount,
+            quantity: 1,
+            tangible: false,
+          },
+        ],
+        reference_key: `contribution:${contribution.id}`,
+        postback_url: postbackUrl,
+      };
+
+      await axios.post("https://api.pagar.me/1/transactions", pagarmeData);
+
+      res.statusCode = 201;
+      res.json(contribution);
+    } catch (err) {
+      if (err.response.status === 400) {
+        res.statusCode = 400;
+        res.send({ error: "Invalid Data" });
+      } else {
+        res.statusCode = 500;
+        res.send("");
+      }
+    }
   } else {
     res.statusCode = 400;
     res.json(err && err.toJSON && err.toJSON());
