@@ -25,7 +25,12 @@ export default function Home() {
 
       <main>
         <GridRow>
-          <GridCell order={0} className={styles.leftSide} desktop={4} align={"middle"}>
+          <GridCell
+            order={0}
+            className={styles.leftSide}
+            desktop={4}
+            align={"middle"}
+          >
             <p>Tornando-se parte dessa iniciativa você...</p>
             <List twoLine>
               <SimpleListItem
@@ -42,7 +47,14 @@ export default function Home() {
               />
             </List>
           </GridCell>
-          <GridCell order={1} className={styles.rightSide} desktop={8} tablet={12} phone={12} align={"middle"}>
+          <GridCell
+            order={1}
+            className={styles.rightSide}
+            desktop={8}
+            tablet={12}
+            phone={12}
+            align={"middle"}
+          >
             <img src="./logoReditusWhite.png" />
             <p className="title">
               Faça parte dessa corrente do bem! Ajude a fomentar uma cultura de
