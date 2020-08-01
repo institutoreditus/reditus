@@ -42,12 +42,15 @@ async function runCreateSubscription(
       amountInCents: args.amount,
     });
 
+    const billingPeriodString = process.env.SUBSCRIPTION_BILLING_PERIOD || "30";
+    const billingPeriod = +billingPeriodString;
+
     const pagarmeClient = await pagarme.client.connect({
       api_key: process.env.PAGARME_API_KEY,
     });
     const pagarmePlan = await pagarmeClient.plans.create({
       amount: args.amount,
-      days: +process.env.SUBSCRIPTION_BILLING_PERIOD,
+      days: billingPeriod,
       name: `Plano de contribuição mensal - ${args.customer.email}`,
       payment_methods: ["credit_card"],
     });
