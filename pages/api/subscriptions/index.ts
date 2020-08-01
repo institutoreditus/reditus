@@ -9,15 +9,38 @@ const publicUrl =
   process.env.PUBLIC_URL || `https://${herokuAppName}.herokuapp.com/`;
 const postbackUrl = url.resolve(publicUrl, "/api/pagarme/postback");
 
+// This follows the schema defined by pagar.me checkout
+enum PaymentMethod {
+  creditCard = "credit_card",
+}
+
+const Phone = schema({
+  ddd: string,
+  number: string,
+});
+
+const Address = schema({
+  city: string,
+  complementary: string,
+  neighborhood: string,
+  state: string,
+  street: string,
+  street_number: string,
+  zipcode: string,
+});
+
 const CustomerData = schema({
   document_number: string,
-  name: string,
   email: string,
+  name: string,
+  phone: Phone,
+  address: Address,
 });
 
 const CreateSubscriptionSchema = schema({
   amount: number.gte(1),
   card_hash: string,
+  payment_method: schema.enum(PaymentMethod, "Invalid payment method"),
   customer: CustomerData,
 });
 
