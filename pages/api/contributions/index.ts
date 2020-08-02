@@ -94,8 +94,8 @@ async function runCreateContribution(
         },
         items: [
           {
-            id: "1",
-            title: "Contribuição",
+            id: contribution.id.toString(),
+            title: "Contribuição " + contribution.id.toString(),
             unit_price: args.amount,
             quantity: 1,
             tangible: false,

@@ -1,6 +1,12 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import schema, { number, string } from "computed-types";
 import createSubscription from "../../../use_cases/createSubscription";
+import completeSubscription from "../../../use_cases/completeSubscription";
+import cancelSubscription from "../../../use_cases/cancelSubscription";
+import {
+  isCompletableStatus,
+  isCancelableStatus,
+} from "../../../pagarme_integration/pagarmeSubscriptionStatus";
 import pagarme from "pagarme";
 import url from "url";
 
@@ -60,7 +66,7 @@ async function runCreateSubscription(
   const validator = CreateSubscriptionSchema.destruct();
   const [err, args] = validator(req.body);
   if (!err && args) {
-    const subscription = await createSubscription({
+    let subscription = await createSubscription({
       email: args.customer.email,
       amountInCents: args.amount,
     });
@@ -74,11 +80,11 @@ async function runCreateSubscription(
     const pagarmePlan = await pagarmeClient.plans.create({
       amount: args.amount,
       days: billingPeriod,
-      name: `Plano de contribuição mensal - ${args.customer.email}`,
+      name: `Plano de contribuição mensal - ${subscription.id}`,
       payment_methods: ["credit_card"],
     });
 
-    await pagarmeClient.subscriptions.create({
+    const pagarmeSubscription = await pagarmeClient.subscriptions.create({
       reference_key: `subscription:${subscription.id}`,
       plan_id: pagarmePlan.id,
       card_hash: args.card_hash,
@@ -90,6 +96,16 @@ async function runCreateSubscription(
         email: args.customer.email,
       },
     });
+
+    if (isCompletableStatus(pagarmeSubscription.status)) {
+      subscription = await completeSubscription({
+        subscriptionId: subscription.id,
+      });
+    } else if (isCancelableStatus(pagarmeSubscription.status)) {
+      subscription = await cancelSubscription({
+        subscriptionId: subscription.id,
+      });
+    }
 
     res.statusCode = 201;
     res.json(subscription);
