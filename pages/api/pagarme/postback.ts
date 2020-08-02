@@ -25,12 +25,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     });
 
     if (validPostBack) {
-      const referenceKey = req.body["transaction[reference_key]"];
-      const [referenceType, referenceId] = referenceKey.split(":");
-
-      if (referenceType === "contribution") {
+      const postbackObjectType = req.body["object"];
+      if (postbackObjectType === "transaction") {
+        const referenceKey = req.body["transaction[reference_key]"];
+        const referenceId = referenceKey.split(":")[1];
         await runProcessTransactionPostback(req, res, +referenceId);
-      } else if (referenceType === "subscription") {
+      } else if (postbackObjectType === "subscription") {
+        const referenceKey =
+          req.body["subscription[current_transaction][reference_key]"];
+        const referenceId = referenceKey.split(":")[1];
         await runProcessSubscriptionPostback(req, res, +referenceId);
       }
     } else {
@@ -58,9 +61,11 @@ async function runProcessTransactionPostback(
   }
 
   const newPagarmeStatus = req.body["current_status"];
+  const pagarmeId = req.body["transaction[id]"];
   if (await isCompletableTransactionStatus(newPagarmeStatus)) {
     const result = await completeContribution({
       contributionId: contributionId,
+      externalId: `pagarme:${pagarmeId}`,
     });
     res.json(result);
   } else if (await isCancelableTransactionStatus(newPagarmeStatus)) {
@@ -80,12 +85,16 @@ async function runProcessSubscriptionPostback(
   res.statusCode = 200;
 
   const event = getFirstHeader(req, "x-pagarme-event") ?? "";
-
+  const pagarmeId = req.body["subscription[id]"];
+  const pagarmeTransactionId =
+    req.body["subscription[current_transaction][id]"];
   if (event === "subscription_status_changed") {
     const newPagarmeStatus = req.body["current_status"];
     if (await isCompletableSubscriptionStatus(newPagarmeStatus)) {
       const result = await completeSubscription({
         subscriptionId: subscriptionId,
+        externalId: `pagarme:${pagarmeId}`,
+        externalContributionId: `pagarme:${pagarmeTransactionId}`,
       });
       res.json(result);
     } else if (await isCancelableSubscriptionStatus(newPagarmeStatus)) {

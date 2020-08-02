@@ -100,6 +100,8 @@ async function runCreateSubscription(
     if (isCompletableStatus(pagarmeSubscription.status)) {
       subscription = await completeSubscription({
         subscriptionId: subscription.id,
+        externalId: `pagarme:${pagarmeSubscription.id}`,
+        externalContributionId: `pagarme:${pagarmeSubscription.current_transaction.id}`,
       });
     } else if (isCancelableStatus(pagarmeSubscription.status)) {
       subscription = await cancelSubscription({

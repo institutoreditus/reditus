@@ -3,6 +3,7 @@ import changeContributionState from "./changeContributionState";
 
 interface CompleteContributionArgs {
   contributionId: number;
+  externalId: string;
 }
 
 const completeContribution = async (
@@ -10,6 +11,7 @@ const completeContribution = async (
 ): Promise<Contribution> => {
   return await changeContributionState({
     contributionId: args.contributionId,
+    externalId: args.externalId,
     state: "completed",
   });
 };

@@ -107,6 +107,8 @@ async function runCreateContribution(
 
       await axios.post("https://api.pagar.me/1/transactions", pagarmeData);
 
+      // TODO(rrozendo): we could update the external id right after this API call
+
       res.statusCode = 201;
       res.json(contribution);
     } catch (err) {

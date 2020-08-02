@@ -27,9 +27,11 @@ test("creates a contribution in the database, completes it and returns it", asyn
       },
     })
   ).toEqual(resultCreate);
+  expect(resultCreate.externalId).toBeNull();
 
   const resultComplete = await completeContribution({
     contributionId: resultCreate.id,
+    externalId: "123",
   });
 
   expect(resultComplete.id).not.toBeNull();
@@ -37,19 +39,20 @@ test("creates a contribution in the database, completes it and returns it", asyn
   expect(resultComplete.email).toEqual(resultCreate.email);
   expect(resultComplete.amountInCents).toEqual(resultCreate.amountInCents);
   expect(resultComplete.state).toEqual("completed");
+  expect(resultComplete.externalId).toEqual("123");
 });
 
 test("throws error if contribution id is invalid", async () => {
-  await expect(completeContribution({ contributionId: -1 })).rejects.toThrow(
-    "Invalid id"
-  );
+  await expect(
+    completeContribution({ contributionId: -1, externalId: "123" })
+  ).rejects.toThrow("Invalid id");
 });
 
 test("throws error if id does not exist", async () => {
   const id = 99999999;
-  await expect(completeContribution({ contributionId: id })).rejects.toThrow(
-    `Id ${id} not found`
-  );
+  await expect(
+    completeContribution({ contributionId: id, externalId: "123" })
+  ).rejects.toThrow(`Id ${id} not found`);
 });
 
 export {};

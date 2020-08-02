@@ -2,6 +2,8 @@ import { ContributionSubscription, PrismaClient } from "@prisma/client";
 
 interface CompleteSubscriptionArgs {
   subscriptionId: number;
+  externalId: string;
+  externalContributionId: string;
 }
 
 const completeSubscription = async (
@@ -26,11 +28,13 @@ const completeSubscription = async (
     },
     data: {
       state: "active",
+      externalId: args.externalId,
       contributions: {
         create: {
           amountInCents: subscription.amountInCents,
           email: subscription.email,
           state: "completed",
+          externalId: args.externalContributionId,
         },
       },
     },

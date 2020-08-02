@@ -3,6 +3,7 @@ import { Contribution, ContributionState, PrismaClient } from "@prisma/client";
 interface ChangeContributionStateArgs {
   contributionId: number;
   state: ContributionState;
+  externalId?: string;
 }
 
 const changeContributionState = async (
@@ -21,14 +22,26 @@ const changeContributionState = async (
   if (contribution == null)
     throw new Error(`Id ${args.contributionId} not found`);
 
-  return await prisma.contribution.update({
-    where: {
-      id: args.contributionId,
-    },
-    data: {
-      state: args.state,
-    },
-  });
+  if (args.externalId) {
+    return await prisma.contribution.update({
+      where: {
+        id: args.contributionId,
+      },
+      data: {
+        state: args.state,
+        externalId: args.externalId,
+      },
+    });
+  } else {
+    return await prisma.contribution.update({
+      where: {
+        id: args.contributionId,
+      },
+      data: {
+        state: args.state,
+      },
+    });
+  }
 };
 
 export default changeContributionState;

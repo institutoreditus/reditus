@@ -30,8 +30,12 @@ test("creates a subscription in the database, completes it and returns it", asyn
     })
   ).toEqual(resultCreate);
 
+  expect(resultCreate.externalId).toBeNull();
+
   const resultComplete = await completeSubscription({
     subscriptionId: resultCreate.id,
+    externalId: "123",
+    externalContributionId: "456",
   });
 
   expect(resultComplete.id).not.toBeNull();
@@ -39,6 +43,7 @@ test("creates a subscription in the database, completes it and returns it", asyn
   expect(resultComplete.email).toEqual(resultCreate.email);
   expect(resultComplete.amountInCents).toEqual(resultCreate.amountInCents);
   expect(resultComplete.state).toEqual("active");
+  expect(resultComplete.externalId).toEqual("123");
 
   const contributionCountAfter = await prisma.contribution.count();
   expect(contributionCountBefore + 1).toEqual(contributionCountAfter);
@@ -52,19 +57,28 @@ test("creates a subscription in the database, completes it and returns it", asyn
   expect(contributionCreated).toHaveLength(1);
   expect(contributionCreated[0].state).toEqual("completed");
   expect(contributionCreated[0].email).toEqual(resultCreate.email);
+  expect(contributionCreated[0].externalId).toEqual("456");
 });
 
 test("throws error if subscription id is invalid", async () => {
-  await expect(completeSubscription({ subscriptionId: -1 })).rejects.toThrow(
-    "Invalid id"
-  );
+  await expect(
+    completeSubscription({
+      subscriptionId: -1,
+      externalId: "123",
+      externalContributionId: "456",
+    })
+  ).rejects.toThrow("Invalid id");
 });
 
 test("throws error if subscription id does not exist", async () => {
   const id = 99999999;
-  await expect(completeSubscription({ subscriptionId: id })).rejects.toThrow(
-    `Id ${id} not found`
-  );
+  await expect(
+    completeSubscription({
+      subscriptionId: id,
+      externalId: "123",
+      externalContributionId: "456",
+    })
+  ).rejects.toThrow(`Id ${id} not found`);
 });
 
 export {};
