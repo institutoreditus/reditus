@@ -22,23 +22,41 @@ const completeSubscription = async (
   if (subscription == null)
     throw new Error(`Id ${args.subscriptionId} not found`);
 
-  return await prisma.contributionSubscription.update({
+  const alreadyExistingContribution = await prisma.contribution.count({
     where: {
-      id: args.subscriptionId,
-    },
-    data: {
-      state: "active",
-      externalId: args.externalId,
-      contributions: {
-        create: {
-          amountInCents: subscription.amountInCents,
-          email: subscription.email,
-          state: "completed",
-          externalId: args.externalContributionId,
-        },
-      },
+      subscriptionId: args.subscriptionId,
     },
   });
+
+  if (alreadyExistingContribution === 0) {
+    return await prisma.contributionSubscription.update({
+      where: {
+        id: args.subscriptionId,
+      },
+      data: {
+        state: "active",
+        externalId: args.externalId,
+        contributions: {
+          create: {
+            amountInCents: subscription.amountInCents,
+            email: subscription.email,
+            state: "completed",
+            externalId: args.externalContributionId,
+          },
+        },
+      },
+    });
+  } else {
+    return await prisma.contributionSubscription.update({
+      where: {
+        id: args.subscriptionId,
+      },
+      data: {
+        state: "active",
+        externalId: args.externalId,
+      },
+    });
+  }
 };
 
 export default completeSubscription;

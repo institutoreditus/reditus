@@ -1,5 +1,6 @@
 import createSubscription from "./createSubscription";
 import completeSubscription from "./completeSubscription";
+import cancelSubscription from "./cancelSubscription";
 import { PrismaClient } from "@prisma/client";
 
 let prisma: PrismaClient;
@@ -44,6 +45,13 @@ test("creates a subscription in the database, completes it and returns it", asyn
   expect(resultComplete.amountInCents).toEqual(resultCreate.amountInCents);
   expect(resultComplete.state).toEqual("active");
   expect(resultComplete.externalId).toEqual("123");
+  expect(
+    await prisma.contributionSubscription.findOne({
+      where: {
+        id: resultComplete.id,
+      },
+    })
+  ).toEqual(resultComplete);
 
   const contributionCountAfter = await prisma.contribution.count();
   expect(contributionCountBefore + 1).toEqual(contributionCountAfter);
@@ -58,6 +66,52 @@ test("creates a subscription in the database, completes it and returns it", asyn
   expect(contributionCreated[0].state).toEqual("completed");
   expect(contributionCreated[0].email).toEqual(resultCreate.email);
   expect(contributionCreated[0].externalId).toEqual("456");
+
+  // if we complete the subscription again, we must not create another contribution
+  const resultCancel = await cancelSubscription({
+    subscriptionId: resultComplete.id,
+  });
+  expect(resultCancel.state).toEqual("cancelled");
+  expect(
+    await prisma.contributionSubscription.findOne({
+      where: {
+        id: resultCancel.id,
+      },
+    })
+  ).toEqual(resultCancel);
+  expect(resultCancel.id).toEqual(resultComplete.id);
+
+  const resultCompleteAgain = await completeSubscription({
+    subscriptionId: resultCancel.id,
+    externalId: "123",
+    externalContributionId: "456",
+  });
+  expect(resultCompleteAgain.state).toEqual("active");
+  expect(
+    await prisma.contributionSubscription.findOne({
+      where: {
+        id: resultCompleteAgain.id,
+      },
+    })
+  ).toEqual(resultCompleteAgain);
+  expect(resultCompleteAgain).toEqual(resultComplete);
+
+  const contributionCountAfterSecondCompletion = await prisma.contribution.count();
+  expect(contributionCountAfter).toEqual(
+    contributionCountAfterSecondCompletion
+  );
+
+  const contributionCreatedAfterSecondCompletion = await prisma.contribution.findMany(
+    {
+      where: {
+        subscriptionId: resultCompleteAgain.id,
+      },
+    }
+  );
+  expect(contributionCreatedAfterSecondCompletion).toHaveLength(1);
+  expect(contributionCreatedAfterSecondCompletion[0]).toEqual(
+    contributionCreated[0]
+  );
 });
 
 test("throws error if subscription id is invalid", async () => {
