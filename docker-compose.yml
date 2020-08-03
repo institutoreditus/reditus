@@ -1,0 +1,32 @@
+version: '3.7'
+
+volumes:
+  postgres_data:
+    driver: local
+
+services:
+  postgres:
+    image: postgres:11-alpine
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+
+  pgweb:
+    image: sosedoff/pgweb:0.11.6
+    restart: always
+    ports:
+      - 3001:8081
+    depends_on:
+      - start_dependencies
+    environment:
+      DATABASE_URL: 'postgres://postgres:postgres@postgres:5432/postgres?sslmode=disable'
+
+  start_dependencies:
+    image: dadarek/wait-for-dependencies
+    depends_on:
+      - postgres
+    command: postgres:5432
