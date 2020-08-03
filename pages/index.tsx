@@ -19,13 +19,18 @@ export default function Home() {
           href="https://fonts.googleapis.com/icon?family=Material+Icons"
           rel="stylesheet"
         ></link>
-        <script src="https://assets.pagar.me/checkout/checkout.js"></script>
+        <script src="https://assets.pagar.me/checkout/1.1.0/checkout.js"></script>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main>
         <GridRow>
-          <GridCell className={styles.leftSide} span={4} align={"middle"}>
+          <GridCell
+            order={0}
+            className={styles.leftSide}
+            desktop={4}
+            align={"middle"}
+          >
             <p>Tornando-se parte dessa iniciativa você...</p>
             <List twoLine>
               <SimpleListItem
@@ -42,7 +47,14 @@ export default function Home() {
               />
             </List>
           </GridCell>
-          <GridCell className={styles.rightSide} span={8} align={"middle"}>
+          <GridCell
+            order={1}
+            className={styles.rightSide}
+            desktop={8}
+            tablet={12}
+            phone={12}
+            align={"middle"}
+          >
             <img src="./logoReditusWhite.png" />
             <p className="title">
               Faça parte dessa corrente do bem! Ajude a fomentar uma cultura de

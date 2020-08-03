@@ -30,17 +30,42 @@
   vertical-align: middle;
 }
 
+@media only screen and (max-width: 800px) {
+  .leftSide {
+    display: none;
+  }
+
+  .rightSide {
+    padding: 0 2rem;
+  }
+}
+
+@media only screen and (max-height: 375px) {
+  .leftSide {
+    display: none;
+  }
+}
+
+@media only screen and (max-height: 800px) {
+  .leftSide {
+    padding:0;
+  }
+
+  .rightSide {
+    padding: 0 2rem;
+  }
+}
+
 .leftSide p {
   font-family: 'Open sans' sans-serif !important;
-  font-size: 18px;
+  font-size: 16px;
   color: #919BB0;
-
   padding-left: 20px;
 }
 
 .leftSide ul {
   font-family: 'Open sans' sans-serif !important;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 300;
   color: #919BB0;
 }

@@ -1,18 +1,14 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { stringify } from "qs";
-import validatePagarmePostback from "../../../../use_cases/validatePagarmePostback";
-import completeContribution from "../../../../use_cases/completeContribution";
-import cancelContribution from "../../../../use_cases/cancelContribution";
+import validatePagarmePostback from "../../../use_cases/validatePagarmePostback";
+import completeContribution from "../../../use_cases/completeContribution";
+import cancelContribution from "../../../use_cases/cancelContribution";
 import {
   isCompletableStatus,
   isCancelableStatus,
-} from "../../../../pagarme_integration/pagarmeTransactionStatus";
+} from "../../../pagarme_integration/pagarmeTransactionStatus";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const {
-    query: { id },
-  } = req;
-
   if (req.method === "POST") {
     const signature = getFirstHeader(req, "x-hub-signature");
 
@@ -22,8 +18,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     });
 
     if (validPostBack) {
-      const numberId: number = +id; // convert to number
-      await runProcessPostback(req, res, numberId);
+      const referenceKey = req.body["transaction[reference_key]"];
+      const [referenceType, referenceId] = referenceKey.split(":");
+
+      if (referenceType === "contribution") {
+        await runProcessPostback(req, res, +referenceId);
+      }
     } else {
       res.statusCode = 400;
       res.send("Invalid postback signature");
