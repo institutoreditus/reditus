@@ -94,8 +94,8 @@ async function runCreateContribution(
         },
         items: [
           {
-            id: "1",
-            title: "Contribuição",
+            id: contribution.id.toString(),
+            title: "Contribuição " + contribution.id.toString(),
             unit_price: args.amount,
             quantity: 1,
             tangible: false,
@@ -106,6 +106,8 @@ async function runCreateContribution(
       };
 
       await axios.post("https://api.pagar.me/1/transactions", pagarmeData);
+
+      // TODO(rrozendo): we could update the external id right after this API call
 
       res.statusCode = 201;
       res.json(contribution);
