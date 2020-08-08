@@ -1,13 +1,14 @@
-import { Button } from "@rmwc/button";
 import axios from "axios";
 
 declare let PagarMeCheckout: any;
-const encryptionKey = process.env.PAGARME_ENC_KEY;
+// const encryptionKey = process.env.PAGARME_ENC_KEY;
+const encryptionKey = "key";
 
 async function onCheckout(e: any) {
   e.preventDefault();
+
   // TODO: Ask that somewhere in the frontend
-  const amountInCents = 1000;
+  const amountInCents = 1111;
 
   // Create checkout instance
   const checkout = new PagarMeCheckout.Checkout({
@@ -40,15 +41,4 @@ async function onCheckout(e: any) {
   });
 }
 
-export function ContributionButton() {
-  return (
-    <>
-      <Button
-        onClick={onCheckout}
-        label="Contribua você também"
-        raised
-        unelevated
-      />
-    </>
-  );
-}
+export default onCheckout;

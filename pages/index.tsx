@@ -4,7 +4,7 @@ import { List, SimpleListItem } from "@rmwc/list";
 import styles from "./index.module.css";
 
 // Components
-import { ContributionButton } from "../components/ContributionButton";
+import { Form } from "../components/Form";
 
 export default function Home() {
   return (
@@ -32,7 +32,7 @@ export default function Home() {
             align={"middle"}
           >
             <p>Tornando-se parte dessa iniciativa você...</p>
-            <List twoLine>
+            <List>
               <SimpleListItem
                 graphic="radio_button_checked"
                 text="retorna um bem a comunidade UFRJ"
@@ -56,11 +56,8 @@ export default function Home() {
             align={"middle"}
           >
             <img src="./logoReditusWhite.png" />
-            <p className="title">
-              Faça parte dessa corrente do bem! Ajude a fomentar uma cultura de
-              retribuição.
-            </p>
-            <ContributionButton />
+
+            <Form />
           </GridCell>
         </GridRow>
       </main>

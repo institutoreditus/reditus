@@ -5,6 +5,7 @@
 
 html,
 body {
+  overflow: hidden;
   padding: 0;
   margin: 0;
   font-family: "Open Sans", sans-serif;
@@ -12,4 +13,34 @@ body {
 
 * {
   box-sizing: border-box;
+}
+
+[type="radio"]:checked,
+[type="radio"]:not(:checked) {
+  position: absolute;
+  left: -9999px;
+  width: 0;
+  height: 0;
+  visibility: hidden;
+}
+
+.mdc-line-ripple::before {
+  border-bottom-color: var(--mdc-theme-secondary) !important;
+  animation-fill-mode: both !important;
+}
+
+.mdc-line-ripple::after {
+  border-bottom-color: var(--mdc-theme-primary) !important;
+}
+
+.mdc-text-field:not(.mdc-text-field--disabled) .mdc-floating-label {
+  color: var(--mdc-theme-secondary);
+}
+
+.mdc-text-field__input::placeholder {
+  color: var(--mdc-theme-secondary) !important;
+}
+
+.mdc-text-field__input::hover>.mdc-line-ripple {
+  border-color: red !important;
 }
