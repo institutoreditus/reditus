@@ -1,7 +1,7 @@
 import { Button } from "@rmwc/button";
 import styles from "../Form.module.css";
 
- export const ContributionButton = ({
+export const ContributionButton = ({
   nextStep,
   totalSteps,
   step,
@@ -11,7 +11,7 @@ import styles from "../Form.module.css";
     props.update(e.target.name, e.currentTarget.value);
   };
 
-   return (
+  return (
     <div>
       {step < totalSteps && (
         <Button
@@ -29,4 +29,4 @@ import styles from "../Form.module.css";
   );
 };
 
- export default ContributionButton;
+export default ContributionButton;

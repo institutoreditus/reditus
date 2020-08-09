@@ -4,39 +4,39 @@ import { TextField } from "@rmwc/textfield";
 import { Button } from "@rmwc/button";
 import axios from "axios";
 
- import styles from "./Form.module.css";
+import styles from "./Form.module.css";
 
 declare let PagarMeCheckout: any;
 const encryptionKey = process.env.PAGARME_ENC_KEY;
 let checkedRadio: any;
 
- export const InputDonationValues = (props: any) => {
+export const InputDonationValues = (props: any) => {
   const validate = () => {
     props.previousStep();
   };
 
-   const successDonation = () => {
+  const successDonation = () => {
     props.goToStep(3);
   };
 
-   const failedDonation = () => {
+  const failedDonation = () => {
     props.goToStep(4);
   };
 
-   const update = (e: any) => {
-     if (e.target && e.target.type === 'radio') {
-       checkedRadio = e.target;
-     }
+  const update = (e: any) => {
+    if (e.target && e.target.type === "radio") {
+      checkedRadio = e.target;
+    }
     props.update(e.target.name, e.target.value);
   };
 
-   async function onCheckout(e: any) {
+  async function onCheckout(e: any) {
     e.preventDefault();
 
-     // TODO: Ask that somewhere in the frontend
+    // TODO: Ask that somewhere in the frontend
     const amountInCents = props.form.amountInCents * 100;
 
-     // Create checkout instance
+    // Create checkout instance
     const checkout = new PagarMeCheckout.Checkout({
       encryption_key: encryptionKey,
       success: async function (data: any) {
@@ -57,7 +57,7 @@ let checkedRadio: any;
       },
     });
 
-     // Checkout API require booleans to be passed as strings
+    // Checkout API require booleans to be passed as strings
     checkout.open({
       amount: amountInCents,
       buttonText: "Contribuir",
@@ -70,12 +70,12 @@ let checkedRadio: any;
     });
   }
 
-   return (
+  return (
     <div>
       {props.form.firstname && <h3>Hey {props.form.teste}!</h3>}
       <NavigationButtons step={2} {...props} previousStep={validate} />
 
-       <div className={styles.donationValues}>
+      <div className={styles.donationValues}>
         <div className={styles.defaultValues}>
           <input
             className={styles.defaultValues__value}
@@ -92,7 +92,7 @@ let checkedRadio: any;
             R$ 25
           </label>
 
-           <input
+          <input
             className={styles.defaultValues__value}
             type="radio"
             value={50}
@@ -107,7 +107,7 @@ let checkedRadio: any;
             R$ 50
           </label>
 
-           <input
+          <input
             className={styles.defaultValues__value}
             type="radio"
             value={75}
@@ -137,8 +137,9 @@ let checkedRadio: any;
                 checkedRadio.checked = false;
               }
 
-              const {formattedValue, value} = values;
-              props.update('amountInCents', value);
+              const value = values.value;
+
+              props.update("amountInCents", value);
             }}
             fullwidth
           />
@@ -155,4 +156,4 @@ let checkedRadio: any;
   );
 };
 
- export default InputDonationValues;
+export default InputDonationValues;

@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start -p $PORT",
     "heroku-postbuild": "npm run build",
-    "test": "jest",
+    "test": "jest --runInBand",
     "lint": "eslint '*/**/*.{js,ts,tsx}'",
     "typecheck": "tsc --noEmit",
     "migrate": "prisma migrate up --experimental"

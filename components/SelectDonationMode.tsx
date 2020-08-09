@@ -1,7 +1,7 @@
 import ContributionButton from "./checkout_buttons/ContributionButton";
 import { SubscriptionButton } from "./checkout_buttons/SubscriptionButton";
 
- const SelectDonationMode = (props: any) => {
+const SelectDonationMode = (props: any) => {
   return (
     <div>
       <p className="title">
@@ -15,4 +15,4 @@ import { SubscriptionButton } from "./checkout_buttons/SubscriptionButton";
   );
 };
 
- export default SelectDonationMode;
+export default SelectDonationMode;

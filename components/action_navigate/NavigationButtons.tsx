@@ -1,7 +1,7 @@
 import { IconButton } from "@rmwc/icon-button";
 import styles from "../Form.module.css";
 
- export const NavigationButtons = ({
+export const NavigationButtons = ({
   previousStep,
   firstStep,
   totalSteps,
@@ -29,4 +29,4 @@ import styles from "../Form.module.css";
   </div>
 );
 
- export default NavigationButtons;
+export default NavigationButtons;
