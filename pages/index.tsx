@@ -56,10 +56,6 @@ export default function Home() {
             align={"middle"}
           >
             <img src="./logoReditusWhite.png" />
-            <p className="title">
-              Faça parte dessa corrente do bem! Ajude a fomentar uma cultura de
-              retribuição.
-            </p>
             <Form />
           </GridCell>
         </GridRow>
