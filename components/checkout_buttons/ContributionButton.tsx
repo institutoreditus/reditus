@@ -1,7 +1,6 @@
 import { Button } from "@rmwc/button";
 import styles from "../Form.module.css";
 
-
 export const ContributionButton = ({
   nextStep,
   totalSteps,
