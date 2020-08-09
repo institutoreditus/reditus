@@ -1,5 +1,4 @@
 import { IconButton } from "@rmwc/icon-button";
-
 import styles from "../Form.module.css";
 
 export const NavigationButtons = ({
@@ -18,7 +17,7 @@ export const NavigationButtons = ({
         ripple={false}
       />
     )}
-    {step == 3 && (
+    {step >= 3 && (
       <IconButton
         name="next"
         className={styles.outlinedRoundedButton}

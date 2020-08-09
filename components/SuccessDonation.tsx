@@ -7,7 +7,7 @@ export const SuccessDonation = (props: any) => {
 
   return (
     <div>
-      <NavigationButtons step={3} {...props} nextStep={submit} />
+      <NavigationButtons step={3} {...props} previousStep={submit} />
 
       <h1>Doação concluída com sucesso!</h1>
       <p>

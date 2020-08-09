@@ -6,6 +6,7 @@ import StepWizard from "react-step-wizard";
 import SelectDonationMode from "./SelectDonationMode";
 import InputDonationValues from "./InputDonationValues";
 import SuccessDonation from "./SuccessDonation";
+import FailedDonation from "./FailedDonation";
 
 export const Form = () => {
   const [state, updateState] = useState({
@@ -37,6 +38,7 @@ export const Form = () => {
         <SelectDonationMode form={state.form} update={updateForm} />
         <InputDonationValues form={state.form} update={updateForm} />
         <SuccessDonation />
+        <FailedDonation />
       </StepWizard>
     </>
   );

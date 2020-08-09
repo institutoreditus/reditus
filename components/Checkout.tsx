@@ -1,8 +1,7 @@
 import axios from "axios";
 
 declare let PagarMeCheckout: any;
-// const encryptionKey = process.env.PAGARME_ENC_KEY;
-const encryptionKey = "key";
+const encryptionKey = process.env.PAGARME_ENC_KEY;
 
 async function onCheckout(e: any) {
   e.preventDefault();

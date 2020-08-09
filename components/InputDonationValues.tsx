@@ -3,17 +3,23 @@ import NumberFormat from "react-number-format";
 import { TextField } from "@rmwc/textfield";
 import { Button } from "@rmwc/button";
 import axios from "axios";
-// import onCheckout from "./Checkout";
 
 import styles from "./Form.module.css";
 
 declare let PagarMeCheckout: any;
-// const encryptionKey = process.env.PAGARME_ENC_KEY;
-const encryptionKey = "key";
+const encryptionKey = process.env.PAGARME_ENC_KEY;
 
 export const InputDonationValues = (props: any) => {
   const validate = () => {
     props.previousStep();
+  };
+
+  const successDonation = () => {
+    props.goToStep(3);
+  };
+
+  const failedDonation = () => {
+    props.goToStep(4);
   };
 
   const update = (e: any) => {
@@ -32,12 +38,15 @@ export const InputDonationValues = (props: any) => {
       success: async function (data: any) {
         try {
           await axios.post("/api/contributions", data);
+          return successDonation();
         } catch (err) {
-          alert("Erro ao doar");
+          // alert("Erro ao doar");
+          return failedDonation();
         }
       },
       error: function () {
-        alert("Erro ao doar");
+        // alert("Erro ao doar");
+        return failedDonation();
       },
       close: function () {
         console.log("The modal has been closed.");
