@@ -1,10 +1,24 @@
+.rightSide input:focus {
+  color: var(--mdc-theme-primary) !important;
+}
+
+.rightSide label {
+  margin-bottom: 1rem;
+  padding-top: 1.2rem;
+  padding-bottom: -1rem;
+}
+
+.rightSide label span {
+  margin: 1px auto 6px -1rem;
+}
+
 .rightSide {
   color: white;
   background-image: url("/loginBkg.png");
   background-size: cover;
   background-repeat: no-repeat;
   height: 100vh;
-  padding: 10px 25rem;
+  padding: 10px 32%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -14,6 +28,7 @@
 .rightSide img {
   width: 100px;
   height: auto;
+  margin-bottom: 20px;
 }
 
 .rightSide button {
@@ -22,8 +37,9 @@
   border-radius: 0;
 }
 
+
 .leftSide {
-  padding: 10px 6rem;
+  padding: 10px 15%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -36,7 +52,12 @@
   }
 
   .rightSide {
-    padding: 0 2rem;
+    padding: 12rem 20%;
+  }
+
+  .leftSide ul li {
+    height: 5.5rem;
+    margin-bottom: 2rem;
   }
 }
 
@@ -48,28 +69,44 @@
 
 @media only screen and (max-height: 800px) {
   .leftSide {
-    padding:0;
+    padding: 10px 15%;
+  }
+
+  .leftSide ul li {
+    height: 5.5rem;
+    margin-bottom: 2rem;
   }
 
   .rightSide {
-    padding: 0 2rem;
+    padding: 18rem 20%;
   }
 }
 
 .leftSide p {
-  font-family: 'Open sans' sans-serif !important;
+  font-family: 'Open sans'sans-serif !important;
   font-size: 16px;
   color: #919BB0;
   padding-left: 20px;
 }
 
 .leftSide ul {
-  font-family: 'Open sans' sans-serif !important;
+  font-family: 'Open sans'sans-serif !important;
   font-size: 16px;
   font-weight: 300;
   color: #919BB0;
 }
 
+.leftSide ul li {
+  font-family: 'Open sans'sans-serif;
+
+  height: 2.5rem;
+  margin-bottom: 2rem;
+}
+
 .leftSide i {
   color: #e2e2e2;
+}
+
+.navigationSteps {
+  display: flex;
 }
