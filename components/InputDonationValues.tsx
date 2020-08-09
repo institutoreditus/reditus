@@ -33,15 +33,15 @@ export const InputDonationValues = (props: any) => {
   async function onCheckout(e: any) {
     e.preventDefault();
 
-    // TODO: Ask that somewhere in the frontend
     const amountInCents = props.form.amountInCents * 100;
+    const donationMode = props.form.donationMode;
 
     // Create checkout instance
     const checkout = new PagarMeCheckout.Checkout({
       encryption_key: encryptionKey,
       success: async function (data: any) {
         try {
-          await axios.post("/api/contributions", data);
+          await axios.post(`/api/${donationMode}`, data);
           return successDonation();
         } catch (err) {
           // alert("Erro ao doar");

@@ -1,14 +1,16 @@
 import { Button } from "@rmwc/button";
 import styles from "../Form.module.css";
 
+
 export const ContributionButton = ({
   nextStep,
   totalSteps,
   step,
-  props,
+  update,
 }: any) => {
-  const update = (e: any) => {
-    props.update(e.target.name, e.currentTarget.value);
+  const setDonationModeAndGoToNextStep = (e: any) => {
+    update("donationMode", "contributions");
+    nextStep(e);
   };
 
   return (
@@ -19,9 +21,8 @@ export const ContributionButton = ({
           name="donationMode"
           id={styles.outlinedButton}
           icon="done"
-          value="singleDonation"
-          onChange={update}
-          onClick={nextStep}
+          value="contributions"
+          onClick={setDonationModeAndGoToNextStep}
           outlined
         />
       )}

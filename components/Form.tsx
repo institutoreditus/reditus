@@ -11,7 +11,7 @@ import FailedDonation from "./FailedDonation";
 export const Form = () => {
   const [state, updateState] = useState({
     form: {
-      donationMode: "donationModeHere",
+      donationMode: "",
       amountInCents: 0,
     },
   });
