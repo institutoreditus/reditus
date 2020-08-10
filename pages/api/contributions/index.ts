@@ -114,6 +114,8 @@ async function runCreateContribution(
     } catch (err) {
       if (err.response.status === 400) {
         res.statusCode = 400;
+        console.log(err);
+        console.log(err.response);
         res.send({ error: "Invalid Data" });
       } else {
         res.statusCode = 500;
