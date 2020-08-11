@@ -6,6 +6,7 @@ import completeContribution from "../../../use_cases/completeContribution";
 import cancelContribution from "../../../use_cases/cancelContribution";
 import completeSubscription from "../../../use_cases/completeSubscription";
 import cancelSubscription from "../../../use_cases/cancelSubscription";
+import getSubscriptionByExternalId from "../../../use_cases/getSubscriptionByExternalId";
 import {
   isCompletableStatus as isCompletableTransactionStatus,
   isCancelableStatus as isCancelableTransactionStatus,
@@ -32,9 +33,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         await runProcessTransactionPostback(req, res, +referenceId);
       } else if (postbackObjectType === "subscription") {
         const referenceKey =
-          req.body["subscription[current_transaction][reference_key]"];
-        const referenceId = referenceKey.split(":")[1];
-        await runProcessSubscriptionPostback(req, res, +referenceId);
+          req.body["subscription[current_transaction][reference_key]"]; // can be an empty string
+        let referenceId = 0;
+        if (referenceKey) {
+          referenceId = +referenceKey.split(":")[1];
+        }
+
+        await runProcessSubscriptionPostback(req, res, referenceId);
       }
     } else {
       res.statusCode = 400;
@@ -88,13 +93,30 @@ async function runProcessSubscriptionPostback(
   const pagarmeId = req.body["subscription[id]"];
   const pagarmeTransactionId =
     req.body["subscription[current_transaction][id]"];
+  const externalPagarmeSubscriptionId = `pagarme:${pagarmeId}`;
+  const externalPagarmeContributionId = `pagarme:${pagarmeTransactionId}`;
+
+  // sometimes the reference key is empty
+  // in these cases, we receive "subscriptionId" as 0
+  // we can try to retrieve the subscription id if we have the corresponding external id already in our database
+  if (subscriptionId === 0) {
+    const subscription = await getSubscriptionByExternalId({
+      externalId: externalPagarmeSubscriptionId,
+    });
+
+    if (subscription) {
+      subscriptionId = subscription!.id;
+    }
+    // even with we couldn't find a corresponding subscription we will not throw an error right now, because we might find out that this specific postback is not relevant
+  }
+
   if (event === "subscription_status_changed") {
     const newPagarmeStatus = req.body["current_status"];
     if (await isCompletableSubscriptionStatus(newPagarmeStatus)) {
       const result = await completeSubscription({
         subscriptionId: subscriptionId,
-        externalId: `pagarme:${pagarmeId}`,
-        externalContributionId: `pagarme:${pagarmeTransactionId}`,
+        externalId: externalPagarmeSubscriptionId,
+        externalContributionId: externalPagarmeContributionId,
       });
       res.json(result);
     } else if (await isCancelableSubscriptionStatus(newPagarmeStatus)) {
@@ -110,6 +132,7 @@ async function runProcessSubscriptionPostback(
     const result = await createContribution({
       amountInCents: +req.body["subscription[current_transaction][amount]"],
       subscriptionId: subscriptionId,
+      externalContributionId: externalPagarmeContributionId,
     });
     res.json(result);
   } else {
