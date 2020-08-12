@@ -1,6 +1,7 @@
 import createContribution from "./createContribution";
 import createSubscription from "./createSubscription";
 import { PrismaClient } from "@prisma/client";
+import { v4 as uuidv4 } from "uuid";
 
 let prisma: PrismaClient;
 
@@ -41,6 +42,7 @@ test("creates a contribution for a existing subscription in the database and ret
   const contribution = await createContribution({
     amountInCents: 123,
     subscriptionId: subscription.id,
+    externalContributionId: uuidv4(),
   });
 
   expect(contribution.id).not.toBeNull();
@@ -85,6 +87,17 @@ test("throws error if email and subscription both null", async () => {
       amountInCents: 100,
     })
   ).rejects.toThrow("Empty email");
+});
+
+test("throws error if subscription not null and external contribution id null", async () => {
+  await expect(
+    createContribution({
+      amountInCents: 100,
+      subscriptionId: 1,
+    })
+  ).rejects.toThrow(
+    "Must inform external contribution id when subscription id is informed"
+  );
 });
 
 export {};

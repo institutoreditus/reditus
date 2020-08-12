@@ -4,6 +4,7 @@ interface CreateContributionArgs {
   email?: string;
   amountInCents: number;
   subscriptionId?: number;
+  externalContributionId?: string;
 }
 
 const createContribution = async (
@@ -22,10 +23,25 @@ const createContribution = async (
       throw new Error("Empty email");
     }
   }
+  if (args.subscriptionId && args.externalContributionId == null) {
+    throw new Error(
+      "Must inform external contribution id when subscription id is informed"
+    );
+  }
 
   const prisma = new PrismaClient();
 
   if (args.subscriptionId) {
+    const existingContribution = await prisma.contribution.findMany({
+      where: {
+        externalId: args.externalContributionId,
+      },
+    });
+
+    if (existingContribution.length > 0) {
+      return existingContribution[0];
+    }
+
     const subscription = await prisma.contributionSubscription.findOne({
       where: {
         id: args.subscriptionId,
@@ -40,6 +56,7 @@ const createContribution = async (
         email: subscription.email,
         amountInCents: args.amountInCents,
         state: "completed",
+        externalId: args.externalContributionId,
         subscription: {
           connect: {
             id: args.subscriptionId,
