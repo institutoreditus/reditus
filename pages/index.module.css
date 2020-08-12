@@ -53,6 +53,7 @@
 
   .rightSide {
     padding: 12rem 20%;
+    overflow: auto;
   }
 
   .leftSide ul li {
@@ -64,6 +65,9 @@
 @media only screen and (max-height: 375px) {
   .leftSide {
     display: none;
+  }
+  .rightSide {
+    overflow: auto;
   }
 }
 
