@@ -95,7 +95,7 @@ export const InputDonationValues = (props: any) => {
           <input
             className={styles.defaultValues__value}
             type="radio"
-            value={50}
+            value={75}
             name="amountInCents"
             onChange={update}
             id="secondDefaultValue"
@@ -104,13 +104,13 @@ export const InputDonationValues = (props: any) => {
             className={styles.defaultValues__value}
             htmlFor="secondDefaultValue"
           >
-            R$ 50
+            R$ 75
           </label>
 
           <input
             className={styles.defaultValues__value}
             type="radio"
-            value={75}
+            value={150}
             name="amountInCents"
             onChange={update}
             id="thirdDefaultValue"
@@ -119,7 +119,7 @@ export const InputDonationValues = (props: any) => {
             className={styles.defaultValues__value}
             htmlFor="thirdDefaultValue"
           >
-            R$ 75
+            R$ 150
           </label>
         </div>
         <p>Vou doar: R$ {props.form.amountInCents}</p>
