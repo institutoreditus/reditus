@@ -122,7 +122,7 @@ export const InputDonationValues = (props: any) => {
             R$ 150
           </label>
         </div>
-        <p>Vou doar: R$ {props.form.amountInCents}</p>
+
         <div id={styles.customValue}>
           <NumberFormat
             label="Quero doar outro valor..."
@@ -144,6 +144,9 @@ export const InputDonationValues = (props: any) => {
             fullwidth
           />
         </div>
+        
+        <p>Vou doar: R$ {props.form.amountInCents}</p>
+
       </div>
       <Button
         label="Doar agora"
