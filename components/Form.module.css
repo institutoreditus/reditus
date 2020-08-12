@@ -6,21 +6,21 @@
 /* Custom buttons */
 #defaultButton {
     width: 100%;
-    padding: 1.8rem 3rem;
+    height: 100%;
+    padding: 1.5rem;
+    border-radius:  2px;
+    text-transform: none;
+    font-size: 15px;
 }
 
 #outlinedButton {
-
-     text-transform: none;
-
-     border: 2px solid #00d4ff;
-    border-radius: 2px;
-
+    width: 100%;
     height: 100%;
     padding: 1.5rem;
-
-    width: 100%;
-
+    border: 2px solid #00d4ff;
+    border-radius: 2px;
+    text-transform: none;   
+    font-size: 15px;
 }
 
 .navigationSteps {
@@ -45,6 +45,10 @@
     margin-bottom: 20px;
     display: flex;
     justify-content: space-between;
+}
+
+.donationValues p {
+    margin: 30px auto 15px auto;
 }
 
 .title {

@@ -81,7 +81,8 @@
   }
 
   .rightSide {
-    padding: auto 20%;
+    padding: 10% 20%;
+    display: flow-root;
   }
 }
 
