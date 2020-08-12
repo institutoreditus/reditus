@@ -44,3 +44,8 @@ body {
 .mdc-text-field__input::hover>.mdc-line-ripple {
   border-color: red !important;
 }
+
+.mdc-list-item {
+  height: 100% !important;
+  margin-bottom: 2rem;
+}
