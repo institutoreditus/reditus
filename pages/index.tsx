@@ -35,7 +35,7 @@ export default function Home() {
             <List>
               <SimpleListItem
                 graphic="radio_button_checked"
-                text="retorna um bem à comunidade UFRJ"
+                text="retorna um bem à comunidade de alunos e ex-alunos da UFRJ"
               />
               <SimpleListItem
                 graphic="radio_button_checked"
