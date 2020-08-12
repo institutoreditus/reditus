@@ -144,9 +144,8 @@ export const InputDonationValues = (props: any) => {
             fullwidth
           />
         </div>
-        
-        <p>Vou doar: R$ {props.form.amountInCents}</p>
 
+        <p>Vou doar: R$ {props.form.amountInCents}</p>
       </div>
       <Button
         label="Doar agora"
