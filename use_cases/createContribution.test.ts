@@ -31,6 +31,7 @@ test("creates a contribution in the database and returns it", async () => {
   expect(result.email).toBeTruthy();
 
   expect(result.subscriptionId).toBeNull();
+  expect(result.createdAt).not.toBeNull();
 });
 
 test("creates a contribution for a existing subscription in the database and returns it", async () => {
@@ -57,6 +58,7 @@ test("creates a contribution for a existing subscription in the database and ret
 
   expect(contribution.subscriptionId).toEqual(subscription.id);
   expect(contribution.email).toEqual(subscription.email);
+  expect(contribution.createdAt).not.toBeNull();
 });
 
 test("throws error if amount is invalid", async () => {
