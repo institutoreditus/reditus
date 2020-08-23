@@ -10,6 +10,7 @@ import {
 import url from "url";
 import runRequestWithDIContainer from "../../../middlewares/diContainerMiddleware";
 import { PrismaClient } from "@prisma/client";
+import { DIContainerNextApiRequest } from "../../../dependency_injection/DIContainerNextApiRequest";
 
 const herokuAppName = process.env.HEROKU_APP_NAME || `reditus-staging`;
 const publicUrl =
@@ -61,14 +62,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 };
 
 async function runCreateSubscription(
-  req: NextApiRequest,
+  req: DIContainerNextApiRequest,
   res: NextApiResponse
 ) {
   const validator = CreateSubscriptionSchema.destruct();
   const [err, args] = validator(req.body);
   if (!err && args) {
     const prismaClient: PrismaClient = req.scope.resolve("dbClient");
-    const pagarmeClient = await req.scope.resolve("pagarmeClient");
+    const pagarmeClient: any = await req.scope.resolve("pagarmeClient");
 
     let subscription = await createSubscription({
       dbClient: prismaClient,

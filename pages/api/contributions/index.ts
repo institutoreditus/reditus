@@ -5,6 +5,7 @@ import axios from "axios";
 import url from "url";
 import runRequestWithDIContainer from "../../../middlewares/diContainerMiddleware";
 import { PrismaClient } from "@prisma/client";
+import { DIContainerNextApiRequest } from "../../../dependency_injection/DIContainerNextApiRequest";
 
 const herokuAppName = process.env.HEROKU_APP_NAME || `reditus-staging`;
 const publicUrl =
@@ -47,7 +48,7 @@ const CreateContributionSchema = schema({
 });
 
 async function runCreateContribution(
-  req: NextApiRequest,
+  req: DIContainerNextApiRequest,
   res: NextApiResponse
 ) {
   const prismaClient: PrismaClient = req.scope.resolve("dbClient");

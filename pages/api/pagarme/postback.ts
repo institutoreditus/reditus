@@ -17,6 +17,7 @@ import {
 } from "../../../pagarme_integration/pagarmeSubscriptionStatus";
 import runRequestWithDIContainer from "../../../middlewares/diContainerMiddleware";
 import { PrismaClient } from "@prisma/client";
+import { DIContainerNextApiRequest } from "../../../dependency_injection/DIContainerNextApiRequest";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "POST") {
@@ -27,7 +28,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   }
 };
 
-async function runProcessPostback(req: NextApiRequest, res: NextApiResponse) {
+async function runProcessPostback(
+  req: DIContainerNextApiRequest,
+  res: NextApiResponse
+) {
   const signature = getFirstHeader(req, "x-hub-signature");
 
   const validPostBack = await validatePagarmePostback({
