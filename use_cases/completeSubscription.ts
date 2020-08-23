@@ -1,6 +1,7 @@
 import { ContributionSubscription, PrismaClient } from "@prisma/client";
 
 interface CompleteSubscriptionArgs {
+  dbClient: PrismaClient;
   subscriptionId: number;
   externalId: string;
   externalContributionId: string;
@@ -11,7 +12,7 @@ const completeSubscription = async (
 ): Promise<ContributionSubscription> => {
   if (args.subscriptionId <= 0) throw new Error("Invalid id");
 
-  const prisma = new PrismaClient();
+  const prisma = args.dbClient;
 
   const subscription = await prisma.contributionSubscription.findOne({
     where: {
