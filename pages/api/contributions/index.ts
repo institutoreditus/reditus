@@ -3,6 +3,7 @@ import schema, { string, number } from "computed-types";
 import createContribution from "../../../use_cases/createContribution";
 import axios from "axios";
 import url from "url";
+import Hubspot from "hubspot";
 
 const herokuAppName = process.env.HEROKU_APP_NAME || `reditus-staging`;
 const publicUrl =
@@ -111,6 +112,7 @@ async function runCreateContribution(
 
       res.statusCode = 201;
       res.json(contribution);
+      sendHubspotContact(args.customer.name, args.customer.email);
     } catch (err) {
       if (err.response.status === 400) {
         res.statusCode = 400;
@@ -143,3 +145,21 @@ export const config = {
     },
   },
 };
+// TODO (tmedrado): Add integration with Hubspot contacts
+async function sendHubspotContact(name: string, email: string) {
+  const Hubspot = require("hubspot");
+  const hubspot = new Hubspot({
+    apiKey: process.env.HUBSPOT_API_KEY,
+    checkLimit: false,
+  });
+
+  const contactObj = {
+    properties: [
+      { property: "firstname", value: name },
+      { property: "email", value: email },
+    ],
+  };
+
+  const hubspotContact = await hubspot.contacts.create(contactObj);
+  console.log(hubspotContact);
+}
