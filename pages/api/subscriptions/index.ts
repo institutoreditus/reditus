@@ -9,7 +9,7 @@ import {
 } from "../../../pagarme_integration/pagarmeSubscriptionStatus";
 import pagarme from "pagarme";
 import url from "url";
-
+import Hubspot from "hubspot";
 const herokuAppName = process.env.HEROKU_APP_NAME || `reditus-staging`;
 const publicUrl =
   process.env.PUBLIC_URL || `https://${herokuAppName}.herokuapp.com/`;
@@ -111,6 +111,7 @@ async function runCreateSubscription(
 
     res.statusCode = 201;
     res.json(subscription);
+    sendHubspotContact(args.customer.name, args.customer.email);
   } else {
     res.statusCode = 400;
     res.send({ error: "Invalid Data" });
@@ -124,3 +125,21 @@ export const config = {
     },
   },
 };
+
+// TODO (tmedrado): Add integration with Hubspot contacts
+async function sendHubspotContact(name: string, email: string) {
+  const hubspot = new Hubspot({
+    apiKey: process.env.HUBSPOT_API_KEY,
+    checkLimit: false,
+  });
+
+  const contactObj = {
+    properties: [
+      { property: "firstname", value: name },
+      { property: "email", value: email },
+    ],
+  };
+
+  const hubspotContact = await hubspot.contacts.create(contactObj);
+  console.log(hubspotContact);
+}
