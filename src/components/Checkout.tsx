@@ -20,21 +20,15 @@ const onCheckout = async (
     success: async function (data: any) {
       try {
         await axios.post(`/api/${donationMode}`, data);
-        handleMessage(
-          "Doação concluída com sucesso! Agora você faz parte dessa corrente do bem."
-        );
+        handleMessage("Doação concluída com sucesso!");
         handleNext();
       } catch (err) {
-        handleMessage(
-          "Erro ao realizar doação! Por favor, volte e tente novamente."
-        );
+        handleMessage("Doação não concluída!");
         handleNext();
       }
     },
     error: function () {
-      handleMessage(
-        "Erro ao realizar doação! Por favor, volte e tente novamente."
-      );
+      handleMessage("Doação não concluída!");
       handleNext();
     },
     close: function () {
