@@ -1,65 +1,86 @@
-import Head from "next/head";
-import { GridRow, GridCell } from "@rmwc/grid";
-import { List, SimpleListItem } from "@rmwc/list";
-import styles from "./index.module.css";
+import React from "react";
+import Box from "@material-ui/core/Box";
+import { Grid } from "@material-ui/core";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import RadioButtonCheckedIcon from "@material-ui/icons/RadioButtonChecked";
+import { Hidden } from "@material-ui/core";
+import { StateMachineProvider } from "little-state-machine";
+import Stepper from "../src/Stepper";
+import useStyles from "./styles";
 
-// Components
-import { Form } from "../components/Form";
+export default function Index() {
+  const classes = useStyles();
 
-export default function Home() {
   return (
-    <div>
-      <Head>
-        <title>Reditus</title>
-        <link
-          href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&display=swap"
-          rel="stylesheet"
-        ></link>
-        <link
-          href="https://fonts.googleapis.com/icon?family=Material+Icons"
-          rel="stylesheet"
-        ></link>
-        <script src="https://assets.pagar.me/checkout/1.1.0/checkout.js"></script>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+    <StateMachineProvider>
+      <Grid container>
+        <Hidden only={["xs", "sm", "md"]}>
+          <Grid container item xs={4} justify="center" alignItems="center">
+            <Box
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              className={[classes.box, classes.leftBox].join(" ")}
+            >
+              <Box display="block">
+                <List className={classes.list}>
+                  <ListItem>
+                    <ListItemText primary="Tornando-se parte dessa iniciativa você..." />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemIcon className={classes.icon}>
+                      <RadioButtonCheckedIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="retorna um bem a comunidade de alunos e ex-alunos da UFRJ" />
+                  </ListItem>
 
-      <main>
-        <GridRow>
-          <GridCell
-            order={0}
-            className={styles.leftSide}
-            desktop={4}
-            align={"middle"}
+                  <ListItem>
+                    <ListItemIcon className={classes.icon}>
+                      <RadioButtonCheckedIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="ajuda a fomentar uma estrutura de auxílio a alunos e equipes de competição" />
+                  </ListItem>
+
+                  <ListItem>
+                    <ListItemIcon className={classes.icon}>
+                      <RadioButtonCheckedIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="perpetua uma cultura de retribuição" />
+                  </ListItem>
+                </List>
+              </Box>
+            </Box>
+          </Grid>
+        </Hidden>
+
+        <Grid item xs={12} sm={12} md={12} lg={8} xl={8}>
+          <Box
+            display="flex"
+            flexDirection="column"
+            justifyContent="center"
+            alignItems="center"
+            className={[classes.box, classes.rightBox].join(" ")}
           >
-            <p>Tornando-se parte dessa iniciativa você...</p>
-            <List>
-              <SimpleListItem
-                graphic="radio_button_checked"
-                text="retorna um bem à comunidade de alunos e ex-alunos da UFRJ"
+            <Box
+              display="flex"
+              flexDirection="column"
+              textAlign="left"
+              className={classes.rightWrapper}
+            >
+              <img
+                className={classes.logo}
+                src="logoReditusWhite.png"
+                alt="Instituto Reditus"
               />
-              <SimpleListItem
-                graphic="radio_button_checked"
-                text="ajuda a fomentar uma estrutura de auxílio a alunos e equipes de competição"
-              />
-              <SimpleListItem
-                graphic="radio_button_checked"
-                text="perpetua uma cultura de retribuição"
-              />
-            </List>
-          </GridCell>
-          <GridCell
-            order={1}
-            className={styles.rightSide}
-            desktop={8}
-            tablet={12}
-            phone={12}
-            align={"middle"}
-          >
-            <img src="./logoReditusWhite.png" />
-            <Form />
-          </GridCell>
-        </GridRow>
-      </main>
-    </div>
+
+              <Stepper />
+            </Box>
+          </Box>
+        </Grid>
+      </Grid>
+    </StateMachineProvider>
   );
 }
