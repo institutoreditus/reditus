@@ -18,7 +18,7 @@ function getSteps() {
   return ["Select donation mode", "Input donation amount"];
 }
 
-export default function HorizontalLabelPositionBelowStepper(props: any) {
+export default function DonationStepper(props: any) {
   const { action } = useStateMachine(updateAction, { shouldReRenderApp: true });
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
