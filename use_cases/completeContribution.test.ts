@@ -14,6 +14,7 @@ afterAll(async () => {
 
 test("creates a contribution in the database, completes it and returns it", async () => {
   const resultCreate = await createContribution({
+    dbClient: prisma,
     email: "email2@example.com",
     amountInCents: 200,
   });
@@ -30,6 +31,7 @@ test("creates a contribution in the database, completes it and returns it", asyn
   expect(resultCreate.externalId).toBeNull();
 
   const resultComplete = await completeContribution({
+    dbClient: prisma,
     contributionId: resultCreate.id,
     externalId: "123",
   });
@@ -44,14 +46,22 @@ test("creates a contribution in the database, completes it and returns it", asyn
 
 test("throws error if contribution id is invalid", async () => {
   await expect(
-    completeContribution({ contributionId: -1, externalId: "123" })
+    completeContribution({
+      dbClient: prisma,
+      contributionId: -1,
+      externalId: "123",
+    })
   ).rejects.toThrow("Invalid id");
 });
 
 test("throws error if id does not exist", async () => {
   const id = 99999999;
   await expect(
-    completeContribution({ contributionId: id, externalId: "123" })
+    completeContribution({
+      dbClient: prisma,
+      contributionId: id,
+      externalId: "123",
+    })
   ).rejects.toThrow(`Id ${id} not found`);
 });
 
