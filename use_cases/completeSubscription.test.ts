@@ -15,6 +15,7 @@ afterAll(async () => {
 
 test("creates a subscription in the database, completes it and returns it", async () => {
   const resultCreate = await createSubscription({
+    dbClient: prisma,
     email: "emailSub@example.com",
     amountInCents: 100,
   });
@@ -34,6 +35,7 @@ test("creates a subscription in the database, completes it and returns it", asyn
   expect(resultCreate.externalId).toBeNull();
 
   const resultComplete = await completeSubscription({
+    dbClient: prisma,
     subscriptionId: resultCreate.id,
     externalId: "123",
     externalContributionId: "456",
@@ -69,6 +71,7 @@ test("creates a subscription in the database, completes it and returns it", asyn
 
   // if we complete the subscription again, we must not create another contribution
   const resultCancel = await cancelSubscription({
+    dbClient: prisma,
     subscriptionId: resultComplete.id,
   });
   expect(resultCancel.state).toEqual("cancelled");
@@ -82,6 +85,7 @@ test("creates a subscription in the database, completes it and returns it", asyn
   expect(resultCancel.id).toEqual(resultComplete.id);
 
   const resultCompleteAgain = await completeSubscription({
+    dbClient: prisma,
     subscriptionId: resultCancel.id,
     externalId: "123",
     externalContributionId: "456",
@@ -117,6 +121,7 @@ test("creates a subscription in the database, completes it and returns it", asyn
 test("throws error if subscription id is invalid", async () => {
   await expect(
     completeSubscription({
+      dbClient: prisma,
       subscriptionId: -1,
       externalId: "123",
       externalContributionId: "456",
@@ -128,6 +133,7 @@ test("throws error if subscription id does not exist", async () => {
   const id = 99999999;
   await expect(
     completeSubscription({
+      dbClient: prisma,
       subscriptionId: id,
       externalId: "123",
       externalContributionId: "456",

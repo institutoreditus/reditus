@@ -1,6 +1,7 @@
 import { Contribution, PrismaClient } from "@prisma/client";
 
 interface CreateContributionArgs {
+  dbClient: PrismaClient;
   email?: string;
   amountInCents: number;
   subscriptionId?: number;
@@ -29,10 +30,8 @@ const createContribution = async (
     );
   }
 
-  const prisma = new PrismaClient();
-
   if (args.subscriptionId) {
-    const existingContribution = await prisma.contribution.findMany({
+    const existingContribution = await args.dbClient.contribution.findMany({
       where: {
         externalId: args.externalContributionId,
       },
@@ -42,7 +41,7 @@ const createContribution = async (
       return existingContribution[0];
     }
 
-    const subscription = await prisma.contributionSubscription.findOne({
+    const subscription = await args.dbClient.contributionSubscription.findOne({
       where: {
         id: args.subscriptionId,
       },
@@ -51,7 +50,7 @@ const createContribution = async (
     if (subscription == null)
       throw new Error(`Subscription Id ${args.subscriptionId} not found`);
 
-    return await prisma.contribution.create({
+    return await args.dbClient.contribution.create({
       data: {
         email: subscription.email,
         amountInCents: args.amountInCents,
@@ -65,7 +64,7 @@ const createContribution = async (
       },
     });
   } else {
-    return await prisma.contribution.create({
+    return await args.dbClient.contribution.create({
       data: {
         email: args.email!,
         amountInCents: args.amountInCents,
