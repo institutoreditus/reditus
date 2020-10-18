@@ -1,20 +1,27 @@
-import "@material/theme/dist/mdc.theme.css";
-import "@rmwc/theme/theme.css";
-import "@material/button/dist/mdc.button.css";
-import "@material/layout-grid/dist/mdc.layout-grid.css";
-import "@material/textfield/dist/mdc.textfield.css";
-import "@material/list/dist/mdc.list.css";
-import "@material/ripple/dist/mdc.ripple.css";
-import "@rmwc/icon/icon.css";
-import "@material/icon-button/dist/mdc.icon-button.css";
-import "@material/radio/dist/mdc.radio.css";
+import React from "react";
+import type { AppProps } from "next/app";
+import PropTypes from "prop-types";
+import Head from "next/head";
+import ThemeContainer from "../contexts/theme/ThemeContainer";
 
-import "../styles.css";
-
-import { AppProps } from "next/app";
-
-function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />;
+export default function App({ Component, pageProps }: AppProps) {
+  return (
+    <React.Fragment>
+      <Head>
+        <title>Instituto Reditus</title>
+        <meta
+          name="viewport"
+          content="minimum-scale=1, initial-scale=1, width=device-width"
+        />
+      </Head>
+      <ThemeContainer>
+        <Component {...pageProps} />
+      </ThemeContainer>
+    </React.Fragment>
+  );
 }
 
-export default App;
+App.propTypes = {
+  Component: PropTypes.elementType.isRequired,
+  pageProps: PropTypes.object.isRequired,
+};
