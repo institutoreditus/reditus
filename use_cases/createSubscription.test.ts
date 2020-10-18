@@ -13,6 +13,7 @@ afterAll(async () => {
 
 test("creates a subscription in the database and returns it", async () => {
   const result = await createSubscription({
+    dbClient: prisma,
     email: "email@examplesub.com",
     amountInCents: 100,
   });
@@ -30,13 +31,21 @@ test("creates a subscription in the database and returns it", async () => {
 
 test("throws error if amount is invalid", async () => {
   await expect(
-    createSubscription({ email: "email@examplesub.com", amountInCents: -1 })
+    createSubscription({
+      dbClient: prisma,
+      email: "email@examplesub.com",
+      amountInCents: -1,
+    })
   ).rejects.toThrow("Invalid amount");
 });
 
 test("throws error if email is invalid", async () => {
   await expect(
-    createSubscription({ email: "not-an-email", amountInCents: 1000 })
+    createSubscription({
+      dbClient: prisma,
+      email: "not-an-email",
+      amountInCents: 1000,
+    })
   ).rejects.toThrow("Invalid email");
 });
 

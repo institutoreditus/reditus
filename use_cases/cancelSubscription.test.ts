@@ -14,6 +14,7 @@ afterAll(async () => {
 
 test("creates a subscription in the database, cancels it and returns it", async () => {
   const resultCreate = await createSubscription({
+    dbClient: prisma,
     email: "emailSubCanc@example.com",
     amountInCents: 601,
   });
@@ -31,6 +32,7 @@ test("creates a subscription in the database, cancels it and returns it", async 
   ).toEqual(resultCreate);
 
   const resultCancel = await cancelSubscription({
+    dbClient: prisma,
     subscriptionId: resultCreate.id,
   });
 
@@ -45,16 +47,16 @@ test("creates a subscription in the database, cancels it and returns it", async 
 });
 
 test("throws error if contribution id is invalid (cancel)", async () => {
-  await expect(cancelSubscription({ subscriptionId: -1 })).rejects.toThrow(
-    "Invalid id"
-  );
+  await expect(
+    cancelSubscription({ dbClient: prisma, subscriptionId: -1 })
+  ).rejects.toThrow("Invalid id");
 });
 
 test("throws error if id does not exist (cancel)", async () => {
   const id = 99999999;
-  await expect(cancelSubscription({ subscriptionId: id })).rejects.toThrow(
-    `Id ${id} not found`
-  );
+  await expect(
+    cancelSubscription({ dbClient: prisma, subscriptionId: id })
+  ).rejects.toThrow(`Id ${id} not found`);
 });
 
 export {};

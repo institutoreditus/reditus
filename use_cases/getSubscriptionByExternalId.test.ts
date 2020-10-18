@@ -16,6 +16,7 @@ afterAll(async () => {
 
 test("searches for a subscription by external id", async () => {
   const resultCreated = await createSubscription({
+    dbClient: prisma,
     email: "email@examplesub.com",
     amountInCents: 100,
   });
@@ -26,6 +27,7 @@ test("searches for a subscription by external id", async () => {
   const contributionExternalId = uuidv4();
 
   const resultCompleted = await completeSubscription({
+    dbClient: prisma,
     subscriptionId: resultCreated.id,
     externalId: subscriptionExternalId,
     externalContributionId: contributionExternalId,
@@ -35,6 +37,7 @@ test("searches for a subscription by external id", async () => {
   expect(resultCompleted.state).toEqual("active");
 
   const resultSearch = await getSubscriptionByExternalId({
+    dbClient: prisma,
     externalId: subscriptionExternalId,
   });
 
