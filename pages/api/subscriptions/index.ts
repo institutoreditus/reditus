@@ -50,6 +50,7 @@ const CreateSubscriptionSchema = schema({
   card_hash: string,
   payment_method: schema.enum(PaymentMethod, "Invalid payment method"),
   customer: CustomerData,
+  ssr: string,
 });
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
@@ -75,6 +76,7 @@ async function runCreateSubscription(
       dbClient: prismaClient,
       email: args.customer.email,
       amountInCents: args.amount,
+      experimentId: args.ssr,
     });
 
     const billingPeriodString = process.env.SUBSCRIPTION_BILLING_PERIOD || "30";

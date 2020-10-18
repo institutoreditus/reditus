@@ -18,10 +18,12 @@ test("creates a contribution in the database and returns it", async () => {
     dbClient: prisma,
     email: "email@example.com",
     amountInCents: 100,
+    experimentId: "1|2|3",
   });
 
   expect(result.id).not.toBeNull();
   expect(result.state).toEqual("pending");
+  expect(result.experimentId).toEqual("1|2|3");
   expect(
     await prisma.contribution.findOne({
       where: {
@@ -40,6 +42,7 @@ test("creates a contribution for a existing subscription in the database and ret
     dbClient: prisma,
     amountInCents: 123,
     email: "email2@example.com",
+    experimentId: "1|2|3",
   });
 
   const contribution = await createContribution({
@@ -51,6 +54,7 @@ test("creates a contribution for a existing subscription in the database and ret
 
   expect(contribution.id).not.toBeNull();
   expect(contribution.state).toEqual("completed");
+  expect(contribution.experimentId).toEqual("1|2|3");
   expect(
     await prisma.contribution.findOne({
       where: {

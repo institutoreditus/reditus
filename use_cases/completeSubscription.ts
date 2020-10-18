@@ -43,6 +43,7 @@ const completeSubscription = async (
             email: subscription.email,
             state: "completed",
             externalId: args.externalContributionId,
+            experimentId: subscription.experimentId,
           },
         },
       },

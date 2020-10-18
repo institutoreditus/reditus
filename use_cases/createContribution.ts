@@ -6,6 +6,7 @@ interface CreateContributionArgs {
   amountInCents: number;
   subscriptionId?: number;
   externalContributionId?: string;
+  experimentId?: string;
 }
 
 const createContribution = async (
@@ -61,6 +62,7 @@ const createContribution = async (
             id: args.subscriptionId,
           },
         },
+        experimentId: subscription.experimentId,
       },
     });
   } else {
@@ -69,6 +71,7 @@ const createContribution = async (
         email: args.email!,
         amountInCents: args.amountInCents,
         state: "pending",
+        experimentId: args.experimentId,
       },
     });
   }
