@@ -1,4 +1,4 @@
-import Rox from "./RoxInstance";
+import { Rox } from "rox-ssr";
 export default function (container) {
   if (!Rox.hasStarted) {
     Rox.hasStarted = true;
