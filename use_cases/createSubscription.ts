@@ -4,6 +4,7 @@ interface CreateSubscriptionArgs {
   dbClient: PrismaClient;
   email: string;
   amountInCents: number;
+  experimentId?: string;
 }
 
 const createSubscription = async (
@@ -17,6 +18,7 @@ const createSubscription = async (
       email: args.email,
       amountInCents: args.amountInCents,
       state: "pending",
+      experimentId: args.experimentId,
     },
   });
 };

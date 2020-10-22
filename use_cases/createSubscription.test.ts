@@ -16,10 +16,12 @@ test("creates a subscription in the database and returns it", async () => {
     dbClient: prisma,
     email: "email@examplesub.com",
     amountInCents: 100,
+    experimentId: "1|2|3",
   });
 
   expect(result.id).not.toBeNull();
   expect(result.state).toEqual("pending");
+  expect(result.experimentId).toEqual("1|2|3");
   expect(
     await prisma.contributionSubscription.findOne({
       where: {

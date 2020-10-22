@@ -45,6 +45,7 @@ const CreateContributionSchema = schema({
   card_hash: string,
   payment_method: schema.enum(PaymentMethod, "Invalid payment method"),
   customer: CustomerData,
+  ssr: string,
 });
 
 async function runCreateContribution(
@@ -52,7 +53,6 @@ async function runCreateContribution(
   res: NextApiResponse
 ) {
   const prismaClient: PrismaClient = req.scope.resolve("dbClient");
-
   const validator = CreateContributionSchema.destruct();
   const [err, args] = validator(req.body);
   if (!err && args) {
@@ -60,6 +60,7 @@ async function runCreateContribution(
       dbClient: prismaClient,
       email: args.customer.email,
       amountInCents: args.amount,
+      experimentId: args.ssr,
     });
 
     try {

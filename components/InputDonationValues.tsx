@@ -5,6 +5,9 @@ import { Button } from "@rmwc/button";
 import axios from "axios";
 
 import styles from "./Form.module.css";
+import RoxContainer from "../services/rox/RoxContainer";
+import service from "../services/rox/RoxService";
+service(RoxContainer);
 
 declare let PagarMeCheckout: any;
 const encryptionKey = process.env.PAGARME_ENC_KEY;
@@ -30,6 +33,14 @@ export const InputDonationValues = (props: any) => {
     props.update(e.target.name, e.target.value);
   };
 
+  // val1, val2 and val3 are the three suggested donation values we show the users.
+  // These values come from our flags container, and are mutable. They can be remotely
+  // changed using rollout.io's dashboard. This is used for A/B testing.
+  const [val1, val2, val3] = RoxContainer.suggestedDonationValues
+    .getValue()
+    .split("|", 3)
+    .map((x: string) => +x);
+
   async function onCheckout(e: any) {
     e.preventDefault();
 
@@ -41,15 +52,14 @@ export const InputDonationValues = (props: any) => {
       encryption_key: encryptionKey,
       success: async function (data: any) {
         try {
+          data["ssr"] = RoxContainer.suggestedDonationValues.getValue();
           await axios.post(`/api/${donationMode}`, data);
           return successDonation();
         } catch (err) {
-          // alert("Erro ao doar");
           return failedDonation();
         }
       },
       error: function () {
-        // alert("Erro ao doar");
         return failedDonation();
       },
       close: function () {
@@ -80,7 +90,7 @@ export const InputDonationValues = (props: any) => {
           <input
             className={styles.defaultValues__value}
             type="radio"
-            value={25}
+            value={val1}
             name="amountInCents"
             onChange={update}
             id="firstDefaultValue"
@@ -89,13 +99,13 @@ export const InputDonationValues = (props: any) => {
             className={styles.defaultValues__value}
             htmlFor="firstDefaultValue"
           >
-            R$ 25
+            R$ {val1}
           </label>
 
           <input
             className={styles.defaultValues__value}
             type="radio"
-            value={75}
+            value={val2}
             name="amountInCents"
             onChange={update}
             id="secondDefaultValue"
@@ -104,13 +114,13 @@ export const InputDonationValues = (props: any) => {
             className={styles.defaultValues__value}
             htmlFor="secondDefaultValue"
           >
-            R$ 75
+            R$ {val2}
           </label>
 
           <input
             className={styles.defaultValues__value}
             type="radio"
-            value={150}
+            value={val3}
             name="amountInCents"
             onChange={update}
             id="thirdDefaultValue"
@@ -119,7 +129,7 @@ export const InputDonationValues = (props: any) => {
             className={styles.defaultValues__value}
             htmlFor="thirdDefaultValue"
           >
-            R$ 150
+            R$ {val3}
           </label>
         </div>
 
