@@ -7,7 +7,7 @@ interface CreateUserArgs {
   lastName: string;
   university: string;
   degree: string;
-  admissionDate: Date;
+  admissionYear: number;
   tutorshipInterest: boolean;
   mentorshipInterest: boolean;
   volunteeringInterest: boolean;
@@ -15,6 +15,9 @@ interface CreateUserArgs {
 
 const createUser = async (args: CreateUserArgs): Promise<User> => {
   if (args.email.indexOf("@") < 0) throw new Error("Invalid email");
+  if (args.admissionYear <= 1900) throw new Error("Invalid admission date");
+  if (!args.firstName || !args.lastName || !args.university || !args.degree)
+    throw new Error("Empty inputs are not allowed.");
 
   let user = await args.dbClient.user.findOne({
     where: {
@@ -33,7 +36,7 @@ const createUser = async (args: CreateUserArgs): Promise<User> => {
       lastName: args.lastName,
       university: args.university,
       degree: args.degree,
-      admissionDate: args.admissionDate,
+      admissionYear: args.admissionYear,
       tutorshipInterest: args.tutorshipInterest,
       mentorshipInterest: args.mentorshipInterest,
       volunteeringInterest: args.volunteeringInterest,
@@ -66,7 +69,7 @@ const createUser = async (args: CreateUserArgs): Promise<User> => {
       },
     });
   }
-  
+
   return user;
 };
 

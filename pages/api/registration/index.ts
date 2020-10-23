@@ -6,12 +6,12 @@ import { PrismaClient } from "@prisma/client";
 import { DIContainerNextApiRequest } from "../../../dependency_injection/DIContainerNextApiRequest";
 
 const CreateUserSchema = schema({
-  email: String,
-  firstName: String,
-  lastName: String,
-  university: String,
-  degree: String,
-  admissionDate: Date,
+  email: string,
+  firstName: string,
+  lastName: string,
+  university: string,
+  degree: string,
+  admissionYear: number.gte(1900),
   tutorshipInterest: Boolean,
   mentorshipInterest: Boolean,
   volunteeringInterest: Boolean,
@@ -35,7 +35,6 @@ async function runCreateUser(
 
   if (!err && args) {
     const prismaClient: PrismaClient = req.scope.resolve("dbClient");
-    const admissionDate = new Date(args.admissionDate);
 
     const user = await createUser({
       dbClient: prismaClient,
@@ -44,7 +43,7 @@ async function runCreateUser(
       lastName: args.lastName,
       university: args.university,
       degree: args.degree,
-      admissionDate: admissionDate,
+      admissionYear: args.admissionYear,
       tutorshipInterest: args.tutorshipInterest,
       mentorshipInterest: args.mentorshipInterest,
       volunteeringInterest: args.volunteeringInterest,

@@ -56,12 +56,12 @@ model Contribution {
 
 model User {
   id Int @default(autoincrement()) @id
-  email String
+  email String @unique
   firstName String @map("first_name")
   lastName String @map("last_name")
   university String
   degree String
-  admissionDate DateTime @map("admission_date")
+  admissionYear Int @map("admission_year")
   tutorshipInterest Boolean @map("tutorship_interest")
   mentorshipInterest Boolean @map("mentorship_interest")
   volunteeringInterest Boolean @map("volunteering_interest")

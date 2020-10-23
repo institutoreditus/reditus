@@ -49,7 +49,7 @@ export const SuccessDonation = () => {
       console.log("An error occurred", e);
     }
   };
-  console.log(RoxContainer.shouldShowRegistrationForm.getValue());
+
   return (
     <div>
       <h1>Doação concluída com sucesso!</h1>
