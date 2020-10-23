@@ -6,7 +6,7 @@ if (!Rox.containerCache) {
       "50|150|300",
       "150|300|500",
     ]),
-    shouldShowRegistrationForm: new Flag(true)
+    shouldShowRegistrationForm: new Flag(true),
   };
 }
 export default Rox.containerCache;
