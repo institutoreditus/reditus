@@ -6,3 +6,5 @@
 20200819150842-add-timestamp-to-contribution
 20201018170116-add-experiment-id
 20201018173744-add-experimental-id-subscription
+20201022231203-create-user
+20201022233014-make-emails-unique
