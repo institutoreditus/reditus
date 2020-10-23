@@ -50,7 +50,7 @@ migration 20201018173744-add-experimental-id-subscription..20201022231203-create
 +  lastName String @map("last_name")
 +  university String
 +  degree String
-+  admissionDate DateTime @map("admission_date")
++  admissionYear DateTime @map("admission_date")
 +  tutorshipInterest Boolean @map("tutorship_interest")
 +  mentorshipInterest Boolean @map("mentorship_interest")
 +  volunteeringInterest Boolean @map("volunteering_interest")
