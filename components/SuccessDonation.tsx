@@ -60,7 +60,7 @@ export const SuccessDonation = (props: any) => {
         Agradecemos por escolher fazer parte dessa iniciativa. Enviaremos também
         um email de confirmação da sua doação.
       </p>
-      {RoxContainer.shouldShowRegistrationForm.getValue() ? (
+      {!RoxContainer.shouldShowRegistrationForm.getValue() ? (
         <div>
           <p>Finalize seu cadastro no nosso site</p>
           <form action="registration" method="post" onSubmit={handleSubmit}>
@@ -84,7 +84,7 @@ export const SuccessDonation = (props: any) => {
               name="volunteering"
               onChange={handleChange}
             />
-            <label htmlFor="volunteering">Quero ser voluntário</label>
+            <label htmlFor="volunteering">Quero ser voluntário</label><br/>
             <br />
             <Button
               type="submit"
