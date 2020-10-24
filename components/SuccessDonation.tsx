@@ -44,7 +44,7 @@ export const SuccessDonation = (props: any) => {
     e.preventDefault();
 
     try {
-      const res = await axios.post("/api/registration", {
+      await axios.post("/api/registration", {
         ...registerForm,
         email: props.form.email,
       });
@@ -54,7 +54,7 @@ export const SuccessDonation = (props: any) => {
   };
 
   return (
-    <div>
+    <div>s
       <h1>Doação concluída com sucesso!</h1>
       <p>
         Agradecemos por escolher fazer parte dessa iniciativa. Enviaremos também
@@ -84,7 +84,8 @@ export const SuccessDonation = (props: any) => {
               name="volunteering"
               onChange={handleChange}
             />
-            <label htmlFor="volunteering">Quero ser voluntário</label><br/>
+            <label htmlFor="volunteering">Quero ser voluntário</label>
+            <br />
             <br />
             <Button
               type="submit"
