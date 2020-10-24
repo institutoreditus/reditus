@@ -54,7 +54,7 @@ export const SuccessDonation = (props: any) => {
   };
 
   return (
-    <div>s
+    <div>
       <h1>Doação concluída com sucesso!</h1>
       <p>
         Agradecemos por escolher fazer parte dessa iniciativa. Enviaremos também
