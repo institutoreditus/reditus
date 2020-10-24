@@ -8,7 +8,7 @@ import RoxContainer from "../services/rox/RoxContainer";
 import service from "../services/rox/RoxService";
 service(RoxContainer);
 
-export const SuccessDonation = () => {
+export const SuccessDonation = (props: any) => {
   /**
    * {@link registerForm} holds the state for the fields, and {@link setField} is the function
    * that updates these states whenever needed.
@@ -17,7 +17,7 @@ export const SuccessDonation = () => {
     firstName: "",
     lastName: "",
     university: "",
-    admisionYear: "",
+    admissionYear: "",
     degree: "",
     tutorship: false,
     mentorship: false,
@@ -28,7 +28,7 @@ export const SuccessDonation = () => {
    * Handles changes in fields in the form.
    *
    * This function will update the state of the fields.
-   * @param e the change event.
+   * @param {any} e the change event.
    */
   function handleChange(e: any) {
     const value =
@@ -38,13 +38,16 @@ export const SuccessDonation = () => {
 
   /**
    * Validates and submits the registration form.
-   * @param e the submit event.
+   * @param {any} e the submit event.
    */
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
     try {
-      const res = await axios.post(`/api/register`, registerForm);
+      const res = await axios.post("/api/registration", {
+        ...registerForm,
+        email: props.form.email,
+      });
     } catch (e) {
       console.log("An error occurred", e);
     }
@@ -60,7 +63,7 @@ export const SuccessDonation = () => {
       {RoxContainer.shouldShowRegistrationForm.getValue() ? (
         <div>
           <p>Finalize seu cadastro no nosso site</p>
-          <form action="register" method="post" onSubmit={handleSubmit}>
+          <form action="registration" method="post" onSubmit={handleSubmit}>
             Nome: <input type="text" name="firstName" onChange={handleChange} />
             Sobrenome:{" "}
             <input type="text" name="lastName" onChange={handleChange} />
@@ -68,7 +71,7 @@ export const SuccessDonation = () => {
             <input type="text" name="university" onChange={handleChange} />
             Curso: <input type="text" name="degree" onChange={handleChange} />
             Ano de entrada:{" "}
-            <input type="text" name="admissionYear" onChange={handleChange} />
+            <input type="number" name="admissionYear" onChange={handleChange} />
             Como deseja contribuir com o Reditus? <br />
             <input type="checkbox" name="tutorship" onChange={handleChange} />
             <label htmlFor="tutorship">Programas de tutoria de alunos</label>

@@ -53,6 +53,7 @@ export const InputDonationValues = (props: any) => {
       success: async function (data: any) {
         try {
           data["ssr"] = RoxContainer.suggestedDonationValues.getValue();
+          props.update("email", data.customer.email);
           await axios.post(`/api/${donationMode}`, data);
           return successDonation();
         } catch (err) {
