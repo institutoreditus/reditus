@@ -57,11 +57,11 @@ const createUser = async (args: CreateUserArgs): Promise<User> => {
       mentorshipInterest: args.mentorshipInterest,
       volunteeringInterest: args.volunteeringInterest,
       contributions: {
-        connect: existingContributionsForUser.map((c) => ({id: c.id}))
+        connect: existingContributionsForUser.map((c) => ({ id: c.id })),
       },
-      subscriptions:{
-        connect: existingSubscriptionsForUser.map((s) => ({id: s.id}))
-      }
+      subscriptions: {
+        connect: existingSubscriptionsForUser.map((s) => ({ id: s.id })),
+      },
     },
   });
 
