@@ -2,6 +2,7 @@ import createContribution from "./createContribution";
 import createSubscription from "./createSubscription";
 import { PrismaClient } from "@prisma/client";
 import { v4 as uuidv4 } from "uuid";
+import createUser from "./createUser";
 
 let prisma: PrismaClient;
 
@@ -66,6 +67,32 @@ test("creates a contribution for a existing subscription in the database and ret
   expect(contribution.subscriptionId).toEqual(subscription.id);
   expect(contribution.email).toEqual(subscription.email);
   expect(contribution.createdAt).not.toBeNull();
+});
+
+test("creates a contribution with an existing user in the database and connects them", async () => {
+  const uniqueEmail = `uniqueemail${uuidv4()}@example.com`;
+
+  const user = await createUser({
+    dbClient: prisma,
+    email: uniqueEmail,
+    firstName: "first_name",
+    lastName: "last_name",
+    university: "UFRJ",
+    degree: "Engenharia de Computação",
+    admissionYear: 2011,
+    tutorshipInterest: true,
+    mentorshipInterest: true,
+    volunteeringInterest: true,
+  });
+
+  const contribution = await createContribution({
+    dbClient: prisma,
+    amountInCents: 123,
+    externalContributionId: uuidv4(),
+    email: uniqueEmail,
+  });
+
+  expect(contribution.userId).toEqual(user.id);
 });
 
 test("throws error if amount is invalid", async () => {
