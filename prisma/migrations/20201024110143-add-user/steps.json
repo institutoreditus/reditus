@@ -56,6 +56,17 @@
       "arity": "Required"
     },
     {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "User",
+          "field": "email"
+        },
+        "directive": "unique"
+      }
+    },
+    {
       "tag": "CreateField",
       "model": "User",
       "field": "firstName",
@@ -264,6 +275,20 @@
     {
       "tag": "CreateField",
       "model": "User",
+      "field": "contributions",
+      "type": "Contribution",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateField",
+      "model": "User",
+      "field": "subscriptions",
+      "type": "ContributionSubscription",
+      "arity": "List"
+    },
+    {
+      "tag": "CreateField",
+      "model": "User",
       "field": "createdAt",
       "type": "DateTime",
       "arity": "Required"
@@ -294,19 +319,11 @@
       "value": "now()"
     },
     {
-      "tag": "CreateField",
-      "model": "Contribution",
-      "field": "userId",
-      "type": "Int",
-      "arity": "Optional"
-    },
-    {
       "tag": "CreateDirective",
       "location": {
         "path": {
-          "tag": "Field",
-          "model": "Contribution",
-          "field": "userId"
+          "tag": "Model",
+          "model": "User"
         },
         "directive": "map"
       }
@@ -316,60 +333,13 @@
       "location": {
         "tag": "Directive",
         "path": {
-          "tag": "Field",
-          "model": "Contribution",
-          "field": "userId"
+          "tag": "Model",
+          "model": "User"
         },
         "directive": "map"
       },
       "argument": "",
-      "value": "\"user_id\""
-    },
-    {
-      "tag": "CreateField",
-      "model": "Contribution",
-      "field": "user",
-      "type": "User",
-      "arity": "Optional"
-    },
-    {
-      "tag": "CreateDirective",
-      "location": {
-        "path": {
-          "tag": "Field",
-          "model": "Contribution",
-          "field": "user"
-        },
-        "directive": "relation"
-      }
-    },
-    {
-      "tag": "CreateArgument",
-      "location": {
-        "tag": "Directive",
-        "path": {
-          "tag": "Field",
-          "model": "Contribution",
-          "field": "user"
-        },
-        "directive": "relation"
-      },
-      "argument": "fields",
-      "value": "[userId]"
-    },
-    {
-      "tag": "CreateArgument",
-      "location": {
-        "tag": "Directive",
-        "path": {
-          "tag": "Field",
-          "model": "Contribution",
-          "field": "user"
-        },
-        "directive": "relation"
-      },
-      "argument": "references",
-      "value": "[id]"
+      "value": "\"users\""
     }
   ]
 }

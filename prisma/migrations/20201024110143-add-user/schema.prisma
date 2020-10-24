@@ -48,15 +48,13 @@ model Contribution {
   externalId String? @map("external_id")
   createdAt DateTime @default(now())
   experimentId String? @map("experiment_id")
-  userId Int? @map("user_id")
-  user User? @relation(fields: [userId], references: [id]) // Users are not required to register in the website.
 
   @@map("contributions")
 }
 
 model User {
   id Int @default(autoincrement()) @id
-  email String @unique
+  email String  @unique
   firstName String @map("first_name")
   lastName String @map("last_name")
   university String
@@ -65,5 +63,9 @@ model User {
   tutorshipInterest Boolean @map("tutorship_interest")
   mentorshipInterest Boolean @map("mentorship_interest")
   volunteeringInterest Boolean @map("volunteering_interest")
+  contributions Contribution[]
+  subscriptions ContributionSubscription[]
   createdAt DateTime @default(now())
+
+  @@map("users")
 }

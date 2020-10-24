@@ -2,6 +2,7 @@ import createContribution from "./createContribution";
 import createUser from "./createUser";
 import { PrismaClient } from "@prisma/client";
 import { v4 as uuidv4 } from "uuid";
+import createSubscription from "./createSubscription";
 
 let prisma: PrismaClient;
 const testData = {
@@ -85,6 +86,41 @@ test("creates a new user if no other was previously created, and assign all past
 
   expect(contribution1After?.userId).toEqual(user.id);
   expect(contribution2After?.userId).toEqual(user.id);
+});
+
+test("creates a new user if no other was previously created, and assign all past subscriptions to that user", async () => {
+  const uniqueEmail = `email${uuidv4()}@examplesub.com`;
+
+  const subscription1 = await createSubscription({
+    dbClient: prisma,
+    email: uniqueEmail,
+    amountInCents: 10000,
+  });
+
+  const subscription2 = await createSubscription({
+    dbClient: prisma,
+    email: uniqueEmail,
+    amountInCents: 20000,
+  });
+
+  expect(subscription1.userId).toBeNull();
+  expect(subscription2.userId).toBeNull();
+
+  const user = await createUser({
+    ...testData,
+    dbClient: prisma,
+    email: uniqueEmail,
+  });
+
+  const subscription1After = await prisma.contributionSubscription.findOne({
+    where: { id: subscription1.id },
+  });
+  const subscription2After = await prisma.contributionSubscription.findOne({
+    where: { id: subscription2.id },
+  });
+
+  expect(subscription1After?.userId).toEqual(user.id);
+  expect(subscription2After?.userId).toEqual(user.id);
 });
 
 test("throws error if email is invalid", async () => {

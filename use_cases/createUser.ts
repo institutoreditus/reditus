@@ -29,6 +29,22 @@ const createUser = async (args: CreateUserArgs): Promise<User> => {
     throw new Error(`User with email ${args.email} is already registered.`);
   }
 
+  const existingContributionsForUser = await args.dbClient.contribution.findMany(
+    {
+      where: {
+        email: args.email,
+      },
+    }
+  );
+
+  const existingSubscriptionsForUser = await args.dbClient.contributionSubscription.findMany(
+    {
+      where: {
+        email: args.email,
+      },
+    }
+  );
+
   user = await args.dbClient.user.create({
     data: {
       email: args.email,
@@ -40,34 +56,17 @@ const createUser = async (args: CreateUserArgs): Promise<User> => {
       tutorshipInterest: args.tutorshipInterest,
       mentorshipInterest: args.mentorshipInterest,
       volunteeringInterest: args.volunteeringInterest,
+      contributions: {
+        connect: existingContributionsForUser.map((c) => ({id: c.id}))
+      },
+      subscriptions:{
+        connect: existingSubscriptionsForUser.map((s) => ({id: s.id}))
+      }
     },
   });
 
   if (user == null) {
     throw new Error("Unexpected error while creating user.");
-  }
-
-  const existingContributionForUser = await args.dbClient.contribution.findMany(
-    {
-      where: {
-        email: user.email,
-        user: null,
-      },
-    }
-  );
-
-  for (let index = 0; index < existingContributionForUser.length; index++) {
-    const contrib = existingContributionForUser[index];
-    await args.dbClient.contribution.update({
-      where: { id: contrib.id },
-      data: {
-        user: {
-          connect: {
-            id: user!.id,
-          },
-        },
-      },
-    });
   }
 
   return user;

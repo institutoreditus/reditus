@@ -62,6 +62,7 @@ const createContribution = async (
             id: args.subscriptionId,
           },
         },
+        User: {},
         experimentId: subscription.experimentId,
       },
     });
