@@ -90,7 +90,7 @@ async function runCreateSubscription(
     });
 
     const pagarmeSubscription = await pagarmeClient.subscriptions.create({
-      reference_key: `subscription:${subscription.id}`,
+      reference_key: `${herokuAppName}:subscription:${subscription.id}`,
       plan_id: pagarmePlan.id,
       card_hash: args.card_hash,
       payment_method: "credit_card",
