@@ -108,7 +108,7 @@ async function runCreateContribution(
             tangible: false,
           },
         ],
-        reference_key: `contribution:${contribution.id}`,
+        reference_key: `${herokuAppName}:contribution:${contribution.id}`,
         postback_url: postbackUrl,
       };
 
