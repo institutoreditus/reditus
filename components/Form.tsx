@@ -13,6 +13,7 @@ export const Form = () => {
     form: {
       donationMode: "",
       amountInCents: 0,
+      email: "",
     },
   });
 
@@ -37,7 +38,7 @@ export const Form = () => {
       <StepWizard isHashEnabled={false} instance={setInstance}>
         <SelectDonationMode form={state.form} update={updateForm} />
         <InputDonationValues form={state.form} update={updateForm} />
-        <SuccessDonation />
+        <SuccessDonation form={state.form} />
         <FailedDonation />
       </StepWizard>
     </>

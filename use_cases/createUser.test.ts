@@ -2,7 +2,6 @@ import createContribution from "./createContribution";
 import createUser from "./createUser";
 import { PrismaClient } from "@prisma/client";
 import { v4 as uuidv4 } from "uuid";
-import contributions from "../pages/api/contributions";
 
 let prisma: PrismaClient;
 const testData = {
@@ -62,7 +61,7 @@ test("creates a new user if no other was previously created, and assign all past
     amountInCents: 10000,
   });
 
-  let contribution2 = await createContribution({
+  const contribution2 = await createContribution({
     dbClient: prisma,
     email: uniqueEmail,
     amountInCents: 20000,
@@ -77,9 +76,13 @@ test("creates a new user if no other was previously created, and assign all past
     email: uniqueEmail,
   });
 
-  let contribution1After = await prisma.contribution.findOne({where: {id: contribution1.id}});
-  let contribution2After = await prisma.contribution.findOne({where: {id: contribution2.id}});
-  
+  const contribution1After = await prisma.contribution.findOne({
+    where: { id: contribution1.id },
+  });
+  const contribution2After = await prisma.contribution.findOne({
+    where: { id: contribution2.id },
+  });
+
   expect(contribution1After?.userId).toEqual(user.id);
   expect(contribution2After?.userId).toEqual(user.id);
 });
