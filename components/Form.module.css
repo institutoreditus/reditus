@@ -1,6 +1,6 @@
 /* Custom input fields */
 #customValue__input {
-    color: var(--mdc-theme-secondary);
+    color: var(--mdc-theme--on-secondary);
 }
 
 /* Custom buttons */
@@ -119,4 +119,8 @@
     background-color: var(--light);
     color: var(--dark-blue);
     box-shadow: 0 1x 4px 0 rgba(0, 0, 0, 0.05);
+}
+
+#userRegistrationModal {
+    opacity: 0;
 }
