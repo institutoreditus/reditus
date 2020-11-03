@@ -63,46 +63,56 @@ export const SuccessDonation = (props: any) => {
 
   return (
     <div>
-      { (!open && !signupFinish) ? (<>
-        <h1>Doação concluída com sucesso!</h1>
-        <p>
-          Agradecemos por escolher fazer parte dessa iniciativa. Enviaremos também
-          um email de confirmação da sua doação.
-        </p>
-        <h4>Você pode também finalizar seu cadastro no site!</h4>
-        <p>Assim ficará por dentro ...</p>
-        <Button
-          label="Quero realizar meu cadastro!"
-          onClick={() => setOpen(!open)} 
-          raised
-          unelevated
-          id={styles.defaultButton}
-        />
-      </>) : null}
-
-      { signupFinish ? (
+      {!open && !signupFinish ? (
         <>
-          <NavigationButtons step={4} {...props}/>
-          <h1>Agora você também faz parte dessa corrente do bem!</h1>
-          <Typography use="body1">Agradecemos por escolher fazer parte dessa iniciativa.</Typography>
+          <h1>Doação concluída com sucesso!</h1>
+          <p>
+            Agradecemos por escolher fazer parte dessa iniciativa. Enviaremos
+            também um email de confirmação da sua doação.
+          </p>
+          <h4>Você pode também finalizar seu cadastro no site!</h4>
+          <p>Assim ficará por dentro ...</p>
+          <Button
+            label="Quero realizar meu cadastro!"
+            onClick={() => setOpen(!open)}
+            raised
+            unelevated
+            id={styles.defaultButton}
+          />
         </>
-        ) : null }
-      
+      ) : null}
+
+      {signupFinish ? (
+        <>
+          <NavigationButtons step={4} {...props} />
+          <h1>Agora você também faz parte dessa corrente do bem!</h1>
+          <Typography use="body1">
+            Agradecemos por escolher fazer parte dessa iniciativa.
+          </Typography>
+        </>
+      ) : null}
+
       {RoxContainer.shouldShowRegistrationForm.getValue() ? (
-         <>
-          <Drawer dir="rtl" width="100%" dismissible open={open} onClose={() => setOpen(false)}>
+        <>
+          <Drawer
+            dir="rtl"
+            width="100%"
+            dismissible
+            open={open}
+            onClose={() => setOpen(false)}
+          >
             <DrawerContent className={styles.fadeInLeft} dir="ltr" width="100%">
               <form action="registration" method="post" onSubmit={handleSubmit}>
-                <TextField 
-                  fullwidth 
+                <TextField
+                  fullwidth
                   placeholder="Nome:"
                   name="firstName"
                   type="text"
                   onChange={handleChange}
                 />
 
-                <TextField 
-                  fullwidth 
+                <TextField
+                  fullwidth
                   placeholder="Sobrenome:"
                   name="lastName"
                   type="text"
@@ -111,7 +121,7 @@ export const SuccessDonation = (props: any) => {
 
                 <Grid>
                   <GridCell span={6}>
-                    <TextField 
+                    <TextField
                       fullwidth
                       placeholder="Universidade:"
                       name="university"
@@ -121,8 +131,8 @@ export const SuccessDonation = (props: any) => {
                   </GridCell>
 
                   <GridCell span={6}>
-                    <TextField 
-                      fullwidth 
+                    <TextField
+                      fullwidth
                       placeholder="Curso:"
                       name="degree"
                       type="text"
@@ -131,8 +141,8 @@ export const SuccessDonation = (props: any) => {
                   </GridCell>
                 </Grid>
 
-                <TextField 
-                  fullwidth 
+                <TextField
+                  fullwidth
                   placeholder="Ano de entrada:"
                   name="admissionYear"
                   type="number"
@@ -146,31 +156,33 @@ export const SuccessDonation = (props: any) => {
 
                 <Grid className={styles.tittle}>
                   <GridCell span={12}>
-                    <Typography use="body1">Como deseja contribuir com o Reditus?</Typography>
+                    <Typography use="body1">
+                      Como deseja contribuir com o Reditus?
+                    </Typography>
                   </GridCell>
                 </Grid>
 
-                <Checkbox 
-                  label="Programas de tutoria de alunos" 
-                  type="checkbox" 
+                <Checkbox
+                  label="Programas de tutoria de alunos"
+                  type="checkbox"
                   name="tutorshipInterest"
                   onChange={handleChange}
                 />
-            
+
                 <Checkbox
                   label="Programas de metoria de equipes"
-                  type="checkbox" 
-                  name="mentorshipInterest" 
+                  type="checkbox"
+                  name="mentorshipInterest"
                   onChange={handleChange}
                 />
-      
-                <Checkbox 
-                  label="Quero ser voluntário" 
-                  type="checkbox" 
-                  name="volunteeringInterest" 
+
+                <Checkbox
+                  label="Quero ser voluntário"
+                  type="checkbox"
+                  name="volunteeringInterest"
                   onChange={handleChange}
                 />
-                
+
                 <Button
                   type="submit"
                   label="Finalizar cadastro"
@@ -179,14 +191,12 @@ export const SuccessDonation = (props: any) => {
                   onClick={() => {
                     setSignupFinish(!signupFinish);
                     setOpen(!open);
-                  }} 
+                  }}
                   id={styles.defaultButton}
                 />
-
               </form>
             </DrawerContent>
           </Drawer>
-          
         </>
       ) : (
         ""
