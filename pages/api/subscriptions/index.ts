@@ -7,9 +7,12 @@ import {
   isCompletableStatus,
   isCancelableStatus,
 } from "../../../pagarme_integration/pagarmeSubscriptionStatus";
-import pagarme from "pagarme";
 import url from "url";
 import Hubspot from "hubspot";
+import runRequestWithDIContainer from "../../../middlewares/diContainerMiddleware";
+import { PrismaClient } from "@prisma/client";
+import { DIContainerNextApiRequest } from "../../../dependency_injection/DIContainerNextApiRequest";
+
 const herokuAppName = process.env.HEROKU_APP_NAME || `reditus-staging`;
 const publicUrl =
   process.env.PUBLIC_URL || `https://${herokuAppName}.herokuapp.com/`;
@@ -48,11 +51,12 @@ const CreateSubscriptionSchema = schema({
   card_hash: string,
   payment_method: schema.enum(PaymentMethod, "Invalid payment method"),
   customer: CustomerData,
+  ssr: string,
 });
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "POST") {
-    await runCreateSubscription(req, res);
+    await runRequestWithDIContainer(req, res, runCreateSubscription);
   } else {
     res.statusCode = 405;
     res.send("");
@@ -60,23 +64,25 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 };
 
 async function runCreateSubscription(
-  req: NextApiRequest,
+  req: DIContainerNextApiRequest,
   res: NextApiResponse
 ) {
   const validator = CreateSubscriptionSchema.destruct();
   const [err, args] = validator(req.body);
   if (!err && args) {
+    const prismaClient: PrismaClient = req.scope.resolve("dbClient");
+    const pagarmeClient: any = await req.scope.resolve("pagarmeClient");
+
     let subscription = await createSubscription({
+      dbClient: prismaClient,
       email: args.customer.email,
       amountInCents: args.amount,
+      experimentId: args.ssr,
     });
 
     const billingPeriodString = process.env.SUBSCRIPTION_BILLING_PERIOD || "30";
     const billingPeriod = +billingPeriodString;
 
-    const pagarmeClient = await pagarme.client.connect({
-      api_key: process.env.PAGARME_API_KEY,
-    });
     const pagarmePlan = await pagarmeClient.plans.create({
       amount: args.amount,
       days: billingPeriod,
@@ -85,7 +91,7 @@ async function runCreateSubscription(
     });
 
     const pagarmeSubscription = await pagarmeClient.subscriptions.create({
-      reference_key: `subscription:${subscription.id}`,
+      reference_key: `${herokuAppName}:subscription:${subscription.id}`,
       plan_id: pagarmePlan.id,
       card_hash: args.card_hash,
       payment_method: "credit_card",
@@ -99,12 +105,14 @@ async function runCreateSubscription(
 
     if (isCompletableStatus(pagarmeSubscription.status)) {
       subscription = await completeSubscription({
+        dbClient: prismaClient,
         subscriptionId: subscription.id,
         externalId: `pagarme:${pagarmeSubscription.id}`,
         externalContributionId: `pagarme:${pagarmeSubscription.current_transaction.id}`,
       });
     } else if (isCancelableStatus(pagarmeSubscription.status)) {
       subscription = await cancelSubscription({
+        dbClient: prismaClient,
         subscriptionId: subscription.id,
       });
     }

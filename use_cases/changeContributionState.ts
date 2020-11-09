@@ -1,6 +1,7 @@
 import { Contribution, ContributionState, PrismaClient } from "@prisma/client";
 
 interface ChangeContributionStateArgs {
+  dbClient: PrismaClient;
   contributionId: number;
   state: ContributionState;
   externalId?: string;
@@ -11,9 +12,7 @@ const changeContributionState = async (
 ): Promise<Contribution> => {
   if (args.contributionId <= 0) throw new Error("Invalid id");
 
-  const prisma = new PrismaClient();
-
-  const contribution = await prisma.contribution.findOne({
+  const contribution = await args.dbClient.contribution.findOne({
     where: {
       id: args.contributionId,
     },
@@ -23,7 +22,7 @@ const changeContributionState = async (
     throw new Error(`Id ${args.contributionId} not found`);
 
   if (args.externalId) {
-    return await prisma.contribution.update({
+    return await args.dbClient.contribution.update({
       where: {
         id: args.contributionId,
       },
@@ -33,7 +32,7 @@ const changeContributionState = async (
       },
     });
   } else {
-    return await prisma.contribution.update({
+    return await args.dbClient.contribution.update({
       where: {
         id: args.contributionId,
       },

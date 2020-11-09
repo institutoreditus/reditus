@@ -4,6 +4,9 @@ import createContribution from "../../../use_cases/createContribution";
 import axios from "axios";
 import url from "url";
 import Hubspot from "hubspot";
+import runRequestWithDIContainer from "../../../middlewares/diContainerMiddleware";
+import { PrismaClient } from "@prisma/client";
+import { DIContainerNextApiRequest } from "../../../dependency_injection/DIContainerNextApiRequest";
 
 const herokuAppName = process.env.HEROKU_APP_NAME || `reditus-staging`;
 const publicUrl =
@@ -43,18 +46,22 @@ const CreateContributionSchema = schema({
   card_hash: string,
   payment_method: schema.enum(PaymentMethod, "Invalid payment method"),
   customer: CustomerData,
+  ssr: string,
 });
 
 async function runCreateContribution(
-  req: NextApiRequest,
+  req: DIContainerNextApiRequest,
   res: NextApiResponse
 ) {
+  const prismaClient: PrismaClient = req.scope.resolve("dbClient");
   const validator = CreateContributionSchema.destruct();
   const [err, args] = validator(req.body);
   if (!err && args) {
     const contribution = await createContribution({
+      dbClient: prismaClient,
       email: args.customer.email,
       amountInCents: args.amount,
+      experimentId: args.ssr,
     });
 
     try {
@@ -102,7 +109,7 @@ async function runCreateContribution(
             tangible: false,
           },
         ],
-        reference_key: `contribution:${contribution.id}`,
+        reference_key: `${herokuAppName}:contribution:${contribution.id}`,
         postback_url: postbackUrl,
       };
 
@@ -131,7 +138,7 @@ async function runCreateContribution(
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "POST") {
-    await runCreateContribution(req, res);
+    await runRequestWithDIContainer(req, res, runCreateContribution);
   } else {
     res.statusCode = 405;
     res.send("");

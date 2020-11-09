@@ -1,6 +1,7 @@
 import { ContributionSubscription, PrismaClient } from "@prisma/client";
 
 interface CancelSubscriptionArgs {
+  dbClient: PrismaClient;
   subscriptionId: number;
 }
 
@@ -9,7 +10,7 @@ const cancelSubscription = async (
 ): Promise<ContributionSubscription> => {
   if (args.subscriptionId <= 0) throw new Error("Invalid id");
 
-  const prisma = new PrismaClient();
+  const prisma = args.dbClient;
 
   const subscription = await prisma.contributionSubscription.findOne({
     where: {

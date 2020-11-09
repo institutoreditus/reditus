@@ -15,46 +15,61 @@ import {
   isCompletableStatus as isCompletableSubscriptionStatus,
   isCancelableStatus as isCancelableSubscriptionStatus,
 } from "../../../pagarme_integration/pagarmeSubscriptionStatus";
+import runRequestWithDIContainer from "../../../middlewares/diContainerMiddleware";
+import { PrismaClient } from "@prisma/client";
+import { DIContainerNextApiRequest } from "../../../dependency_injection/DIContainerNextApiRequest";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "POST") {
-    const signature = getFirstHeader(req, "x-hub-signature");
-
-    const validPostBack = await validatePagarmePostback({
-      requestBodyText: stringify(req.body),
-      requestSignatureHeader: signature ?? "",
-    });
-
-    if (validPostBack) {
-      const postbackObjectType = req.body["object"];
-      if (postbackObjectType === "transaction") {
-        const referenceKey = req.body["transaction[reference_key]"];
-        const referenceId = referenceKey.split(":")[1];
-        await runProcessTransactionPostback(req, res, +referenceId);
-      } else if (postbackObjectType === "subscription") {
-        const referenceKey =
-          req.body["subscription[current_transaction][reference_key]"]; // can be an empty string
-        let referenceId = 0;
-        if (referenceKey) {
-          referenceId = +referenceKey.split(":")[1];
-        }
-
-        await runProcessSubscriptionPostback(req, res, referenceId);
-      }
-    } else {
-      res.statusCode = 400;
-      res.send("Invalid postback signature");
-    }
+    await runRequestWithDIContainer(req, res, runProcessPostback);
   } else {
     res.statusCode = 405;
     res.send("");
   }
 };
 
+async function runProcessPostback(
+  req: DIContainerNextApiRequest,
+  res: NextApiResponse
+) {
+  const signature = getFirstHeader(req, "x-hub-signature");
+
+  const validPostBack = await validatePagarmePostback({
+    requestBodyText: stringify(req.body),
+    requestSignatureHeader: signature ?? "",
+  });
+
+  if (validPostBack) {
+    const prismaClient: PrismaClient = req.scope.resolve("dbClient");
+    const postbackObjectType = req.body["object"];
+    if (postbackObjectType === "transaction") {
+      const referenceKey = req.body["transaction[reference_key]"];
+      const referenceId = getReferenceId(referenceKey);
+      await runProcessTransactionPostback(req, res, +referenceId, prismaClient);
+    } else if (postbackObjectType === "subscription") {
+      const referenceKey =
+        req.body["subscription[current_transaction][reference_key]"]; // can be an empty string
+      const referenceId = getReferenceId(referenceKey);
+
+      await runProcessSubscriptionPostback(req, res, referenceId, prismaClient);
+    }
+  } else {
+    res.statusCode = 400;
+    res.send("Invalid postback signature");
+  }
+}
+
+const getReferenceId = (referenceKey?: string): number => {
+  if (!referenceKey) return 0;
+  const parts = referenceKey.split(":");
+  return +parts[parts.length - 1];
+};
+
 async function runProcessTransactionPostback(
   req: NextApiRequest,
   res: NextApiResponse,
-  contributionId: number
+  contributionId: number,
+  dbClient: PrismaClient
 ) {
   res.statusCode = 200;
 
@@ -69,12 +84,16 @@ async function runProcessTransactionPostback(
   const pagarmeId = req.body["transaction[id]"];
   if (await isCompletableTransactionStatus(newPagarmeStatus)) {
     const result = await completeContribution({
+      dbClient: dbClient,
       contributionId: contributionId,
       externalId: `pagarme:${pagarmeId}`,
     });
     res.json(result);
   } else if (await isCancelableTransactionStatus(newPagarmeStatus)) {
-    const result = await cancelContribution({ contributionId: contributionId });
+    const result = await cancelContribution({
+      dbClient: dbClient,
+      contributionId: contributionId,
+    });
     res.json(result);
   } else {
     // do nothing
@@ -85,7 +104,8 @@ async function runProcessTransactionPostback(
 async function runProcessSubscriptionPostback(
   req: NextApiRequest,
   res: NextApiResponse,
-  subscriptionId: number
+  subscriptionId: number,
+  dbClient: PrismaClient
 ) {
   res.statusCode = 200;
 
@@ -101,6 +121,7 @@ async function runProcessSubscriptionPostback(
   // we can try to retrieve the subscription id if we have the corresponding external id already in our database
   if (subscriptionId === 0) {
     const subscription = await getSubscriptionByExternalId({
+      dbClient: dbClient,
       externalId: externalPagarmeSubscriptionId,
     });
 
@@ -114,6 +135,7 @@ async function runProcessSubscriptionPostback(
     const newPagarmeStatus = req.body["current_status"];
     if (await isCompletableSubscriptionStatus(newPagarmeStatus)) {
       const result = await completeSubscription({
+        dbClient: dbClient,
         subscriptionId: subscriptionId,
         externalId: externalPagarmeSubscriptionId,
         externalContributionId: externalPagarmeContributionId,
@@ -121,6 +143,7 @@ async function runProcessSubscriptionPostback(
       res.json(result);
     } else if (await isCancelableSubscriptionStatus(newPagarmeStatus)) {
       const result = await cancelSubscription({
+        dbClient: dbClient,
         subscriptionId: subscriptionId,
       });
       res.json(result);
@@ -130,6 +153,7 @@ async function runProcessSubscriptionPostback(
     }
   } else if (event === "transaction_created") {
     const result = await createContribution({
+      dbClient: dbClient,
       amountInCents: +req.body["subscription[current_transaction][amount]"],
       subscriptionId: subscriptionId,
       externalContributionId: externalPagarmeContributionId,
