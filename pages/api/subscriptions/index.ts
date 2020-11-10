@@ -8,7 +8,7 @@ import {
   isCancelableStatus,
 } from "../../../pagarme_integration/pagarmeSubscriptionStatus";
 import url from "url";
-import Hubspot from "hubspot";
+import sendHubspotContact from "../../../services/hubspot/HubspotService";
 import runRequestWithDIContainer from "../../../middlewares/diContainerMiddleware";
 import { PrismaClient } from "@prisma/client";
 import { DIContainerNextApiRequest } from "../../../dependency_injection/DIContainerNextApiRequest";
@@ -133,21 +133,3 @@ export const config = {
     },
   },
 };
-
-// TODO (tmedrado): Add integration with Hubspot contacts
-async function sendHubspotContact(name: string, email: string) {
-  const hubspot = new Hubspot({
-    apiKey: process.env.HUBSPOT_API_KEY,
-    checkLimit: false,
-  });
-
-  const contactObj = {
-    properties: [
-      { property: "firstname", value: name },
-      { property: "email", value: email },
-    ],
-  };
-
-  const hubspotContact = await hubspot.contacts.create(contactObj);
-  console.log(hubspotContact);
-}
