@@ -6,11 +6,10 @@ import styles from "../Form.module.css";
 function Options({ options }: any) {
   return options.map((option: any) => (
     <option
-      className={styles.optionSelect}
       key={option.id}
-      value={option.value}
+      value={option.name}
     >
-      {option.value} - {option.name}
+      ({option.name}) {option.label}
     </option>
   ));
 }
@@ -27,6 +26,7 @@ export const SelectCollege = (props: any): JSX.Element => {
       </select>*/}
 
       <Select
+        label="Universidade"
         placeholder={props.placeholder}
         name={props.name}
         onChange={props.onChange}
