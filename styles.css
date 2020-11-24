@@ -61,6 +61,7 @@ body {
   background: transparent;
   position: relative;
   transition-duration: .8s;
+  border-right-style: none;
 }
 
 .mdc-form-field {
@@ -79,13 +80,21 @@ body {
   padding-right: 10px;
 }
 
+.mdc-select .mdc-floating-label {
+  left: 0;
+}
+
+.mdc-select__selected-text {
+  text-indent: -16px;
+}
+
 .mdc-select:not(.mdc-select--disabled) .mdc-select__anchor {
   background-color: transparent;
 }
 
 .mdc-select:not(.mdc-select--disabled) .mdc-floating-label {
   color: var(--mdc-theme--on-secondary);
-  margin-top: -10px;
+  
 }
 
 .mdc-select:not(.mdc-select--disabled) .mdc-select__selected-text {
