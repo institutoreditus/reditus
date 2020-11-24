@@ -98,14 +98,23 @@ export const SuccessDonation = (props: any) => {
       {RoxContainer.shouldShowRegistrationForm.getValue() ? (
         <>
           <Drawer
-            className={styles.modalUserRegistration} 
+            className={styles.modalUserRegistration}
             width="100%"
             dismissible
             open={open}
             onClose={() => setOpen(false)}
           >
-            <DrawerContent className={styles.modalUserRegistration} dir="ltr" width="100%">
-              <form dir="ltr" action="registration" method="post" onSubmit={handleSubmit}>
+            <DrawerContent
+              className={styles.modalUserRegistration}
+              dir="ltr"
+              width="100%"
+            >
+              <form
+                dir="ltr"
+                action="registration"
+                method="post"
+                onSubmit={handleSubmit}
+              >
                 <TextField
                   dir="ltr"
                   fullwidth
@@ -116,7 +125,7 @@ export const SuccessDonation = (props: any) => {
                 />
 
                 <TextField
-                dir="ltr"
+                  dir="ltr"
                   fullwidth
                   label="Sobrenome:"
                   name="lastName"
@@ -124,7 +133,7 @@ export const SuccessDonation = (props: any) => {
                   onChange={handleChange}
                 />
 
-                <SelectCollege name="university" onChange={handleChange}/>
+                <SelectCollege name="university" onChange={handleChange} />
 
                 <Grid>
                   <GridCell span={6}>
@@ -137,7 +146,6 @@ export const SuccessDonation = (props: any) => {
                     />
                   </GridCell>
                   <GridCell span={6}>
-                    
                     <TextField
                       fullwidth
                       label="Ano de entrada:"
@@ -158,7 +166,7 @@ export const SuccessDonation = (props: any) => {
                     Como deseja contribuir com o Reditus?
                   </Typography>
                 </GridCell>
-    
+
                 <GridCell className={styles.checkboxGroup}>
                   <Checkbox
                     className={styles.checkbox}

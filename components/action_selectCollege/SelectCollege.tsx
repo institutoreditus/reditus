@@ -1,14 +1,9 @@
 import { collegeData } from "./collegeData";
 import { Select } from "@rmwc/select";
 
-import styles from "../Form.module.css";
-
 function Options({ options }: any) {
   return options.map((option: any) => (
-    <option
-      key={option.id}
-      value={option.name}
-    >
+    <option key={option.id} value={option.name}>
       ({option.name}) {option.label}
     </option>
   ));
