@@ -13,6 +13,14 @@ import "@material/icon-button/dist/mdc.icon-button.css";
 import "@material/radio/dist/mdc.radio.css";
 import "@material/drawer/dist/mdc.drawer.css";
 
+import "@rmwc/select/select.css";
+import "@material/select/dist/mdc.select.css";
+import "@material/floating-label/dist/mdc.floating-label.css";
+import "@material/notched-outline/dist/mdc.notched-outline.css";
+import "@material/line-ripple/dist/mdc.line-ripple.css";
+import "@material/menu/dist/mdc.menu.css";
+import "@material/menu-surface/dist/mdc.menu-surface.css";
+
 import "../styles.css";
 
 import { AppProps } from "next/app";
