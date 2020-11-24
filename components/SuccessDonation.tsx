@@ -7,11 +7,14 @@ import { Checkbox } from "@rmwc/checkbox";
 import { NavigationButtons } from "./action_navigate/NavigationButtons";
 import { useState } from "react";
 
+import { SelectCollege } from "./action_selectCollege/SelectCollege";
+
 import axios from "axios";
 import styles from "./Form.module.css";
 
 import RoxContainer from "../services/rox/RoxContainer";
 import service from "../services/rox/RoxService";
+
 service(RoxContainer);
 
 export const SuccessDonation = (props: any) => {
@@ -95,93 +98,92 @@ export const SuccessDonation = (props: any) => {
       {RoxContainer.shouldShowRegistrationForm.getValue() ? (
         <>
           <Drawer
-            dir="rtl"
+            className={styles.modalUserRegistration} 
             width="100%"
             dismissible
             open={open}
             onClose={() => setOpen(false)}
           >
-            <DrawerContent className={styles.fadeInLeft} dir="ltr" width="100%">
-              <form action="registration" method="post" onSubmit={handleSubmit}>
+            <DrawerContent className={styles.modalUserRegistration} dir="ltr" width="100%">
+              <form dir="ltr" action="registration" method="post" onSubmit={handleSubmit}>
                 <TextField
+                  dir="ltr"
                   fullwidth
-                  placeholder="Nome:"
+                  label="Nome:"
                   name="firstName"
                   type="text"
                   onChange={handleChange}
                 />
 
                 <TextField
+                dir="ltr"
                   fullwidth
-                  placeholder="Sobrenome:"
+                  label="Sobrenome:"
                   name="lastName"
                   type="text"
                   onChange={handleChange}
                 />
 
+                <SelectCollege name="university" onChange={handleChange}/>
+
                 <Grid>
                   <GridCell span={6}>
                     <TextField
                       fullwidth
-                      placeholder="Universidade:"
-                      name="university"
-                      type="text"
-                      onChange={handleChange}
-                    />
-                  </GridCell>
-
-                  <GridCell span={6}>
-                    <TextField
-                      fullwidth
-                      placeholder="Curso:"
+                      label="Curso:"
                       name="degree"
                       type="text"
                       onChange={handleChange}
                     />
                   </GridCell>
-                </Grid>
-
-                <TextField
-                  fullwidth
-                  placeholder="Ano de entrada:"
-                  name="admissionYear"
-                  type="number"
-                  min="0"
-                  max="9999"
-                  step="1"
-                  pattern="^[0-9]"
-                  maxLength={4}
-                  onChange={handleChange}
-                />
-
-                <Grid className={styles.tittle}>
-                  <GridCell span={12}>
-                    <Typography use="body1">
-                      Como deseja contribuir com o Reditus?
-                    </Typography>
+                  <GridCell span={6}>
+                    
+                    <TextField
+                      fullwidth
+                      label="Ano de entrada:"
+                      name="admissionYear"
+                      type="number"
+                      min="0"
+                      max="9999"
+                      step="1"
+                      pattern="^[0-9]"
+                      maxLength={4}
+                      onChange={handleChange}
+                    />
                   </GridCell>
                 </Grid>
 
-                <Checkbox
-                  label="Programas de tutoria de alunos"
-                  type="checkbox"
-                  name="tutorshipInterest"
-                  onChange={handleChange}
-                />
+                <GridCell className={styles.textLabel}>
+                  <Typography use="body1">
+                    Como deseja contribuir com o Reditus?
+                  </Typography>
+                </GridCell>
+    
+                <GridCell className={styles.checkboxGroup}>
+                  <Checkbox
+                    className={styles.checkbox}
+                    label="Programas de tutoria de alunos"
+                    type="checkbox"
+                    name="tutorshipInterest"
+                    onChange={handleChange}
+                  />
 
-                <Checkbox
-                  label="Programas de metoria de equipes"
-                  type="checkbox"
-                  name="mentorshipInterest"
-                  onChange={handleChange}
-                />
+                  <Checkbox
+                    className={styles.checkbox}
+                    label="Programas de metoria de equipes"
+                    type="checkbox"
+                    name="mentorshipInterest"
+                    onChange={handleChange}
+                  />
 
-                <Checkbox
-                  label="Quero ser voluntário"
-                  type="checkbox"
-                  name="volunteeringInterest"
-                  onChange={handleChange}
-                />
+                  <Checkbox
+                    className={styles.checkbox}
+                    label="Quero ser voluntário"
+                    type="checkbox"
+                    name="volunteeringInterest"
+                    onChange={handleChange}
+                  />
+                </GridCell>
 
                 <Button
                   type="submit"
