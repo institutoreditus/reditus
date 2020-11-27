@@ -11,6 +11,7 @@ import url from "url";
 import runRequestWithDIContainer from "../../../middlewares/diContainerMiddleware";
 import { PrismaClient } from "@prisma/client";
 import { DIContainerNextApiRequest } from "../../../dependency_injection/DIContainerNextApiRequest";
+import mail from "../../../helpers/mailer";
 
 const herokuAppName = process.env.HEROKU_APP_NAME || `reditus-staging`;
 const publicUrl =
@@ -118,6 +119,7 @@ async function runCreateSubscription(
 
     res.statusCode = 201;
     res.json(subscription);
+    mail(args.customer.email, args.customer.name);
   } else {
     res.statusCode = 400;
     res.send({ error: "Invalid Data" });
