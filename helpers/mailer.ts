@@ -11,7 +11,7 @@ export default async function mail(to: string, userName: string) {
   if (env === undefined) {
     return;
   }
-  
+
   if (["reditus-next-production", "reditus-next-staging"].indexOf(env) == -1) {
     console.log(
       `Emails are only sent in production and staging. Currently in ${process.env.HEROKU_APP_NAME}`
