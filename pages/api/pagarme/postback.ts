@@ -44,15 +44,12 @@ async function runProcessPostback(
     const postbackObjectType = req.body["object"];
     if (postbackObjectType === "transaction") {
       const referenceKey = req.body["transaction[reference_key]"];
-      const referenceId = referenceKey.split(":")[1];
+      const referenceId = getReferenceId(referenceKey);
       await runProcessTransactionPostback(req, res, +referenceId, prismaClient);
     } else if (postbackObjectType === "subscription") {
       const referenceKey =
         req.body["subscription[current_transaction][reference_key]"]; // can be an empty string
-      let referenceId = 0;
-      if (referenceKey) {
-        referenceId = +referenceKey.split(":")[1];
-      }
+      const referenceId = getReferenceId(referenceKey);
 
       await runProcessSubscriptionPostback(req, res, referenceId, prismaClient);
     }
@@ -61,6 +58,12 @@ async function runProcessPostback(
     res.send("Invalid postback signature");
   }
 }
+
+const getReferenceId = (referenceKey?: string): number => {
+  if (!referenceKey) return 0;
+  const parts = referenceKey.split(":");
+  return +parts[parts.length - 1];
+};
 
 async function runProcessTransactionPostback(
   req: NextApiRequest,
