@@ -13,7 +13,7 @@ export default async function mail(to: string, userName: string) {
       ["reditus-next-production", "reditus-next-staging"]
     )
   ) {
-    // Emails are only sent in production and staging.
+    console.log("Emails are only sent in production and staging.")
     return;
   }
 
