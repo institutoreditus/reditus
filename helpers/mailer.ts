@@ -9,11 +9,14 @@ export default async function mail(to: string, userName: string) {
   if (
     process.env.HEROKU_APP_NAME !== undefined &&
     !(
-      process.env.HEROKU_APP_NAME in
-      ["reditus-next-production", "reditus-next-staging"]
+      ["reditus-next-production", "reditus-next-staging"].indexOf(
+        process.env.HEROKU_APP_NAME
+      ) > -1
     )
   ) {
-    console.log(`Emails are only sent in production and staging. Currently in ${process.env.HEROKU_APP_NAME}`);
+    console.log(
+      `Emails are only sent in production and staging. Currently in ${process.env.HEROKU_APP_NAME}`
+    );
     return;
   }
 
