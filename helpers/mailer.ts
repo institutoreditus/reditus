@@ -7,13 +7,13 @@ const { serverRuntimeConfig } = getConfig();
 
 export default async function mail(to: string, userName: string) {
   if (
-    process.env.HEROKU_APP_NAME &&
+    process.env.HEROKU_APP_NAME !== undefined &&
     !(
       process.env.HEROKU_APP_NAME in
       ["reditus-next-production", "reditus-next-staging"]
     )
   ) {
-    console.log("Emails are only sent in production and staging.")
+    console.log(`Emails are only sent in production and staging. Currently in ${process.env.HEROKU_APP_NAME}`);
     return;
   }
 
