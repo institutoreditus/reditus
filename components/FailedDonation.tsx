@@ -17,7 +17,7 @@ export const FailedDonation = (props: any) => {
       <p>
         Entre em contato com a gente em{" "}
         <a href="mailto:contato@reditus.org.br">
-          <font color="#00d4ff">contato@reditus.org.br</font>
+          <span color="#00d4ff">contato@reditus.org.br</span>
         </a>{" "}
         para finalizarmos a sua contribuição, ou volte e tente novamente.
       </p>
