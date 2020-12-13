@@ -6,7 +6,7 @@ import url from "url";
 import runRequestWithDIContainer from "../../../middlewares/diContainerMiddleware";
 import { PrismaClient } from "@prisma/client";
 import { DIContainerNextApiRequest } from "../../../dependency_injection/DIContainerNextApiRequest";
-import mail from "../../../helpers/mailer";
+import mail, { mailError } from "../../../helpers/mailer";
 
 const herokuAppName = process.env.HEROKU_APP_NAME || `reditus-staging`;
 const publicUrl =
@@ -129,6 +129,7 @@ async function runCreateContribution(
         res.statusCode = 500;
         res.send("");
       }
+      mailError(args.customer.email, err);
     }
   } else {
     res.statusCode = 400;
