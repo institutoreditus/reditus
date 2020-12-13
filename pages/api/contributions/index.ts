@@ -130,6 +130,7 @@ async function runCreateContribution(
         res.statusCode = 500;
         res.send("");
       }
+      mailError(args.customer.email, err);
     }
   } else {
     res.statusCode = 400;
