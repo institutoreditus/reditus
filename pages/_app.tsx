@@ -12,8 +12,25 @@ import "@material/radio/dist/mdc.radio.css";
 import "../styles.css";
 
 import { AppProps } from "next/app";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+import * as gtag from "../helpers/gtag";
+
+const isProduction = process.env.NODE_ENV === "production";
 
 function App({ Component, pageProps }: AppProps) {
+  const router = useRouter();
+
+  useEffect(() => {
+    const handleRouteChange = (url: URL) => {
+      /* invoke analytics function only for production */
+      if (isProduction && gtag.GA_TRACKING_ID) gtag.pageview(url);
+    };
+    router.events.on("routeChangeComplete", handleRouteChange);
+    return () => {
+      router.events.off("routeChangeComplete", handleRouteChange);
+    };
+  }, [router.events]);
   return <Component {...pageProps} />;
 }
 
