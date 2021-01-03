@@ -2,6 +2,10 @@ import Head from "next/head";
 import { GridCell } from "@rmwc/grid";
 import styles from "./index.module.css";
 import { PrismaClient } from "@prisma/client";
+import getMessage from "../middlewares/messageMiddleware";
+import * as Messages from "../pages/strings/pt/messages.json";
+
+console.log(getMessage(Messages.invalid_dat));
 
 // Components
 import Chart from "../components/ChartContributionTotal";
@@ -9,7 +13,6 @@ import Chart from "../components/ChartContributionTotal";
 export async function getServerSideProps() {
   const prisma = new PrismaClient();
   const UserID = "'guilhermeangstmann@gmail.com'";
-  console.log(UserID);
   
   // Query1contributions
   const accumulated = await prisma.queryRaw(
