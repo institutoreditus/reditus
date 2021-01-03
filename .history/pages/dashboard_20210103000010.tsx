@@ -5,7 +5,7 @@ import { PrismaClient } from "@prisma/client";
 import getMessage from "../middlewares/messageMiddleware";
 import * as Messages from "../pages/strings/pt/messages.json";
 
-console.log(getMessage(Messages.invalid_data));
+console.log(getMessage(Messages.invalid_dat));
 
 // Components
 import Chart from "../components/ChartContributionTotal";

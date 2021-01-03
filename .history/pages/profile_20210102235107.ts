@@ -2,13 +2,17 @@ import Head from "next/head";
 import { GridCell } from "@rmwc/grid";
 import styles from "./index.module.css";
 import { PrismaClient } from "@prisma/client";
+import { useState, useEffect, useMemo } from 'react';
+import { NextPage } from 'next';
+import Link from 'next/link';
+import Image from 'next/image';
+import axios from 'axios';
+import useSWR from 'swr';
+import { useSession } from 'next-auth/client';
 import getMessage from "../middlewares/messageMiddleware";
 import * as Messages from "../pages/strings/pt/messages.json";
 
-console.log(getMessage(Messages.invalid_data));
 
-// Components
-import Chart from "../components/ChartContributionTotal";
 // Queries
 export async function getServerSideProps() {
   const prisma = new PrismaClient();
@@ -89,7 +93,7 @@ export default function Home({ accumulated }) {
         align={"middle"}
       >
         <div>
-          <Chart result={accumulated} />
+          chart
         </div>
       </GridCell>
     </div>
