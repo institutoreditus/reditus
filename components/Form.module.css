@@ -123,6 +123,8 @@
 
 .modalUserRegistration {
     z-index: 2;
+    margin-left: -20px;
+    padding-left: 20px;
 }
 
 .textLabel {
@@ -131,6 +133,8 @@
 
 .checkboxGroup {
     margin-top: 0px;
+    display: flex;
+    flex-direction: column;
 }
 
 .checkbox {

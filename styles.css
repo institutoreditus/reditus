@@ -76,10 +76,6 @@ body {
   margin-left: -10px;
 }
 
-[dir="rtl"] .mdc-form-field > label, .mdc-form-field > label[dir="rtl"] {
-  padding-right: 10px;
-}
-
 .mdc-select .mdc-floating-label {
   left: 0;
 }
