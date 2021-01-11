@@ -7,7 +7,9 @@ import { Checkbox } from "@rmwc/checkbox";
 import { NavigationButtons } from "./action_navigate/NavigationButtons";
 import { useState } from "react";
 
-import { SelectCollege } from "./action_selectCollege/SelectCollege";
+import { Combobox } from "./Combobox";
+import { collegeData } from "./datasets/collegeData";
+import { graduationCourseData } from "./datasets/graduationCourseData";
 
 import axios from "axios";
 import styles from "./Form.module.css";
@@ -99,7 +101,6 @@ export const SuccessDonation = (props: any) => {
         <>
           <Drawer
             className={styles.modalUserRegistration}
-            width="100%"
             dismissible
             open={open}
             onClose={() => setOpen(false)}
@@ -133,29 +134,29 @@ export const SuccessDonation = (props: any) => {
                   onChange={handleChange}
                 />
 
-                <SelectCollege name="university" onChange={handleChange} />
+                <Combobox
+                  label="Universidade"
+                  name="university"
+                  otherOption="Outra universidade"
+                  dataset={collegeData}
+                  onChange={handleChange}
+                />
 
                 <Grid>
                   <GridCell span={6}>
-                    <TextField
-                      fullwidth
-                      label="Curso:"
+                    <Combobox
+                      label="Curso"
                       name="degree"
-                      type="text"
+                      otherOption="Outro curso"
+                      dataset={graduationCourseData}
                       onChange={handleChange}
                     />
                   </GridCell>
                   <GridCell span={6}>
-                    <TextField
-                      fullwidth
+                    <Combobox
                       label="Ano de entrada:"
                       name="admissionYear"
                       type="number"
-                      min="0"
-                      max="9999"
-                      step="1"
-                      pattern="^[0-9]"
-                      maxLength={4}
                       onChange={handleChange}
                     />
                   </GridCell>
