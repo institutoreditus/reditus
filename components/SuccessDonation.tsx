@@ -275,6 +275,13 @@ export const SuccessDonation = (props: any) => {
             <Typography use="body1">
               Agradecemos por escolher fazer parte dessa iniciativa.
             </Typography>
+            <Button
+              label="Voltar ao site do Reditus"
+              raised
+              unelevated
+              onClick={() => (window.location.href = "https://reditus.org.br")}
+              id={styles.defaultButton}
+            />
           </>
         ) : null}
 
