@@ -4,6 +4,9 @@ import createUser from "../../../use_cases/createUser";
 import runRequestWithDIContainer from "../../../middlewares/diContainerMiddleware";
 import { PrismaClient } from "@prisma/client";
 import { DIContainerNextApiRequest } from "../../../dependency_injection/DIContainerNextApiRequest";
+import ValidationError from "../../../use_cases/ValidationError";
+import { mailError } from "../../../helpers/mailer";
+import messages from "../../../helpers/messages";
 
 const CreateUserSchema = schema({
   email: string,
@@ -18,6 +21,12 @@ const CreateUserSchema = schema({
 });
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
+  function delay(ms: number) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
+  await delay(1000);
+
   if (req.method === "POST") {
     await runRequestWithDIContainer(req, res, runCreateUser);
   } else {
@@ -37,7 +46,7 @@ async function runCreateUser(
     const prismaClient: PrismaClient = req.scope.resolve("dbClient");
     const admissionYear: number = +`${args.admissionYear}`;
     if (!admissionYear || admissionYear <= 1900) {
-      throw new Error("Invalid admission year.");
+      throw new ValidationError(messages.INVALID_ADMISSION_YEAR);
     }
 
     try {
@@ -54,20 +63,24 @@ async function runCreateUser(
         volunteeringInterest: args.volunteeringInterest,
       });
       if (!user) {
-        throw new Error("Could not create user");
+        throw new Error(messages.USER_REGISTRATION_FAILED);
       }
       res.statusCode = 201;
       res.json(user);
     } catch (err) {
       console.log(err);
-      if (err.response && err.response.status === 400) {
+      if (err instanceof ValidationError) {
         res.statusCode = 400;
-        console.log(JSON.stringify(err.response.data.errors));
-        res.send({ error: "Invalid Data" });
+        res.send({ message: err.message });
+      } else if (err.response && err.response.status === 400) {
+        res.statusCode = 400;
+        console.log(JSON.stringify(err.response?.data?.errors));
+        res.send({ message: "Dados invalidos." });
       } else {
         res.statusCode = 500;
-        res.send("");
+        res.send({ message: "Erro inesperado." });
       }
+      mailError(args.email, err);
     }
   } else {
     res.statusCode = 400;

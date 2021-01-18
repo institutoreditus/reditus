@@ -3,6 +3,7 @@ import createUser from "./createUser";
 import { PrismaClient } from "@prisma/client";
 import { v4 as uuidv4 } from "uuid";
 import createSubscription from "./createSubscription";
+import messages from "../helpers/messages";
 
 let prisma: PrismaClient;
 const testData = {
@@ -130,7 +131,7 @@ test("throws error if email is invalid", async () => {
       dbClient: prisma,
       email: "not-an-email",
     })
-  ).rejects.toThrow("Invalid email");
+  ).rejects.toThrow(messages.INVALID_EMAIL);
 });
 
 test("throws error if admission date is invalid", async () => {
@@ -141,19 +142,35 @@ test("throws error if admission date is invalid", async () => {
       email: `email${uuidv4()}@examplesub.com`, // unique email per user.
       admissionYear: 0,
     })
-  ).rejects.toThrow("Invalid admission date");
+  ).rejects.toThrow(messages.INVALID_ADMISSION_YEAR);
+});
+
+test("throws error if user already exists", async () => {
+  const uniqueEmail = `email${uuidv4()}@examplesub.com`;
+
+  await createUser({
+    ...testData,
+    dbClient: prisma,
+    email: uniqueEmail, // unique email per user.
+  });
+
+  await expect(
+    createUser({
+      ...testData,
+      dbClient: prisma,
+      email: uniqueEmail, // unique email per user.
+    })
+  ).rejects.toThrow(`Usuário com email ${uniqueEmail} já está cadastado.`);
 });
 
 test("throws error if empty data was passed", async () => {
-  const msg = "Empty inputs are not allowed.";
-
   await expect(
     createUser({
       ...testData,
       dbClient: prisma,
       firstName: "",
     })
-  ).rejects.toThrow(msg);
+  ).rejects.toThrow(messages.REQUIRED_FIELDS);
 
   await expect(
     createUser({
@@ -161,7 +178,7 @@ test("throws error if empty data was passed", async () => {
       dbClient: prisma,
       lastName: "",
     })
-  ).rejects.toThrow(msg);
+  ).rejects.toThrow(messages.REQUIRED_FIELDS);
 
   await expect(
     createUser({
@@ -169,7 +186,7 @@ test("throws error if empty data was passed", async () => {
       dbClient: prisma,
       university: "",
     })
-  ).rejects.toThrow(msg);
+  ).rejects.toThrow(messages.REQUIRED_FIELDS);
 
   await expect(
     createUser({
@@ -177,5 +194,5 @@ test("throws error if empty data was passed", async () => {
       dbClient: prisma,
       degree: "",
     })
-  ).rejects.toThrow(msg);
+  ).rejects.toThrow(messages.REQUIRED_FIELDS);
 });

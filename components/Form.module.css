@@ -127,6 +127,10 @@
     padding-left: 20px;
 }
 
+.selectBox {
+    margin-top: 10px;
+}
+
 .textLabel {
     margin-top: 20px !important;
 }

@@ -156,10 +156,6 @@ export const graduationCourseData = [
     name: "Farmácia",
   },
   {
-    index: "40",
-    name: "Farmácia - Macaé",
-  },
-  {
     index: "41",
     name: "Filosofia",
   },
@@ -196,16 +192,8 @@ export const graduationCourseData = [
     name: "Letras",
   },
   {
-    index: "50",
-    name: "Licenc. em Ciências Biológicas - Macaé",
-  },
-  {
     index: "51",
     name: "Licenc. em Educação Artística: Artes Plásticas e Desenho",
-  },
-  {
-    index: "52",
-    name: "Licenciatura em Química - Macaé",
   },
   {
     index: "53",
@@ -266,5 +254,9 @@ export const graduationCourseData = [
   {
     index: "67",
     name: "Serviço Social",
+  },
+  {
+    index: "68",
+    name: "Outro",
   },
 ];
