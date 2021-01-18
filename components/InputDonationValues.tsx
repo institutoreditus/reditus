@@ -18,7 +18,8 @@ export const InputDonationValues = (props: any) => {
     props.previousStep();
   };
 
-  const successDonation = () => {
+  const successDonation = (userExists: boolean) => {
+    props.update("userExists", userExists);
     props.goToStep(3);
   };
 
@@ -54,8 +55,13 @@ export const InputDonationValues = (props: any) => {
         try {
           data["ssr"] = RoxContainer.suggestedDonationValues.getValue();
           props.update("email", data.customer.email);
-          await axios.post(`/api/${donationMode}`, data);
-          return successDonation();
+          const response = await axios.post(`/api/${donationMode}`, data);
+
+          let userExists = false;
+          if (response && response.data)
+            userExists = !!response.data.userExists;
+
+          return successDonation(userExists);
         } catch (err) {
           return failedDonation();
         }
