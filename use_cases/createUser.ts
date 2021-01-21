@@ -1,4 +1,6 @@
 import { User, PrismaClient } from "@prisma/client";
+import messages from "../helpers/messages";
+import ValidationError from "./ValidationError";
 
 interface CreateUserArgs {
   dbClient: PrismaClient;
@@ -14,10 +16,12 @@ interface CreateUserArgs {
 }
 
 const createUser = async (args: CreateUserArgs): Promise<User> => {
-  if (args.email.indexOf("@") < 0) throw new Error("Invalid email");
-  if (args.admissionYear <= 1900) throw new Error("Invalid admission date");
+  if (args.email.indexOf("@") < 0)
+    throw new ValidationError(messages.INVALID_EMAIL);
+  if (args.admissionYear <= 1900)
+    throw new ValidationError(messages.INVALID_ADMISSION_YEAR);
   if (!args.firstName || !args.lastName || !args.university || !args.degree)
-    throw new Error("Empty inputs are not allowed.");
+    throw new ValidationError(messages.REQUIRED_FIELDS);
 
   let user = await args.dbClient.user.findOne({
     where: {
@@ -25,9 +29,10 @@ const createUser = async (args: CreateUserArgs): Promise<User> => {
     },
   });
 
-  if (user != null) {
-    throw new Error(`User with email ${args.email} is already registered.`);
-  }
+  if (user != null)
+    throw new ValidationError(
+      `Usuário com email ${args.email} já está cadastado.`
+    );
 
   const existingContributionsForUser = await args.dbClient.contribution.findMany(
     {
