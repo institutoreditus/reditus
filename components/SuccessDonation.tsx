@@ -26,7 +26,7 @@ import service from "../services/rox/RoxService";
 
 service(RoxContainer);
 
-function yearList() {
+function createYearList(): Array<number> {
   const year = new Date().getFullYear();
   const range = 89;
   return Array.from(new Array(90), (_v, i) => year - range + i).reverse();
@@ -112,6 +112,7 @@ export const SuccessDonation = (props: any) => {
   const [errorAdmissionYear, setErrorAdmissionYear] = useState(false);
 
   const isUserAlreadyRegistered = () => props.form.userExists;
+  const yearsList = createYearList();
 
   const stateFuncs: { [Key: string]: Dispatch<SetStateAction<boolean>> } = {
     firstName: setErrorFirstName,
@@ -190,6 +191,12 @@ export const SuccessDonation = (props: any) => {
       const resetFunction = stateFuncs[key];
       if (resetFunction) {
         resetFunction(false);
+      }
+    } 
+    
+    if (reason == "input") {
+      if (key == "admissionYear" && yearsList.indexOf(+value) > -1) {
+        setField({ ...registerForm, [key]: value });
       }
     }
   }
@@ -357,7 +364,7 @@ export const SuccessDonation = (props: any) => {
                   <FormControl error={errorAdmissionYear} fullWidth={true}>
                     <Autocomplete
                       id="admissionYear"
-                      options={yearList()}
+                      options={yearsList}
                       getOptionLabel={(option) => `${option}`}
                       renderInput={(params) => (
                         <TextField
