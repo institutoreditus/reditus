@@ -192,8 +192,8 @@ export const SuccessDonation = (props: any) => {
       if (resetFunction) {
         resetFunction(false);
       }
-    } 
-    
+    }
+
     if (reason == "input") {
       if (key == "admissionYear" && yearsList.indexOf(+value) > -1) {
         setField({ ...registerForm, [key]: value });

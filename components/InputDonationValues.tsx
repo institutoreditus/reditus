@@ -2,11 +2,16 @@ import { NavigationButtons } from "./action_navigate/NavigationButtons";
 import NumberFormat from "react-number-format";
 import { TextField } from "@rmwc/textfield";
 import { Button } from "@rmwc/button";
+import { Checkbox } from "@rmwc/checkbox";
 import axios from "axios";
+import { useState } from "react";
+import { FormControl, FormHelperText } from "@material-ui/core";
 
 import styles from "./Form.module.css";
 import RoxContainer from "../services/rox/RoxContainer";
 import service from "../services/rox/RoxService";
+import Link from "next/link";
+
 service(RoxContainer);
 
 declare let PagarMeCheckout: any;
@@ -34,6 +39,9 @@ export const InputDonationValues = (props: any) => {
     props.update(e.target.name, e.target.value);
   };
 
+  const [privacyTermsAck, setPrivacyTermsAck] = useState(false);
+  const [errorConsent, setErrorConsent] = useState(false);
+
   // val1, val2 and val3 are the three suggested donation values we show the users.
   // These values come from our flags container, and are mutable. They can be remotely
   // changed using rollout.io's dashboard. This is used for A/B testing.
@@ -44,7 +52,10 @@ export const InputDonationValues = (props: any) => {
 
   async function onCheckout(e: any) {
     e.preventDefault();
-
+    if (!privacyTermsAck) {
+      setErrorConsent(true);
+      return;
+    }
     const amountInCents = props.form.amountInCents * 100;
     const donationMode = props.form.donationMode;
 
@@ -163,6 +174,39 @@ export const InputDonationValues = (props: any) => {
         </div>
 
         <p>Vou doar: R$ {props.form.amountInCents}</p>
+        <div style={{ display: "inline-block" }}>
+          <FormControl error={errorConsent} fullWidth={true}>
+            <Checkbox
+              className={styles.checkbox}
+              label={
+                <div>
+                  Li e aceito os{" "}
+                  <Link href={"/terms"} passHref>
+                    <a style={{ color: "#00d4ff" }}>Termos de Uso</a>
+                  </Link>{" "}
+                  e{" "}
+                  <Link href={"/privacy"}>
+                    <a style={{ color: "#00d4ff" }}>Politica de Privacidade</a>
+                  </Link>
+                </div>
+              }
+              type="checkbox"
+              name="consentCheckbox"
+              onChange={(e: any) => {
+                setPrivacyTermsAck(e.target.checked);
+                setErrorConsent(false);
+              }}
+            />
+            {errorConsent && (
+              <FormHelperText
+                id="terms-privacy-component-error-text"
+                style={{ margin: 0 }}
+              >
+                Por favor, leia nossos termos de uso antes de prosseguir.
+              </FormHelperText>
+            )}
+          </FormControl>
+        </div>
       </div>
       <Button
         label="Doar agora"
