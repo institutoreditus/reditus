@@ -476,6 +476,11 @@ export default function Home() {
             <p>
               <b>Dados do Encarregado - Data Protection Officer (DPO):</b>
             </p>
+            <p>
+              Vitor Szpiz do Nascimento, inscrito na Ordem dos Advogados do
+              Brasil, Seção do Estado do Rio de Janeiro, sob o número 224.711,
+              com endereço eletrônico vitor.szpiz@reditus.org.br.
+            </p>
             <li className={styles.listItem}>Data de Entrada em Vigor</li>
             <p>22 de Janeiro de 2021.</p>
             <br />
