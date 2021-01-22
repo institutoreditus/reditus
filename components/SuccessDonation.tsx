@@ -112,6 +112,8 @@ export const SuccessDonation = (props: any) => {
   const [errorAdmissionYear, setErrorAdmissionYear] = useState(false);
 
   const isUserAlreadyRegistered = () => props.form.userExists;
+  const registrationFlagEnabled = () =>
+    JSON.parse(RoxContainer.shouldShowRegistrationForm.getValue());
   const yearsList = createYearList();
 
   const stateFuncs: { [Key: string]: Dispatch<SetStateAction<boolean>> } = {
@@ -256,20 +258,18 @@ export const SuccessDonation = (props: any) => {
               Agradecemos por escolher fazer parte dessa iniciativa. Enviaremos
               também um email de confirmação da sua doação.
             </p>
-
-            {RoxContainer.shouldShowRegistrationForm.getValue() &&
-              !isUserAlreadyRegistered() && (
-                <>
-                  <h4>Finalize seu cadastro no site!</h4>
-                  <Button
-                    label="Quero realizar meu cadastro!"
-                    onClick={() => setOpen(!open)}
-                    raised
-                    unelevated
-                    id={styles.defaultButton}
-                  />
-                </>
-              )}
+            {registrationFlagEnabled() && !isUserAlreadyRegistered() && (
+              <>
+                <h4>Finalize seu cadastro no site!</h4>
+                <Button
+                  label="Quero realizar meu cadastro!"
+                  onClick={() => setOpen(!open)}
+                  raised
+                  unelevated
+                  id={styles.defaultButton}
+                />
+              </>
+            )}
           </>
         ) : null}
 
