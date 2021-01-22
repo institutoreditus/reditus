@@ -17,7 +17,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.termsPage}>
-        <div style={{ paddingLeft: 20, paddingRight: 100, width: "100%" }}>
+        <div>
           <h1>Política de Privacidade - Reditus</h1>
 
           <ol className={styles.orderedList}>
