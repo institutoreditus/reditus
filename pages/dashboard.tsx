@@ -12,7 +12,7 @@ import Chart from "../components/ChartContributionTotal";
 // Queries
 export async function getServerSideProps() {
   const prisma = new PrismaClient();
-  const UserID = "'guilhermeangstmann@gmail.com'";
+  const UserID = "'email'";
   
   // Query1contributions
   const accumulated = await prisma.$queryRaw(
