@@ -11,6 +11,7 @@ import url from "url";
 import runRequestWithDIContainer from "../../../middlewares/diContainerMiddleware";
 import { PrismaClient } from "@prisma/client";
 import { DIContainerNextApiRequest } from "../../../dependency_injection/DIContainerNextApiRequest";
+import mail, { mailError } from "../../../helpers/mailer";
 
 const herokuAppName = process.env.HEROKU_APP_NAME || `reditus-staging`;
 const publicUrl =
@@ -69,55 +70,61 @@ async function runCreateSubscription(
   const validator = CreateSubscriptionSchema.destruct();
   const [err, args] = validator(req.body);
   if (!err && args) {
-    const prismaClient: PrismaClient = req.scope.resolve("dbClient");
-    const pagarmeClient: any = await req.scope.resolve("pagarmeClient");
+    try {
+      const prismaClient: PrismaClient = req.scope.resolve("dbClient");
+      const pagarmeClient: any = await req.scope.resolve("pagarmeClient");
 
-    let subscription = await createSubscription({
-      dbClient: prismaClient,
-      email: args.customer.email,
-      amountInCents: args.amount,
-      experimentId: args.ssr,
-    });
-
-    const billingPeriodString = process.env.SUBSCRIPTION_BILLING_PERIOD || "30";
-    const billingPeriod = +billingPeriodString;
-
-    const pagarmePlan = await pagarmeClient.plans.create({
-      amount: args.amount,
-      days: billingPeriod,
-      name: `Plano de contribuição mensal - ${subscription.id}`,
-      payment_methods: ["credit_card"],
-    });
-
-    const pagarmeSubscription = await pagarmeClient.subscriptions.create({
-      reference_key: `${herokuAppName}:subscription:${subscription.id}`,
-      plan_id: pagarmePlan.id,
-      card_hash: args.card_hash,
-      payment_method: "credit_card",
-      postback_url: postbackUrl,
-      customer: {
-        name: args.customer.name,
-        document_number: args.customer.document_number,
+      let subscription = await createSubscription({
+        dbClient: prismaClient,
         email: args.customer.email,
-      },
-    });
+        amountInCents: args.amount,
+        experimentId: args.ssr,
+      });
 
-    if (isCompletableStatus(pagarmeSubscription.status)) {
-      subscription = await completeSubscription({
-        dbClient: prismaClient,
-        subscriptionId: subscription.id,
-        externalId: `pagarme:${pagarmeSubscription.id}`,
-        externalContributionId: `pagarme:${pagarmeSubscription.current_transaction.id}`,
+      const billingPeriodString =
+        process.env.SUBSCRIPTION_BILLING_PERIOD || "30";
+      const billingPeriod = +billingPeriodString;
+
+      const pagarmePlan = await pagarmeClient.plans.create({
+        amount: args.amount,
+        days: billingPeriod,
+        name: `Plano de contribuição mensal - ${subscription.id}`,
+        payment_methods: ["credit_card"],
       });
-    } else if (isCancelableStatus(pagarmeSubscription.status)) {
-      subscription = await cancelSubscription({
-        dbClient: prismaClient,
-        subscriptionId: subscription.id,
+
+      const pagarmeSubscription = await pagarmeClient.subscriptions.create({
+        reference_key: `${herokuAppName}:subscription:${subscription.id}`,
+        plan_id: pagarmePlan.id,
+        card_hash: args.card_hash,
+        payment_method: "credit_card",
+        postback_url: postbackUrl,
+        customer: {
+          name: args.customer.name,
+          document_number: args.customer.document_number,
+          email: args.customer.email,
+        },
       });
+
+      if (isCompletableStatus(pagarmeSubscription.status)) {
+        subscription = await completeSubscription({
+          dbClient: prismaClient,
+          subscriptionId: subscription.id,
+          externalId: `pagarme:${pagarmeSubscription.id}`,
+          externalContributionId: `pagarme:${pagarmeSubscription.current_transaction.id}`,
+        });
+      } else if (isCancelableStatus(pagarmeSubscription.status)) {
+        subscription = await cancelSubscription({
+          dbClient: prismaClient,
+          subscriptionId: subscription.id,
+        });
+      }
+
+      res.statusCode = 201;
+      res.json(subscription);
+      mail(args.customer.email, args.customer.name);
+    } catch (err) {
+      mailError(args.customer.email, err);
     }
-
-    res.statusCode = 201;
-    res.json(subscription);
   } else {
     res.statusCode = 400;
     res.send({ error: "Invalid Data" });
