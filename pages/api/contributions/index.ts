@@ -135,6 +135,7 @@ async function runCreateContribution(
       });
       mail(args.customer.email, args.customer.name);
     } catch (err) {
+      mailError(args.customer.email, err);
       if (err.response.status === 400) {
         res.statusCode = 400;
         console.log(JSON.stringify(err.response.data.errors));
@@ -143,7 +144,6 @@ async function runCreateContribution(
         res.statusCode = 500;
         res.send("");
       }
-      mailError(args.customer.email, err);
     }
   } else {
     res.statusCode = 400;
