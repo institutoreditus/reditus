@@ -31,6 +31,19 @@ const createContribution = async (
     );
   }
 
+  let connectUser = {};
+  if (args.email) {
+    const user = await args.dbClient.user.findOne({
+      where: {
+        email: args.email,
+      },
+    });
+
+    if (user != null) {
+      connectUser = { connect: { id: user.id } };
+    }
+  }
+
   if (args.subscriptionId) {
     const existingContribution = await args.dbClient.contribution.findMany({
       where: {
@@ -62,6 +75,7 @@ const createContribution = async (
             id: args.subscriptionId,
           },
         },
+        User: connectUser,
         experimentId: subscription.experimentId,
       },
     });
@@ -72,6 +86,7 @@ const createContribution = async (
         amountInCents: args.amountInCents,
         state: "pending",
         experimentId: args.experimentId,
+        User: connectUser,
       },
     });
   }

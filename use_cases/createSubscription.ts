@@ -13,12 +13,26 @@ const createSubscription = async (
   if (args.amountInCents <= 0) throw new Error("Invalid amount");
   if (args.email.indexOf("@") < 0) throw new Error("Invalid email");
 
+  let connectUser = {};
+  if (args.email) {
+    const user = await args.dbClient.user.findOne({
+      where: {
+        email: args.email,
+      },
+    });
+
+    if (user != null) {
+      connectUser = { connect: { id: user.id } };
+    }
+  }
+
   return await args.dbClient.contributionSubscription.create({
     data: {
       email: args.email,
       amountInCents: args.amountInCents,
       state: "pending",
       experimentId: args.experimentId,
+      User: connectUser,
     },
   });
 };

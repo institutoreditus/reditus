@@ -37,9 +37,9 @@ function hasValidConfigs(): boolean {
 
 /**
  * Sends an email to pre-defined recipients alerting them that a
- * contribution attempt was made in production, but was unsuccessful.
+ * some action was attempted in production, but was unsuccessful.
  *
- * @param {string} userEmail Email for the user that unsuccessfully attempted to donate.
+ * @param {string} userEmail Email for the user that unsuccessfully attempted to donate/register.
  * @param {string} error Error information.
  */
 export async function mailError(userEmail: string, error: any) {

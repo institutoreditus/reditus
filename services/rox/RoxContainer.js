@@ -1,4 +1,4 @@
-import { Rox, Variant } from "rox-ssr";
+import { Rox, Flag, Variant } from "rox-ssr";
 if (!Rox.containerCache) {
   Rox.containerCache = {
     suggestedDonationValues: new Variant("25|75|150", [
@@ -6,6 +6,7 @@ if (!Rox.containerCache) {
       "50|150|300",
       "150|300|500",
     ]),
+    shouldShowRegistrationForm: new Flag(),
   };
 }
 export default Rox.containerCache;
