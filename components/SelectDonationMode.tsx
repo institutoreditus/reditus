@@ -8,9 +8,8 @@ const SelectDonationMode = (props: any) => {
         Faça parte dessa corrente do bem! Ajude a fomentar uma cultura de
         retribuição.
       </p>
-
-      <ContributionButton step={1} {...props} />
       <SubscriptionButton step={1} {...props} />
+      <ContributionButton step={1} {...props} />
     </div>
   );
 };

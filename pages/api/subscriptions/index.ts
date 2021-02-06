@@ -54,6 +54,18 @@ const CreateSubscriptionSchema = schema({
   ssr: string,
 });
 
+async function userExists(
+  email: string,
+  dbClient: PrismaClient
+): Promise<boolean> {
+  try {
+    const result = await dbClient.user.findMany({ where: { email: email } });
+    return result.length >= 1;
+  } catch (err) {
+    return false;
+  }
+}
+
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "POST") {
     await runRequestWithDIContainer(req, res, runCreateSubscription);
@@ -120,7 +132,9 @@ async function runCreateSubscription(
       }
 
       res.statusCode = 201;
-      res.json(subscription);
+      res.json({
+        userExists: await userExists(args.customer.email, prismaClient),
+      });
       mail(args.customer.email, args.customer.name);
     } catch (err) {
       mailError(args.customer.email, err);

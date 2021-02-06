@@ -1,6 +1,6 @@
 /* Custom input fields */
 #customValue__input {
-    color: var(--mdc-theme-secondary);
+    color: var(--mdc-theme--on-secondary);
 }
 
 /* Custom buttons */
@@ -119,4 +119,28 @@
     background-color: var(--light);
     color: var(--dark-blue);
     box-shadow: 0 1x 4px 0 rgba(0, 0, 0, 0.05);
+}
+
+.modalUserRegistration {
+    z-index: 2;
+    margin-left: -20px;
+    padding-left: 20px;
+}
+
+.selectBox {
+    margin-top: 10px;
+}
+
+.textLabel {
+    margin-top: 20px !important;
+}
+
+.checkboxGroup {
+    margin-top: 0px;
+    display: flex;
+    flex-direction: column;
+}
+
+.checkbox {
+    margin-bottom: -10px;
 }

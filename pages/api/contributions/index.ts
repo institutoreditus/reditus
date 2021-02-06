@@ -49,6 +49,18 @@ const CreateContributionSchema = schema({
   ssr: string,
 });
 
+async function userExists(
+  email: string,
+  dbClient: PrismaClient
+): Promise<boolean> {
+  try {
+    const result = await dbClient.user.findMany({ where: { email: email } });
+    return result.length >= 1;
+  } catch (err) {
+    return false;
+  }
+}
+
 async function runCreateContribution(
   req: DIContainerNextApiRequest,
   res: NextApiResponse
@@ -118,9 +130,12 @@ async function runCreateContribution(
       // TODO(rrozendo): we could update the external id right after this API call
 
       res.statusCode = 201;
-      res.json(contribution);
+      res.json({
+        userExists: await userExists(args.customer.email, prismaClient),
+      });
       mail(args.customer.email, args.customer.name);
     } catch (err) {
+      mailError(args.customer.email, err);
       if (err.response.status === 400) {
         res.statusCode = 400;
         console.log(JSON.stringify(err.response.data.errors));
@@ -129,7 +144,6 @@ async function runCreateContribution(
         res.statusCode = 500;
         res.send("");
       }
-      mailError(args.customer.email, err);
     }
   } else {
     res.statusCode = 400;
