@@ -216,11 +216,15 @@ export const InputDonationValues = (props: any) => {
                 <div>
                   Li e aceito os{" "}
                   <Link href={"/terms"} passHref>
-                    <a style={{ color: "#00d4ff" }}>Termos de Uso</a>
+                    <a target="_blank" style={{ color: "#00d4ff" }}>
+                      Termos de Uso
+                    </a>
                   </Link>{" "}
                   e{" "}
                   <Link href={"/privacy"}>
-                    <a style={{ color: "#00d4ff" }}>Politica de Privacidade</a>
+                    <a target="_blank" style={{ color: "#00d4ff" }}>
+                      Politica de Privacidade
+                    </a>
                   </Link>
                 </div>
               }
