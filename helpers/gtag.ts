@@ -1,3 +1,4 @@
+// Used by Google Analytics
 export const GA_TRACKING_ID: string = process.env.GA_TRACKING_ID || "";
 
 // https://developers.google.com/analytics/devguides/collection/gtagjs/pages

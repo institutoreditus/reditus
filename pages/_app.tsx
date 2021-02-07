@@ -27,6 +27,7 @@ import { AppProps } from "next/app";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import * as gtag from "../helpers/gtag";
+import * as gtm from "../helpers/gtm";
 
 const isProduction = process.env.NODE_ENV === "production";
 
@@ -36,7 +37,12 @@ function App({ Component, pageProps }: AppProps) {
   useEffect(() => {
     const handleRouteChange = (url: URL) => {
       /* invoke analytics function only for production */
-      if (isProduction && gtag.GA_TRACKING_ID) gtag.pageview(url);
+      if (isProduction && gtag.GA_TRACKING_ID) {
+        gtag.pageview(url);
+      }
+      if (isProduction && gtm.GTM_TRACKING_ID) {
+        gtm.pageview(url);
+      }
     };
     router.events.on("routeChangeComplete", handleRouteChange);
     return () => {
