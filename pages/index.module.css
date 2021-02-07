@@ -51,7 +51,7 @@
 
   .rightSide {
     display: flow-root;
-    padding: 12rem 20%;
+    padding: 12rem 10%;
     overflow: auto;
   }
 
@@ -81,7 +81,7 @@
   }
 
   .rightSide {
-    padding: 10% 20%;
+    padding: 10% 10%;
     display: flow-root;
   }
 }
