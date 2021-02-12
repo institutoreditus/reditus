@@ -1,9 +1,0 @@
-# Prisma Migrate lockfile v1
-
-20200704163652-create-contributions
-20200801145353-create-subscription
-20200801213043-add-external-id
-20200819150842-add-timestamp-to-contribution
-20201018170116-add-experiment-id
-20201018173744-add-experimental-id-subscription
-20201024110143-add-user

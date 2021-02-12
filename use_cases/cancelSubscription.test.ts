@@ -9,7 +9,7 @@ beforeAll(() => {
 });
 
 afterAll(async () => {
-  await prisma.disconnect();
+  await prisma.$disconnect();
 });
 
 test("creates a subscription in the database, cancels it and returns it", async () => {
@@ -24,7 +24,7 @@ test("creates a subscription in the database, cancels it and returns it", async 
   expect(resultCreate.id).not.toBeNull();
   expect(resultCreate.state).toEqual("pending");
   expect(
-    await prisma.contributionSubscription.findOne({
+    await prisma.contributionSubscription.findUnique({
       where: {
         id: resultCreate.id,
       },

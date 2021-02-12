@@ -30,6 +30,13 @@ After making sure Postgresql is running, run the migrations to configure the dat
 npx prisma migrate up --experimental
 ```
 
+### Setup other variables
+
+For now you need to setup Rollout, Pagarme and Hubspot as well as other things (we shall remove some of these dependencies on development environment later, but we haven't yet).
+
+So in order to configure your local development environment you need to setup a `.env.local` file, which you can do by copying `.env.local.example` and replacing the placeholders with actual value.
+
+
 ### Run server
 
 Finally, run the development server:

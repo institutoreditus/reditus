@@ -12,7 +12,7 @@ const cancelSubscription = async (
 
   const prisma = args.dbClient;
 
-  const subscription = await prisma.contributionSubscription.findOne({
+  const subscription = await prisma.contributionSubscription.findUnique({
     where: {
       id: args.subscriptionId,
     },

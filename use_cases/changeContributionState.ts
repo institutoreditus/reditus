@@ -12,7 +12,7 @@ const changeContributionState = async (
 ): Promise<Contribution> => {
   if (args.contributionId <= 0) throw new Error("Invalid id");
 
-  const contribution = await args.dbClient.contribution.findOne({
+  const contribution = await args.dbClient.contribution.findUnique({
     where: {
       id: args.contributionId,
     },

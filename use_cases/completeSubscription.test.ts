@@ -10,7 +10,7 @@ beforeAll(() => {
 });
 
 afterAll(async () => {
-  await prisma.disconnect();
+  await prisma.$disconnect();
 });
 
 test("creates a subscription in the database, completes it and returns it", async () => {
@@ -27,7 +27,7 @@ test("creates a subscription in the database, completes it and returns it", asyn
   expect(resultCreate.state).toEqual("pending");
   expect(resultCreate.experimentId).toEqual("1|2|3");
   expect(
-    await prisma.contributionSubscription.findOne({
+    await prisma.contributionSubscription.findUnique({
       where: {
         id: resultCreate.id,
       },
@@ -50,7 +50,7 @@ test("creates a subscription in the database, completes it and returns it", asyn
   expect(resultComplete.state).toEqual("active");
   expect(resultComplete.externalId).toEqual("123");
   expect(
-    await prisma.contributionSubscription.findOne({
+    await prisma.contributionSubscription.findUnique({
       where: {
         id: resultComplete.id,
       },
@@ -79,7 +79,7 @@ test("creates a subscription in the database, completes it and returns it", asyn
   });
   expect(resultCancel.state).toEqual("cancelled");
   expect(
-    await prisma.contributionSubscription.findOne({
+    await prisma.contributionSubscription.findUnique({
       where: {
         id: resultCancel.id,
       },
@@ -95,7 +95,7 @@ test("creates a subscription in the database, completes it and returns it", asyn
   });
   expect(resultCompleteAgain.state).toEqual("active");
   expect(
-    await prisma.contributionSubscription.findOne({
+    await prisma.contributionSubscription.findUnique({
       where: {
         id: resultCompleteAgain.id,
       },

@@ -9,7 +9,7 @@ beforeAll(() => {
 });
 
 afterAll(async () => {
-  await prisma.disconnect();
+  await prisma.$disconnect();
 });
 
 test("creates a contribution in the database, completes it and returns it", async () => {
@@ -22,7 +22,7 @@ test("creates a contribution in the database, completes it and returns it", asyn
   expect(resultCreate.id).not.toBeNull();
   expect(resultCreate.state).toEqual("pending");
   expect(
-    await prisma.contribution.findOne({
+    await prisma.contribution.findUnique({
       where: {
         id: resultCreate.id,
       },

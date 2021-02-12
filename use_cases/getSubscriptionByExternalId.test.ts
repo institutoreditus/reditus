@@ -11,7 +11,7 @@ beforeAll(() => {
 });
 
 afterAll(async () => {
-  await prisma.disconnect();
+  await prisma.$disconnect();
 });
 
 test("searches for a subscription by external id", async () => {
@@ -45,7 +45,7 @@ test("searches for a subscription by external id", async () => {
   expect(resultSearch).toEqual(resultCompleted);
 
   expect(
-    await prisma.contributionSubscription.findOne({
+    await prisma.contributionSubscription.findUnique({
       where: {
         id: resultSearch!.id,
       },
