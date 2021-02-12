@@ -257,7 +257,7 @@ export const SuccessDonation = (props: any) => {
               Agradecemos por escolher fazer parte dessa iniciativa. Enviaremos
               também um email de confirmação da sua doação.
             </p>
-            {registrationFlagEnabled() && !isUserAlreadyRegistered() && (
+            {true && (
               <>
                 <h4>Finalize seu cadastro no site!</h4>
                 <Button
