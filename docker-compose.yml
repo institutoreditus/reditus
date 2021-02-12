@@ -25,6 +25,12 @@ services:
     environment:
       DATABASE_URL: 'postgres://postgres:postgres@postgres:5432/postgres?sslmode=disable'
 
+  email:
+    image: mailhog/mailhog
+    ports:
+        - "1025:1025"
+        - "8025:8025"
+
   start_dependencies:
     image: dadarek/wait-for-dependencies
     depends_on:
