@@ -7,6 +7,7 @@ const { serverRuntimeConfig } = getConfig();
 
 const email: string = process.env.MAILER_EMAIL || "";
 const pass: string = process.env.MAILER_PASS || "";
+const service: string = process.env.MAILER_SERVICE || "mailhog";
 
 /**
  * Validates current environment and configs.
@@ -17,13 +18,6 @@ function hasValidConfigs(): boolean {
   const env = process.env.HEROKU_APP_NAME;
 
   if (env === undefined) {
-    return false;
-  }
-
-  if (["reditus-next-production", "reditus-next-staging"].indexOf(env) == -1) {
-    console.log(
-      `Emails are only sent in production and staging. Currently in ${process.env.HEROKU_APP_NAME}`
-    );
     return false;
   }
 
@@ -60,13 +54,7 @@ export async function mailError(userEmail: string, error: any) {
       return;
     }
 
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: email,
-        pass: pass,
-      },
-    });
+    const transporter = buildMailTransport();
 
     const mailOptions = {
       from: email,
@@ -107,13 +95,7 @@ export default async function mail(to: string, userName: string) {
       { name: userName },
       (err: any, html: string) => {
         if (err) throw err;
-        const transporter = nodemailer.createTransport({
-          service: "gmail",
-          auth: {
-            user: email,
-            pass: pass,
-          },
-        });
+        const transporter = buildMailTransport();
 
         const mailOptions = {
           from: email,
@@ -136,4 +118,33 @@ export default async function mail(to: string, userName: string) {
   } catch (err) {
     console.log(`Error while sending error email: ${err}`);
   }
+}
+
+function buildMailTransport() {
+  const auth = {
+    user: email,
+    pass: pass,
+  };
+
+  return nodemailer.createTransport({
+    ...getServiceOptions(service),
+    auth,
+  });
+}
+
+/**
+ * Get the nodemailer options based on configured service.
+ *
+ * This is used to switch between gmail for production and SMTP (to mailhog) in local development.
+ *
+ * @param {string} service The service being used currently.
+ * @return {object} The options for nodemailer
+ */
+function getServiceOptions(service: string) {
+  if (service !== "mailhog") return { service };
+
+  return {
+    host: "localhost",
+    port: 1025,
+  };
 }
