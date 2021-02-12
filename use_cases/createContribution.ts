@@ -55,11 +55,13 @@ const createContribution = async (
       return existingContribution[0];
     }
 
-    const subscription = await args.dbClient.contributionSubscription.findUnique({
-      where: {
-        id: args.subscriptionId,
-      },
-    });
+    const subscription = await args.dbClient.contributionSubscription.findUnique(
+      {
+        where: {
+          id: args.subscriptionId,
+        },
+      }
+    );
 
     if (subscription == null)
       throw new Error(`Subscription Id ${args.subscriptionId} not found`);
