@@ -253,6 +253,12 @@ export const InputDonationValues = (props: any) => {
         onClick={onCheckout}
         id={styles.defaultButton}
       />
+      <br /><br />
+      Quer nos ajudar doando ainda mais? Envie um email para{" "}
+      <a href="mailto:contato@reditus.org.br" style={{ color: "#00d4ff" }}>
+        <span color="#00d4ff">contato@reditus.org.br</span>
+      </a>{" "}
+      e conversamos em mais detalhes!
     </div>
   );
 };
