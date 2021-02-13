@@ -5,7 +5,7 @@ import { Button } from "@rmwc/button";
 import { Checkbox } from "@rmwc/checkbox";
 import axios from "axios";
 import { useState } from "react";
-import { FormControl, FormHelperText } from "@material-ui/core";
+import { FormControl, FormHelperText, LinearProgress } from "@material-ui/core";
 
 import styles from "./Form.module.css";
 import RoxContainer from "../services/rox/RoxContainer";
@@ -51,6 +51,8 @@ export const InputDonationValues = (props: any) => {
   const [errorInputValue, setErrorInputValue] = useState(false);
   // userInputValue controls the NumberFormat input from the user.
   const [userInputValue, setUserInputValue] = useState("");
+  // loading controls showing the loading bar.
+  const [loading, setLoading] = useState(false);
 
   // val1, val2 and val3 are the three suggested donation values we show the users.
   // These values come from our flags container, and are mutable. They can be remotely
@@ -85,12 +87,14 @@ export const InputDonationValues = (props: any) => {
         try {
           data["ssr"] = RoxContainer.suggestedDonationValues.getValue();
           props.update("email", data.customer.email);
+          setLoading(true);
           const response = await axios.post(`/api/${donationMode}`, data);
 
           let userExists = false;
           if (response && response.data)
             userExists = !!response.data.userExists;
 
+          setLoading(false);
           return successDonation(userExists);
         } catch (err) {
           return failedDonation();
@@ -128,6 +132,7 @@ export const InputDonationValues = (props: any) => {
             type="radio"
             value={val1}
             name="amountInCents"
+            disabled={loading}
             onChange={update}
             id="firstDefaultValue"
           />
@@ -143,6 +148,7 @@ export const InputDonationValues = (props: any) => {
             type="radio"
             value={val2}
             name="amountInCents"
+            disabled={loading}
             onChange={update}
             id="secondDefaultValue"
           />
@@ -158,6 +164,7 @@ export const InputDonationValues = (props: any) => {
             type="radio"
             value={val3}
             name="amountInCents"
+            disabled={loading}
             onChange={update}
             id="thirdDefaultValue"
           />
@@ -211,6 +218,7 @@ export const InputDonationValues = (props: any) => {
           <FormControl error={errorConsent} fullWidth={true}>
             <Checkbox
               className={styles.checkbox}
+              disabled={loading}
               label={
                 <div>
                   Li e aceito os{" "}
@@ -249,9 +257,11 @@ export const InputDonationValues = (props: any) => {
         label="Doar agora"
         raised
         unelevated
+        disabled={loading}
         onClick={onCheckout}
         id={styles.defaultButton}
       />
+      {loading && <LinearProgress />}
       <br />
       <br />
       Quer nos ajudar doando ainda mais? Envie um email para{" "}
