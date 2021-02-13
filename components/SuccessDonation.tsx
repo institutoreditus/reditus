@@ -56,7 +56,6 @@ const reditusTheme = () =>
       type: "dark",
       primary: {
         main: "#00d4ff",
-        light: blueGrey[100],
       },
       secondary: {
         main: "#000",
@@ -451,7 +450,7 @@ export const SuccessDonation = (props: any) => {
                 disabled={loading}
                 id={styles.defaultButton}
               />
-              {loading && <LinearProgress />}
+              {loading && <LinearProgress color="primary" />}
             </form>
           </>
         ) : (
