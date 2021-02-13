@@ -16,7 +16,7 @@ import {
 } from "@material-ui/core";
 import { ThemeProvider } from "@material-ui/core/styles";
 import { createMuiTheme } from "@material-ui/core/styles";
-import { red, blueGrey } from "@material-ui/core/colors";
+import { red } from "@material-ui/core/colors";
 
 import axios from "axios";
 import styles from "./Form.module.css";
@@ -56,7 +56,6 @@ const reditusTheme = () =>
       type: "dark",
       primary: {
         main: "#00d4ff",
-        light: blueGrey[100],
       },
       secondary: {
         main: "#000",
@@ -451,7 +450,7 @@ export const SuccessDonation = (props: any) => {
                 disabled={loading}
                 id={styles.defaultButton}
               />
-              {loading && <LinearProgress />}
+              {loading && <LinearProgress color="primary" />}
             </form>
           </>
         ) : (
