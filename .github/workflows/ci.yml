@@ -48,6 +48,6 @@ jobs:
     - name: Run Typescript typechecking
       run: npm run typecheck
     - name: Setup database
-      run: npx prisma migrate deploy --preview-feature
+      run: npm run migrate-deploy
     - name: Run Tests
       run: npm test -- --detectOpenHandles --forceExit
