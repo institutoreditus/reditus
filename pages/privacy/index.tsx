@@ -1,6 +1,6 @@
 import Head from "next/head";
 import styles from "./index.module.css";
-import AllowScrolling from "../baseline";
+import AllowScrolling from "../../helpers/baseline";
 
 export default function Home() {
   return (
