@@ -12,7 +12,9 @@
     "heroku-postbuild": "npm run build",
     "test": "jest --runInBand",
     "lint": "eslint '*/**/*.{js,ts,tsx}'",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "migrate-deploy": "prisma migrate deploy --preview-feature",
+    "migrate-dev": "prisma migrate dev --preview-feature"
   },
   "dependencies": {
     "@material-ui/core": "^4.11.2",

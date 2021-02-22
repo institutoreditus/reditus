@@ -27,7 +27,7 @@ cp prisma/.env.example prisma/.env
 After making sure Postgresql is running, run the migrations to configure the database
 
 ```bash
-npx prisma migrate dev --preview-feature
+npm run migrate-dev
 ```
 
 ### Setup other variables
