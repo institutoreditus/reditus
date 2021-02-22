@@ -23,7 +23,7 @@ const createUser = async (args: CreateUserArgs): Promise<User> => {
   if (!args.firstName || !args.lastName || !args.university || !args.degree)
     throw new ValidationError(messages.REQUIRED_FIELDS);
 
-  let user = await args.dbClient.user.findOne({
+  let user = await args.dbClient.user.findUnique({
     where: {
       email: args.email,
     },

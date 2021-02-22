@@ -15,7 +15,7 @@ const createSubscription = async (
 
   let connectUser = {};
   if (args.email) {
-    const user = await args.dbClient.user.findOne({
+    const user = await args.dbClient.user.findUnique({
       where: {
         email: args.email,
       },

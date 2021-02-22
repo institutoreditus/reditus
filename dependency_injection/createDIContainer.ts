@@ -9,7 +9,7 @@ async function createDIContainer() {
     dbClient: asFunction(createPrismaClient)
       .scoped()
       .disposer((client) => {
-        client.disconnect();
+        client.$disconnect();
       }),
     pagarmeClient: asFunction(createPagarmeClient).singleton(),
   });

@@ -33,7 +33,7 @@ const createContribution = async (
 
   let connectUser = {};
   if (args.email) {
-    const user = await args.dbClient.user.findOne({
+    const user = await args.dbClient.user.findUnique({
       where: {
         email: args.email,
       },
@@ -55,11 +55,13 @@ const createContribution = async (
       return existingContribution[0];
     }
 
-    const subscription = await args.dbClient.contributionSubscription.findOne({
-      where: {
-        id: args.subscriptionId,
-      },
-    });
+    const subscription = await args.dbClient.contributionSubscription.findUnique(
+      {
+        where: {
+          id: args.subscriptionId,
+        },
+      }
+    );
 
     if (subscription == null)
       throw new Error(`Subscription Id ${args.subscriptionId} not found`);

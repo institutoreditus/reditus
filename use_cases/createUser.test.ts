@@ -23,7 +23,7 @@ beforeAll(() => {
 });
 
 afterAll(async () => {
-  await prisma.disconnect();
+  await prisma.$disconnect();
 });
 
 test("creates a new user", async () => {
@@ -78,10 +78,10 @@ test("creates a new user if no other was previously created, and assign all past
     email: uniqueEmail,
   });
 
-  const contribution1After = await prisma.contribution.findOne({
+  const contribution1After = await prisma.contribution.findUnique({
     where: { id: contribution1.id },
   });
-  const contribution2After = await prisma.contribution.findOne({
+  const contribution2After = await prisma.contribution.findUnique({
     where: { id: contribution2.id },
   });
 
@@ -113,10 +113,10 @@ test("creates a new user if no other was previously created, and assign all past
     email: uniqueEmail,
   });
 
-  const subscription1After = await prisma.contributionSubscription.findOne({
+  const subscription1After = await prisma.contributionSubscription.findUnique({
     where: { id: subscription1.id },
   });
-  const subscription2After = await prisma.contributionSubscription.findOne({
+  const subscription2After = await prisma.contributionSubscription.findUnique({
     where: { id: subscription2.id },
   });
 
