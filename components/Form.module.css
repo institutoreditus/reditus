@@ -13,7 +13,7 @@
     font-size: 15px;
 }
 
-#outlinedButton {
+.donationModeWrapper .outlinedButton {
     width: 100%;
     height: 100%;
     padding: 1.5rem;
@@ -39,6 +39,10 @@
     border-color: #00d4ff;
     transition: .1s ease-in;
 
+}
+
+.donationModeWrapper {
+    position: relative;
 }
 
 .donationValues .defaultValues {
