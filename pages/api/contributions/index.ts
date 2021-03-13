@@ -3,6 +3,10 @@ import schema, { string, number } from "computed-types";
 import createContribution from "../../../use_cases/createContribution";
 import axios from "axios";
 import url from "url";
+import runRequestWithDIContainer from "../../../middlewares/diContainerMiddleware";
+import { PrismaClient } from "@prisma/client";
+import { DIContainerNextApiRequest } from "../../../dependency_injection/DIContainerNextApiRequest";
+import mail, { mailError } from "../../../helpers/mailer";
 
 const herokuAppName = process.env.HEROKU_APP_NAME || `reditus-staging`;
 const publicUrl =
@@ -42,18 +46,34 @@ const CreateContributionSchema = schema({
   card_hash: string,
   payment_method: schema.enum(PaymentMethod, "Invalid payment method"),
   customer: CustomerData,
+  ssr: string,
 });
 
+async function userExists(
+  email: string,
+  dbClient: PrismaClient
+): Promise<boolean> {
+  try {
+    const result = await dbClient.user.findMany({ where: { email: email } });
+    return result.length >= 1;
+  } catch (err) {
+    return false;
+  }
+}
+
 async function runCreateContribution(
-  req: NextApiRequest,
+  req: DIContainerNextApiRequest,
   res: NextApiResponse
 ) {
+  const prismaClient: PrismaClient = req.scope.resolve("dbClient");
   const validator = CreateContributionSchema.destruct();
   const [err, args] = validator(req.body);
   if (!err && args) {
     const contribution = await createContribution({
+      dbClient: prismaClient,
       email: args.customer.email,
       amountInCents: args.amount,
+      experimentId: args.ssr,
     });
 
     try {
@@ -94,24 +114,31 @@ async function runCreateContribution(
         },
         items: [
           {
-            id: "1",
-            title: "Contribuição",
+            id: contribution.id.toString(),
+            title: "Contribuição " + contribution.id.toString(),
             unit_price: args.amount,
             quantity: 1,
             tangible: false,
           },
         ],
-        reference_key: `contribution:${contribution.id}`,
+        reference_key: `${herokuAppName}:contribution:${contribution.id}`,
         postback_url: postbackUrl,
       };
 
       await axios.post("https://api.pagar.me/1/transactions", pagarmeData);
 
+      // TODO(rrozendo): we could update the external id right after this API call
+
       res.statusCode = 201;
-      res.json(contribution);
+      res.json({
+        userExists: await userExists(args.customer.email, prismaClient),
+      });
+      mail(args.customer.email, args.customer.name);
     } catch (err) {
+      mailError(args.customer.email, err);
       if (err.response.status === 400) {
         res.statusCode = 400;
+        console.log(JSON.stringify(err.response.data.errors));
         res.send({ error: "Invalid Data" });
       } else {
         res.statusCode = 500;
@@ -126,7 +153,7 @@ async function runCreateContribution(
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "POST") {
-    await runCreateContribution(req, res);
+    await runRequestWithDIContainer(req, res, runCreateContribution);
   } else {
     res.statusCode = 405;
     res.send("");

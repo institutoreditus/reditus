@@ -1,0 +1,16 @@
+.orderedList {
+  counter-reset: item;
+}
+
+.listItem {
+  display: block;
+  font-weight: bold;
+}
+.listItem:before {
+  content: counters(item, ".")". ";
+  counter-increment: item;
+  }
+
+.termsPage{
+  overflow: auto !important;
+}

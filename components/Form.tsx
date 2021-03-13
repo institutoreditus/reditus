@@ -11,8 +11,9 @@ import FailedDonation from "./FailedDonation";
 export const Form = () => {
   const [state, updateState] = useState({
     form: {
-      donationMode: "donationModeHere",
+      donationMode: "",
       amountInCents: 0,
+      email: "",
     },
   });
 
@@ -34,10 +35,14 @@ export const Form = () => {
 
   return (
     <>
-      <StepWizard isHashEnabled={false} instance={setInstance}>
+      <StepWizard
+        isHashEnabled={false}
+        isLazyMount={true}
+        instance={setInstance}
+      >
         <SelectDonationMode form={state.form} update={updateForm} />
         <InputDonationValues form={state.form} update={updateForm} />
-        <SuccessDonation />
+        <SuccessDonation form={state.form} />
         <FailedDonation />
       </StepWizard>
     </>

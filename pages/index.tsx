@@ -32,16 +32,19 @@ export default function Home() {
             align={"middle"}
           >
             <p>Tornando-se parte dessa iniciativa você...</p>
-            <List>
+            <List nonInteractive={true}>
               <SimpleListItem
+                ripple={false}
                 graphic="radio_button_checked"
-                text="retorna um bem a comunidade UFRJ"
+                text="retorna um bem à comunidade de alunos e ex-alunos da UFRJ"
               />
               <SimpleListItem
+                ripple={false}
                 graphic="radio_button_checked"
                 text="ajuda a fomentar uma estrutura de auxílio a alunos e equipes de competição"
               />
               <SimpleListItem
+                ripple={false}
                 graphic="radio_button_checked"
                 text="perpetua uma cultura de retribuição"
               />
@@ -56,7 +59,6 @@ export default function Home() {
             align={"middle"}
           >
             <img src="./logoReditusWhite.png" />
-
             <Form />
           </GridCell>
         </GridRow>

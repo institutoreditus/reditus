@@ -9,11 +9,12 @@ beforeAll(() => {
 });
 
 afterAll(async () => {
-  await prisma.disconnect();
+  await prisma.$disconnect();
 });
 
 test("creates a contribution in the database, cancels it and returns it", async () => {
   const resultCreate = await createContribution({
+    dbClient: prisma,
     email: "email3@example.com",
     amountInCents: 300,
   });
@@ -21,7 +22,7 @@ test("creates a contribution in the database, cancels it and returns it", async 
   expect(resultCreate.id).not.toBeNull();
   expect(resultCreate.state).toEqual("pending");
   expect(
-    await prisma.contribution.findOne({
+    await prisma.contribution.findUnique({
       where: {
         id: resultCreate.id,
       },
@@ -29,6 +30,7 @@ test("creates a contribution in the database, cancels it and returns it", async 
   ).toEqual(resultCreate);
 
   const resultCancel = await cancelContribution({
+    dbClient: prisma,
     contributionId: resultCreate.id,
   });
 
@@ -40,16 +42,16 @@ test("creates a contribution in the database, cancels it and returns it", async 
 });
 
 test("throws error if contribution id is invalid", async () => {
-  await expect(cancelContribution({ contributionId: -1 })).rejects.toThrow(
-    "Invalid id"
-  );
+  await expect(
+    cancelContribution({ dbClient: prisma, contributionId: -1 })
+  ).rejects.toThrow("Invalid id");
 });
 
 test("throws error if id does not exist", async () => {
   const id = 99999999;
-  await expect(cancelContribution({ contributionId: id })).rejects.toThrow(
-    `Id ${id} not found`
-  );
+  await expect(
+    cancelContribution({ dbClient: prisma, contributionId: id })
+  ).rejects.toThrow(`Id ${id} not found`);
 });
 
 export {};

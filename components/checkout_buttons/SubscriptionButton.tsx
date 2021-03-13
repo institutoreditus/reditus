@@ -5,10 +5,11 @@ export const SubscriptionButton = ({
   nextStep,
   totalSteps,
   step,
-  props,
+  update,
 }: any) => {
-  const update = (e: any) => {
-    props.update(e.target.name, e.currentTarget.value);
+  const setDonationModeAndGoToNextStep = (e: any) => {
+    update("donationMode", "subscriptions");
+    nextStep(e);
   };
 
   return (
@@ -19,9 +20,8 @@ export const SubscriptionButton = ({
           name="donationMode"
           id={styles.outlinedButton}
           icon="done_all"
-          value="signatureDonation"
-          onChange={update}
-          onClick={nextStep}
+          value="subscriptions"
+          onClick={setDonationModeAndGoToNextStep}
           outlined
         />
       )}
