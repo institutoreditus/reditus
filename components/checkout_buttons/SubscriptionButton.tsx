@@ -18,7 +18,8 @@ export const SubscriptionButton = ({
         <Button
           label="Doar mensalmente"
           name="donationMode"
-          id={styles.outlinedButton}
+          id="donateMonthly"
+          className={styles.outlinedButton}
           icon="done_all"
           value="subscriptions"
           onClick={setDonationModeAndGoToNextStep}

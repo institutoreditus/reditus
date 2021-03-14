@@ -18,7 +18,8 @@ export const ContributionButton = ({
         <Button
           label="Doar uma única vez"
           name="donationMode"
-          id={styles.outlinedButton}
+          id="donateOnlyOnce"
+          className={styles.outlinedButton}
           icon="done"
           value="contributions"
           onClick={setDonationModeAndGoToNextStep}
