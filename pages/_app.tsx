@@ -25,13 +25,19 @@ import "../styles.css";
 
 import { AppProps } from "next/app";
 import { useRouter } from "next/router";
+import { Provider } from "next-auth/client";
 import { useEffect } from "react";
 import * as gtag from "../helpers/gtag";
 import * as gtm from "../helpers/gtm";
+import RoxContainer from "../services/rox/RoxContainer";
+import roxService from "../services/rox/RoxService";
+
+roxService(RoxContainer);
 
 const isProduction = process.env.NODE_ENV === "production";
 
 function App({ Component, pageProps }: AppProps) {
+  const dashboardEnabled = JSON.parse(RoxContainer.dashboardEnabled.getValue());
   const router = useRouter();
 
   useEffect(() => {
@@ -49,7 +55,14 @@ function App({ Component, pageProps }: AppProps) {
       router.events.off("routeChangeComplete", handleRouteChange);
     };
   }, [router.events]);
-  return <Component {...pageProps} />;
+
+  if (!dashboardEnabled) return <Component {...pageProps} />;
+
+  return (
+    <Provider session={pageProps.session}>
+      <Component {...pageProps} />
+    </Provider>
+  );
 }
 
 export default App;
