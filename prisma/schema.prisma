@@ -1,13 +1,73 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+generator client {
+  provider = "prisma-client-js"
+}
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-generator client {
-  provider = "prisma-client-js"
+model ContributionSubscription {
+  amountInCents Int               @map("amount_in_cents")
+  email         String
+  id            Int               @id @default(autoincrement())
+  state         SubscriptionState
+  externalId    String?           @map("external_id")
+  experimentId  String?           @map("experiment_id")
+  ambassadorId  Int?              @map("ambassador_id")
+  referencedBy  Ambassador?       @relation(fields: [ambassadorId], references: [id])
+  contributions Contribution[]
+  users         User[]
+
+  @@map("contribution_subscriptions")
+}
+
+model Contribution {
+  amountInCents  Int                       @map("amount_in_cents")
+  email          String
+  id             Int                       @id @default(autoincrement())
+  state          ContributionState
+  subscriptionId Int?                      @map("subscription_id")
+  externalId     String?                   @map("external_id")
+  createdAt      DateTime                  @default(now())
+  experimentId   String?                   @map("experiment_id")
+  ambassadorId   Int?                      @map("ambassador_id")
+  referencedBy   Ambassador?               @relation(fields: [ambassadorId], references: [id])
+  subscription   ContributionSubscription? @relation(fields: [subscriptionId], references: [id])
+  users          User[]
+
+  @@map("contributions")
+}
+
+model User {
+  admissionYear              Int                        @map("admission_year")
+  createdAt                  DateTime                   @default(now())
+  degree                     String
+  email                      String                     @unique
+  firstName                  String                     @map("first_name")
+  id                         Int                        @id @default(autoincrement())
+  lastName                   String                     @map("last_name")
+  mentorshipInterest         Boolean                    @map("mentorship_interest")
+  tutorshipInterest          Boolean                    @map("tutorship_interest")
+  university                 String
+  volunteeringInterest       Boolean                    @map("volunteering_interest")
+  ambassadorId               Int?                       @unique @map("ambassador_id")
+  referencedBy               Ambassador?                @relation(fields: [ambassadorId], references: [id])
+  contribution_subscriptions ContributionSubscription[]
+  contributions              Contribution[]
+
+  @@map("users")
+}
+
+model Ambassador {
+  id                       Int                        @id @default(autoincrement())
+  isActive                 Boolean                    @map("is_active")
+  createAT                 DateTime                   @default(now())
+  ContributionSubscription ContributionSubscription[]
+  Contribution             Contribution[]
+  user                     User?
+
+  @@map("ambassadors")
 }
 
 enum ContributionState {
@@ -15,7 +75,7 @@ enum ContributionState {
   completed
   cancelled
 
-  @@map("contribution_state")
+   @@map("contribution_state")
 }
 
 enum SubscriptionState {
@@ -23,49 +83,5 @@ enum SubscriptionState {
   active
   cancelled
 
-  @@map("subscription_state")
-}
-
-model ContributionSubscription {
-  id Int @default(autoincrement()) @id
-  state SubscriptionState
-  amountInCents Int @map("amount_in_cents")
-  email String
-  contributions Contribution[]
-  externalId String? @map("external_id")
-  experimentId String? @map("experiment_id")
-
-  @@map("contribution_subscriptions")
-}
-
-model Contribution {
-  id Int @default(autoincrement()) @id
-  state ContributionState
-  amountInCents Int @map("amount_in_cents")
-  email String
-  subscriptionId Int? @map("subscription_id")
-  subscription ContributionSubscription? @relation(fields: [subscriptionId], references: [id])
-  externalId String? @map("external_id")
-  createdAt DateTime @default(now())
-  experimentId String? @map("experiment_id")
-
-  @@map("contributions")
-}
-
-model User {
-  id Int @default(autoincrement()) @id
-  email String  @unique
-  firstName String @map("first_name")
-  lastName String @map("last_name")
-  university String
-  degree String
-  admissionYear Int @map("admission_year")
-  tutorshipInterest Boolean @map("tutorship_interest")
-  mentorshipInterest Boolean @map("mentorship_interest")
-  volunteeringInterest Boolean @map("volunteering_interest")
-  contributions Contribution[]
-  subscriptions ContributionSubscription[]
-  createdAt DateTime @default(now())
-
-  @@map("users")
+   @@map("subscription_state")
 }

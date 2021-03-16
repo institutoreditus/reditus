@@ -1,0 +1,86 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum ContributionState {
+  pending
+  completed
+  cancelled
+
+  @@map("contribution_state")
+}
+
+enum SubscriptionState {
+  pending
+  active
+  cancelled
+
+  @@map("subscription_state")
+}
+
+model ContributionSubscription {
+  id Int @default(autoincrement()) @id
+  state SubscriptionState
+  amountInCents Int @map("amount_in_cents")
+  email String
+  contributions Contribution[]
+  externalId String? @map("external_id")
+  experimentId String? @map("experiment_id")
+  referencedBy Ambassador? @relation(fields: [ambassadorId], references: [id])
+  ambassadorId Int? @map("ambassador_id")
+
+  @@map("contribution_subscriptions")
+}
+
+model Contribution {
+  id Int @default(autoincrement()) @id
+  state ContributionState
+  amountInCents Int @map("amount_in_cents")
+  email String
+  subscriptionId Int? @map("subscription_id")
+  subscription ContributionSubscription? @relation(fields: [subscriptionId], references: [id])
+  externalId String? @map("external_id")
+  createdAt DateTime @default(now())
+  experimentId String? @map("experiment_id")
+  referencedBy Ambassador? @relation(fields: [ambassadorId], references: [id])
+  ambassadorId Int? @map("ambassador_id")
+  
+  @@map("contributions")
+}
+
+model User {
+  id Int @default(autoincrement()) @id
+  email String  @unique
+  firstName String @map("first_name")
+  lastName String @map("last_name")
+  university String
+  degree String
+  admissionYear Int @map("admission_year")
+  tutorshipInterest Boolean @map("tutorship_interest")
+  mentorshipInterest Boolean @map("mentorship_interest")
+  volunteeringInterest Boolean @map("volunteering_interest")
+  contributions Contribution[]
+  subscriptions ContributionSubscription[]
+  createdAt DateTime @default(now())
+  referencedBy Ambassador? @relation(fields: [ambassadorId], references: [id])
+  ambassadorId Int? @map("ambassador_id")
+
+  @@map("users")
+}
+
+model Ambassador {
+  id Int @default(autoincrement()) @id
+  user User?
+  isActive Boolean @map("is_active")
+  createAT DateTime @default(now())
+
+@@map("ambassadors")
+}
