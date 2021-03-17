@@ -68,7 +68,7 @@ const createUser = async (args: CreateUserArgs): Promise<User> => {
       subscriptions: {
         connect: existingSubscriptionsForUser.map((s) => ({ id: s.id })),
       },
-      referencedBy: args.ambassador
+      referencedBy: args.ambassador,
     },
   });
 
