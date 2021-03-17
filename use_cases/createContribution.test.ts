@@ -20,7 +20,7 @@ test("creates a contribution in the database and returns it", async () => {
     email: "email@example.com",
     amountInCents: 100,
     experimentId: "1|2|3",
-    ambassadorId: 1
+    ambassadorId: 1,
   });
 
   expect(result.id).not.toBeNull();
@@ -44,7 +44,6 @@ test("creates a contribution in the database and returns it", async () => {
       },
     })
   ).toEqual(result);
-
 });
 
 test("creates a contribution for a existing subscription in the database and returns it", async () => {
@@ -53,7 +52,7 @@ test("creates a contribution for a existing subscription in the database and ret
     amountInCents: 123,
     email: "email2@example.com",
     experimentId: "1|2|3",
-    ambassadorId: 1
+    ambassadorId: 1,
   });
 
   const contribution = await createContribution({
@@ -61,7 +60,7 @@ test("creates a contribution for a existing subscription in the database and ret
     amountInCents: 123,
     subscriptionId: subscription.id,
     externalContributionId: uuidv4(),
-    ambassadorId: 1
+    ambassadorId: 1,
   });
 
   expect(contribution.id).not.toBeNull();
@@ -110,7 +109,6 @@ test("creates a contribution with an existing user in the database and connects 
     externalContributionId: uuidv4(),
     email: uniqueEmail,
     ambassadorId: 1,
-
   });
 
   expect(contribution.userId).toEqual(user.id);
@@ -174,7 +172,7 @@ test("throws error if Ambassador id is invalid", async () => {
       dbClient: prisma,
       email: "email@example.com",
       amountInCents: -1,
-      ambassadorId: -1
+      ambassadorId: -1,
     })
   ).rejects.toThrow("Invalid Ambassador id");
 });

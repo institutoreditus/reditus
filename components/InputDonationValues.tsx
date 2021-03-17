@@ -7,7 +7,7 @@ import axios from "axios";
 import { useState } from "react";
 import { FormControl, FormHelperText, LinearProgress } from "@material-ui/core";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
-import { useRouter } from 'next/router'
+import { useRouter } from "next/router";
 import styles from "./Form.module.css";
 import RoxContainer from "../services/rox/RoxContainer";
 import service from "../services/rox/RoxService";
@@ -95,7 +95,7 @@ export const InputDonationValues = (props: any) => {
       success: async function (data: any) {
         try {
           data["ssr"] = RoxContainer.suggestedDonationValues.getValue();
-          data["ambassador"] = useRouter().query['ambassador'] || '';
+          data["ambassador"] = useRouter().query["ambassador"] || "";
           props.update("email", data.customer.email);
           setLoading(true);
           const response = await axios.post(`/api/${donationMode}`, data);

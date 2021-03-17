@@ -52,7 +52,7 @@ const CreateSubscriptionSchema = schema({
   payment_method: schema.enum(PaymentMethod, "Invalid payment method"),
   customer: CustomerData,
   ssr: string,
-  ambassador: string
+  ambassador: string,
 });
 
 async function userExists(

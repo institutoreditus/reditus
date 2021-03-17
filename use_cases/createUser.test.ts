@@ -41,7 +41,7 @@ test("creates a new user", async () => {
     tutorshipInterest: true,
     mentorshipInterest: true,
     volunteeringInterest: true,
-    ambassador: 'Embaixador',
+    ambassador: "Embaixador",
   });
 
   expect(user.id).not.toBeNull();
@@ -143,7 +143,7 @@ test("throws error if admission date is invalid", async () => {
       dbClient: prisma,
       email: `email${uuidv4()}@examplesub.com`, // unique email per user.
       admissionYear: 0,
-      ambassador: "Embaixador"
+      ambassador: "Embaixador",
     })
   ).rejects.toThrow(messages.INVALID_ADMISSION_YEAR);
 });

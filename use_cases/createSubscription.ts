@@ -7,20 +7,18 @@ interface CreateSubscriptionArgs {
   experimentId?: string;
   ambassadorId?: number;
 }
- 
+
 const createSubscription = async (
   args: CreateSubscriptionArgs
 ): Promise<ContributionSubscription> => {
   if (args.amountInCents <= 0) throw new Error("Invalid amount");
   if (args.email.indexOf("@") < 0) throw new Error("Invalid email");
- 
-  const ambassador = await args.dbClient.ambassador.findUnique(
-    {
-      where: {
-        id: args.ambassadorId,
-      },
-    }
-  );
+
+  const ambassador = await args.dbClient.ambassador.findUnique({
+    where: {
+      id: args.ambassadorId,
+    },
+  });
 
   if (ambassador == null)
     throw new Error(`Ambassador Id ${args.ambassadorId} not found`);
@@ -44,7 +42,7 @@ const createSubscription = async (
       state: "pending",
       experimentId: args.experimentId,
       users: connectUser,
-      referencedBy: args.ambassadorId!
+      referencedBy: args.ambassadorId!,
     },
   });
 };

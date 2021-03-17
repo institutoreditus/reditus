@@ -18,7 +18,7 @@ const CreateUserSchema = schema({
   tutorshipInterest: Boolean,
   mentorshipInterest: Boolean,
   volunteeringInterest: Boolean,
-  ambassador: string
+  ambassador: string,
 });
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
@@ -62,7 +62,7 @@ async function runCreateUser(
         tutorshipInterest: args.tutorshipInterest,
         mentorshipInterest: args.mentorshipInterest,
         volunteeringInterest: args.volunteeringInterest,
-        ambassador: args.ambassador 
+        ambassador: args.ambassador,
       });
       if (!user) {
         throw new Error(messages.USER_REGISTRATION_FAILED);

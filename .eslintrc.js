@@ -5,6 +5,15 @@ module.exports = {
     'node': true,
     "jest/globals": true,
   },
+  "settings": {
+    "react": {
+      "createClass": "createReactClass",
+      "pragma": "React",
+      "fragment": "Fragment", 
+      "version": "detect",                                                     
+      "flowVersion": "0.53" 
+    }
+  },
   'extends': [
     'eslint:recommended',
     'plugin:react/recommended',

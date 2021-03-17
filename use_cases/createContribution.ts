@@ -13,18 +13,15 @@ interface CreateContributionArgs {
 const createContribution = async (
   args: CreateContributionArgs
 ): Promise<Contribution> => {
-
-  const ambassadorId = await args.dbClient.ambassador.findUnique(
-    {
-      where: {
-        id: args.ambassadorId,
-      },
-    }
-  );
+  const ambassadorId = await args.dbClient.ambassador.findUnique({
+    where: {
+      id: args.ambassadorId,
+    },
+  });
 
   if (ambassadorId == null)
     throw new Error(`Ambassador Id ${args.ambassadorId} not found`);
-  
+
   if (args.amountInCents <= 0) throw new Error("Invalid amount");
   if (args.email) {
     if (args.subscriptionId) {
@@ -33,7 +30,6 @@ const createContribution = async (
     if (args.email.indexOf("@") < 0) {
       throw new Error("Invalid email");
     }
-
   } else {
     if (args.subscriptionId == null) {
       throw new Error("Empty email");
@@ -44,7 +40,7 @@ const createContribution = async (
       "Must inform external contribution id when subscription id is informed"
     );
   }
-  
+
   let connectUser = {};
   if (args.email) {
     const user = await args.dbClient.user.findUnique({
@@ -104,11 +100,10 @@ const createContribution = async (
         state: "pending",
         experimentId: args.experimentId,
         users: connectUser,
-        referencedBy:   args.ambassadorId!
+        referencedBy: args.ambassadorId!,
       },
     });
   }
-
 };
 
 export default createContribution;

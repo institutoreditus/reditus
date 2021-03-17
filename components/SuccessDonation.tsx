@@ -232,7 +232,7 @@ export const SuccessDonation = (props: any) => {
       await axios.post("/api/registration", {
         ...registerForm,
         email: props.form.email,
-        ambassador: useRouter().query['ambassador'] || ''
+        ambassador: useRouter().query["ambassador"] || "",
       });
       setSignupFinish(true);
       setOpen(false);
