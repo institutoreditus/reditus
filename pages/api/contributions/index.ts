@@ -142,15 +142,15 @@ async function runCreateContribution(
         console.log(JSON.stringify(err.response.data.errors));
         res.send({ error: "Invalid Data" });
       } else {
-        res.statusCode = 500;
-        res.send("");
+          res.statusCode = 500;
+          res.send("");
+        }
       }
+    } else {
+      res.statusCode = 400;
+      res.json(err && err.toJSON && err.toJSON());
     }
-  } else {
-    res.statusCode = 400;
-    res.json(err && err.toJSON && err.toJSON());
   }
-}
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "POST") {
