@@ -7,7 +7,7 @@ const { serverRuntimeConfig } = getConfig();
 
 const email: string = process.env.MAILER_EMAIL || "";
 const pass: string = process.env.MAILER_PASS || "";
- 
+
 /**
  * Validates current environment and configs.
  *

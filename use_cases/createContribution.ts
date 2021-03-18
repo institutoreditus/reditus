@@ -8,15 +8,16 @@ interface CreateContributionArgs {
   amountInCents: number;
   subscriptionId?: number;
   externalContributionId?: string;
-  experimentId?: string;  
+  experimentId?: string;
 }
 
 const createContribution = async (
   args: CreateContributionArgs
 ): Promise<Contribution> => {
-  if (args.amountInCents <= 0) throw new Error(getMessage(Messages.invalid_amount));
+  if (args.amountInCents <= 0)
+    throw new Error(getMessage(Messages.invalid_amount));
   if (args.email) {
-    if (args.subscriptionId){
+    if (args.subscriptionId) {
       throw new Error(getMessage(Messages.id_and_email_informed));
     }
     if (args.email.indexOf("@") < 0) {
@@ -28,9 +29,7 @@ const createContribution = async (
     }
   }
   if (args.subscriptionId && args.externalContributionId == null) {
-    throw new Error(
-      getMessage(Messages.missing_external_contribution_id)
-    );
+    throw new Error(getMessage(Messages.missing_external_contribution_id));
   }
 
   if (args.subscriptionId) {

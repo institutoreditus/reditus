@@ -10,7 +10,8 @@ interface CancelSubscriptionArgs {
 const cancelSubscription = async (
   args: CancelSubscriptionArgs
 ): Promise<ContributionSubscription> => {
-  if (args.subscriptionId <= 0) throw new Error(getMessage(Messages.invalid_id));
+  if (args.subscriptionId <= 0)
+    throw new Error(getMessage(Messages.invalid_id));
 
   const prisma = args.dbClient;
 

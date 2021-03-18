@@ -117,9 +117,7 @@ test("throws error if subscription not null and external contribution id null", 
       amountInCents: 100,
       subscriptionId: 1,
     })
-  ).rejects.toThrow(
-    getMessage(Messages.missing_external_contribution_id)
-  );
+  ).rejects.toThrow(getMessage(Messages.missing_external_contribution_id));
 });
 
 export {};

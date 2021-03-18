@@ -6,8 +6,7 @@ import "chartjs-adapter-moment";
 moment.locale("pt-BR");
 
 export const ChartContribution = ({ result }: any) => {
-
-  const labels = []; 
+  const labels = [];
   const values = [];
 
   for (const v of result) {
@@ -15,8 +14,8 @@ export const ChartContribution = ({ result }: any) => {
     values.push(v["accumulated"]);
   }
 
-//  const label =  Array.from(result["day"]).map(() => 0);
-// console.log(label);
+  //  const label =  Array.from(result["day"]).map(() => 0);
+  // console.log(label);
 
   const data = {
     chartData: {

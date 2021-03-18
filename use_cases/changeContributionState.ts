@@ -12,7 +12,8 @@ interface ChangeContributionStateArgs {
 const changeContributionState = async (
   args: ChangeContributionStateArgs
 ): Promise<Contribution> => {
-  if (args.contributionId <= 0) throw new Error(getMessage(Messages.invalid_id));
+  if (args.contributionId <= 0)
+    throw new Error(getMessage(Messages.invalid_id));
 
   const contribution = await args.dbClient.contribution.findOne({
     where: {

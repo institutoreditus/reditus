@@ -6,7 +6,7 @@ const defaultLocale = "pt";
 
 function getMessage(key): any {
   if (key) {
-    return console.log(key);
+    return console.log(messages.key);
   } else {
     console.log(`Could not look up message with key ${key}`);
   }

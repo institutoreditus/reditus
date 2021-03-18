@@ -45,7 +45,7 @@ const CustomerData = schema({
 
 const CreateContributionSchema = schema({
   amount: number.gte(1),
-  card_hash: string, 
+  card_hash: string,
   payment_method: schema.enum(PaymentMethod, Messages.invalid_payment_method),
   customer: CustomerData,
   ssr: string,

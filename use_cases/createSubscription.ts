@@ -12,8 +12,10 @@ interface CreateSubscriptionArgs {
 const createSubscription = async (
   args: CreateSubscriptionArgs
 ): Promise<ContributionSubscription> => {
-  if (args.amountInCents <= 0) throw new Error(getMessage(Messages.invalid_amount));
-  if (args.email.indexOf("@") < 0) throw new Error(getMessage(Messages.invalid_email));
+  if (args.amountInCents <= 0)
+    throw new Error(getMessage(Messages.invalid_amount));
+  if (args.email.indexOf("@") < 0)
+    throw new Error(getMessage(Messages.invalid_email));
 
   return await args.dbClient.contributionSubscription.create({
     data: {

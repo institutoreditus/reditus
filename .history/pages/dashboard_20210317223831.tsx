@@ -1,4 +1,3 @@
-/* eslint-disable */
 import Head from "next/head";
 import { GridCell } from "@rmwc/grid";
 import styles from "./index.module.css";
@@ -18,7 +17,7 @@ export async function getServerSideProps() {
   // Query1contributions
   const accumulated = await prisma.$queryRaw(
     `with data as(
-            SELECT  date_trunc(\'day\', "createdAt") "day",
+            SELECT  date_trunc('day', "createdAt") "day",
                   SUM(amount_in_cents)/100 as Total_by_day 
             FROM contributions 
             Group By "day"
@@ -31,8 +30,7 @@ export async function getServerSideProps() {
   );
   // Query2
   const accumulated_value = await prisma.$queryRaw(
-    "SELECT SUM(amount_in_cents)/100 as accumulated_value\
-     FROM contributions"
+    "SELECT SUM(amount_in_cents)/100 as accumulated_value FROM contributions"
   );
   // Query3
   const individual_accumulated_contribution = await prisma.$queryRaw(
@@ -46,8 +44,8 @@ export async function getServerSideProps() {
     `SELECT "createdAt"::TIMESTAMP::DATE,
         amount_in_cents/100 as individual_contribution,
         subscription_id,
-             Case WHEN subscription_id IS NOT NULL THEN \'Assinatura\' 
-             Else \'Doação Pontual\' 
+             Case WHEN subscription_id IS NOT NULL THEN 'Assinatura' 
+             Else 'Doação Pontual' 
              END AS contribution_type 
         FROM contributions 
         WHERE  email = ${UserID} 

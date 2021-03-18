@@ -13,7 +13,6 @@ module.exports = {
         "version": "detect", 
         "flowVersion": "0.53"
       },
-    },
   'extends': [
     'eslint:recommended',
     'plugin:react/recommended',
