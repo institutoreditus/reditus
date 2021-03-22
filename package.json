@@ -43,6 +43,7 @@
     "rox-ssr": "^4.9.18"
   },
   "devDependencies": {
+    "@material-ui/icons": "^4.11.2",
     "@types/gtag.js": "0.0.3",
     "@types/jest": "^26.0.0",
     "@types/node": "^14.0.13",
