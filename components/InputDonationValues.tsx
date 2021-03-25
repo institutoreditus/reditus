@@ -63,13 +63,9 @@ export const InputDonationValues = (props: any) => {
   // loading controls showing the loading bar.
   const [loading, setLoading] = useState(false);
 
-  // val1, val2 and val3 are the three suggested donation values we show the users.
-  // These values come from our flags container, and are mutable. They can be remotely
-  // changed using rollout.io's dashboard. This is used for A/B testing.
-  const [val1, val2, val3] = RoxContainer.suggestedDonationValues
-    .getValue()
-    .split("|", 3)
-    .map((x: string) => +x);
+  const val1 = props.form.donationMode == "subscriptions" ? 30 : 100;
+  const val2 = props.form.donationMode == "subscriptions" ? 75 : 200;
+  const val3 = props.form.donationMode == "subscriptions" ? 150 : 500;
 
   async function onCheckout(e: any) {
     e.preventDefault();
