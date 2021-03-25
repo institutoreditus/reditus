@@ -16,6 +16,7 @@ if (!Rox.containerCache) {
     Rox.containerCache = {
       suggestedDonationValues: new FakeFlag("25|75|100"),
       shouldShowRegistrationForm: new FakeFlag(false),
+      dashboardEnabled: new FakeFlag(false),
     };
   } else {
     Rox.containerCache = {
@@ -25,6 +26,7 @@ if (!Rox.containerCache) {
         "150|300|500",
       ]),
       shouldShowRegistrationForm: new Flag(),
+      dashboardEnabled: new Flag(),
     };
   }
 }
