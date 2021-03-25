@@ -90,7 +90,7 @@ export const InputDonationValues = (props: any) => {
       encryption_key: encryptionKey,
       success: async function (data: any) {
         try {
-          data["ssr"] = RoxContainer.suggestedDonationValues.getValue();
+          data["ssr"] = `${val1}|${val2}|${val3}`;
           props.update("email", data.customer.email);
           setLoading(true);
           const response = await axios.post(`/api/${donationMode}`, data);
