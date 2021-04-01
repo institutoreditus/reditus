@@ -1,5 +1,6 @@
 import React from "react";
 import Head from "next/head";
+import { Box } from "@material-ui/core";
 
 import { Dashboard as DashboardWrapper } from "../../components/dashboard";
 import Cards from "../../components/dashboard/Layout/Cards";
@@ -19,14 +20,12 @@ function Dashboard() {
           name="viewport"
           content="minimum-scale=1, initial-scale=1, width=device-width"
         />
-        <link rel="preconnect" href="https://fonts.gstatic.com" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Rubik:wght@300&display=swap"
-          rel="stylesheet"
-        />
       </Head>
 
       <DashboardWrapper>
+        <Box color="#2E384D" fontSize={28} fontWeight={300} component="h2">
+          Acompanhamento das doações
+        </Box>
         <Cards />
       </DashboardWrapper>
     </React.Fragment>
