@@ -19,7 +19,8 @@
     "jsx": "preserve",
     "plugins": [
       { "transform": "ts-auto-mock/transformer", "cacheBetweenTests": false }
-    ]
+    ],
+    "suppressImplicitAnyIndexErrors": true,
   },
   "exclude": [
     "node_modules"
@@ -28,5 +29,5 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx", "pages/_app.tsx", "services/rox/RoxService.js", "services/rox/RoxInstance.js", "services/rox/RoxContainer.js"
-  ]
+  ],
 }

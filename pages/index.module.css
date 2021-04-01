@@ -1,3 +1,7 @@
+.body {
+  overflow: hidden;
+}
+
 .rightSide input:focus {
   color: var(--mdc-theme-primary) !important;
 }

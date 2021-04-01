@@ -1,4 +1,6 @@
+import React from "react";
 import Document, { Html, Head, Main, NextScript } from "next/document";
+import { ServerStyleSheets } from "@material-ui/core/styles";
 
 import { GA_TRACKING_ID } from "../helpers/gtag";
 import { GTM_TRACKING_ID } from "../helpers/gtm";
@@ -46,6 +48,11 @@ export default class MyDocument extends Document {
             </>
           )}
           {/* End Google Tag Manager */}
+          <link rel="preconnect" href="https://fonts.gstatic.com" />
+          <link
+            href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;500&display=swap"
+            rel="stylesheet"
+          />
         </Head>
         <body>
           {/* Google Tag Manager (noscript) */}
@@ -67,3 +74,23 @@ export default class MyDocument extends Document {
     );
   }
 }
+
+MyDocument.getInitialProps = async (ctx) => {
+  const sheets = new ServerStyleSheets();
+  const originalRenderPage = ctx.renderPage;
+
+  ctx.renderPage = () =>
+    originalRenderPage({
+      enhanceApp: (App) => (props) => sheets.collect(<App {...props} />),
+    });
+
+  const initialProps = await Document.getInitialProps(ctx);
+
+  return {
+    ...initialProps,
+    styles: [
+      ...React.Children.toArray(initialProps.styles),
+      sheets.getStyleElement(),
+    ],
+  };
+};

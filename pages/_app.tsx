@@ -23,16 +23,24 @@ import "@material/menu-surface/dist/mdc.menu-surface.css";
 
 import "../styles.css";
 
+import LinearProgress from "@material-ui/core/LinearProgress";
+
+import { useState } from "react";
 import { AppProps } from "next/app";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import * as gtag from "../helpers/gtag";
 import * as gtm from "../helpers/gtm";
+import { ThemeProvider } from "@material-ui/styles";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import { lightTheme } from "../components/dashboard/theme";
 
 const isProduction = process.env.NODE_ENV === "production";
 
 function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
+
+  const [pageLoading, setPageLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const handleRouteChange = (url: URL) => {
@@ -44,12 +52,33 @@ function App({ Component, pageProps }: AppProps) {
         gtm.pageview(url);
       }
     };
+
+    const handleStart = () => {
+      setPageLoading(true);
+    };
+    const handleComplete = () => {
+      setPageLoading(false);
+    };
+
+    router.events.on("routeChangeStart", handleStart);
+    router.events.on("routeChangeComplete", handleComplete);
+    router.events.on("routeChangeError", handleComplete);
+
     router.events.on("routeChangeComplete", handleRouteChange);
     return () => {
       router.events.off("routeChangeComplete", handleRouteChange);
     };
   }, [router.events]);
-  return <Component {...pageProps} />;
+  return (
+    <ThemeProvider theme={lightTheme}>
+      <CssBaseline />
+      {pageLoading ? (
+        <LinearProgress color="primary" />
+      ) : (
+        <Component {...pageProps} />
+      )}
+    </ThemeProvider>
+  );
 }
 
 export default App;

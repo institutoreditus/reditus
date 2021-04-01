@@ -8,7 +8,7 @@ import { Form } from "../components/Form";
 
 export default function Home() {
   return (
-    <div>
+    <div className={styles.body}>
       <Head>
         <title>Reditus</title>
         <link
