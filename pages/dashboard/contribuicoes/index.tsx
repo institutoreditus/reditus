@@ -1,7 +1,13 @@
-import { Container, Grid, makeStyles, Paper } from "@material-ui/core";
-import clsx from "clsx";
+import {
+  Container,
+  Grid,
+  makeStyles,
+  Box,
+  Typography,
+} from "@material-ui/core";
 // import MaterialDatatable from "material-datatable";
 import Dashboard from "../../../components/dashboard";
+import TableCard from "../../../components/dashboard/Layout/Cards/TableCard";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -10,32 +16,31 @@ const useStyles = makeStyles((theme) => ({
   },
   container: {
     paddingTop: theme.spacing(4),
-    paddingBottom: theme.spacing(4),
+    paddingBottom: theme.spacing(10),
   },
-  fixedHeight: {
-    height: 500,
+  wrapper: {
+    marginLeft: -26,
+    marginRight: -26,
   },
 }));
 
 export default function Contribuicoes() {
   const classes = useStyles();
 
-  const fixedHeightPaper = clsx(classes.fixedHeight);
   return (
     <div className={classes.root}>
       <Dashboard>
-        <Container maxWidth="lg">
-          <Grid item xs={12} md={8} lg={12}>
-            <Paper className={fixedHeightPaper}>
-              Test table
-              {/* <MaterialDatatable
-                            title={"Contribuições"}
-                            data={data}
-                            columns={columns}
-                            options={options}
-                        />
-                        */}
-            </Paper>
+        <Box display="flex" color="#2E384D" fontWeight={300} component="h2">
+          <Box fontSize={28} marginRight={2}>
+            Minhas assinaturas
+          </Box>
+          <Typography>13 no total</Typography>
+        </Box>
+        <Container maxWidth="xl">
+          <Grid className={classes.container} item xs={12} md={8} lg={12}>
+            <Box className={classes.wrapper}>
+              <TableCard />
+            </Box>
           </Grid>
         </Container>
       </Dashboard>
