@@ -1,15 +1,12 @@
 import Box from "@material-ui/core/Box";
 
-import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
-import Skeleton from "@material-ui/lab/Skeleton";
 
 // import { motion } from "framer-motion";
 // import { AnimateSharedLayout, AnimatePresence } from "framer-motion";
 
 import { makeStyles, createStyles } from "@material-ui/core/styles";
-import { Button, Typography } from "@material-ui/core";
-import CreditCardIcon from "@material-ui/icons/CreditCard";
+import { Typography } from "@material-ui/core";
 import DonationChart from "./DonationChart";
 import DefaultCard from "./DefaultCard";
 import StatusCard from "./StatusCard";
@@ -72,13 +69,8 @@ const useStyles = makeStyles((theme) =>
   })
 );
 
-interface MediaProps {
-  loading?: boolean;
-}
-
-export const Cards = (props: MediaProps) => {
+export const Cards = () => {
   const classes = useStyles();
-  const { loading = false } = props;
   // const [selectedId, setSelectedId] = useState(null);
   const totalDonationAmountValue = 1.4;
   const totalUserDonationAmountValue = 1245;
@@ -88,33 +80,6 @@ export const Cards = (props: MediaProps) => {
       <Box width={1} height={1}>
         <div className={classes.root}>
           <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <Paper className={classes.defaultPaper}>
-                <Box display="flex" width={1}>
-                  <Typography variant="body2">Painel</Typography>
-                  <Box marginLeft="auto">
-                    <Button
-                      className={classes.donationButton}
-                      endIcon={<CreditCardIcon />}
-                    >
-                      Doar agora
-                    </Button>
-                  </Box>
-                </Box>
-                <Box color="#2E384D" fontWeight={300} component="h2">
-                  {loading ? (
-                    <Skeleton
-                      animation="wave"
-                      height={10}
-                      width="80%"
-                      style={{ marginBottom: 6 }}
-                    />
-                  ) : (
-                    <>Acompanhamento das doações</>
-                  )}
-                </Box>
-              </Paper>
-            </Grid>
             <Grid item xs={5}>
               <Typography>Evolução do montante doado</Typography>
               <DonationChart alt="Donation chart" />
