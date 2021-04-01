@@ -1,5 +1,6 @@
 import React from "react";
 import clsx from "clsx";
+import { Grid, Paper, Button } from "@material-ui/core";
 import Drawer from "@material-ui/core/Drawer";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -21,6 +22,7 @@ import TimelineRoundedIcon from "@material-ui/icons/TimelineRounded";
 import PersonRoundedIcon from "@material-ui/icons/PersonRounded";
 import { DashboardIcon } from "../assets/DashboardIcon";
 import { MenuCollapseIcon } from "../assets/MenuCollapseIcon";
+import CreditCardIcon from "@material-ui/icons/CreditCardOutlined";
 import Footer from "../Footer";
 
 // import useStyles from "./styles";
@@ -39,6 +41,21 @@ const useStyles = makeStyles((theme) => ({
   },
   root: {
     display: "flex",
+  },
+  defaultPaper: {
+    color: "#8097B1",
+    background: "transparent",
+    boxShadow: "none",
+    marginBottom: -10,
+    border: "none",
+  },
+  donationButton: {
+    boxShadow: "5px 6px 10px rgba(33, 150, 243, 0.31)",
+    borderRadius: 4,
+    color: "#fff",
+    width: 240,
+    height: 54,
+    top: -5.375,
   },
   appBar: {
     transition: theme.transitions.create(["margin", "width"], {
@@ -240,7 +257,7 @@ export const Layout = ({ children }: any) => {
 
   const router = useRouter();
 
-  const props = useSpring({ opacity: 1, from: { opacity: 0 } });
+  const springProps = useSpring({ opacity: 1, from: { opacity: 0 } });
 
   // const { value: isDark, toggle: toggleDarkMode } = useDarkMode();
 
@@ -503,13 +520,29 @@ export const Layout = ({ children }: any) => {
           </IconButton>
         </div>
       </Drawer>
+
       <main
         className={clsx(classes.content, {
           [classes.contentShift]: open,
         })}
       >
         {/* Menu central da aplicação */}
-        <animated.div style={props}>{children}</animated.div>
+        <Grid item xs={12}>
+          <Paper className={classes.defaultPaper}>
+            <Box display="flex" width={1}>
+              <Typography variant="body2">Painel</Typography>
+              <Box marginLeft="auto">
+                <Button
+                  className={classes.donationButton}
+                  endIcon={<CreditCardIcon />}
+                >
+                  Doar agora
+                </Button>
+              </Box>
+            </Box>
+          </Paper>
+        </Grid>
+        <animated.div style={springProps}>{children}</animated.div>
         <Box marginTop={8.5}>
           <Footer />
         </Box>
