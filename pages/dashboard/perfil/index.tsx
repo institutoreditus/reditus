@@ -1,5 +1,5 @@
 import { Container, Grid, makeStyles, Paper } from "@material-ui/core";
-import clsx from "clsx";
+import { Box } from "@material-ui/core";
 // import MaterialDatatable from "material-datatable";
 import Dashboard from "../../../components/dashboard/";
 
@@ -8,25 +8,26 @@ const useStyles = makeStyles((lightTheme) => ({
     backgroundColor: "#F7FAFC",
     height: "100vw",
   },
-  container: {
-    paddingTop: lightTheme.spacing(4),
-    paddingBottom: lightTheme.spacing(4),
-  },
-  fixedHeight: {
+  paper: {
     height: 500,
+    marginLeft: -26,
+    marginRight: -26,
+    padding: lightTheme.spacing(4),
   },
 }));
 
 export default function Perfil() {
   const classes = useStyles();
 
-  const fixedHeightPaper = clsx(classes.fixedHeight);
   return (
     <div className={classes.root}>
       <Dashboard>
-        <Container>
+        <Box color="#2E384D" fontSize={28} fontWeight={300} component="h2">
+          Meu perfil
+        </Box>
+        <Container maxWidth="xl">
           <Grid item xs={12} md={8} lg={12}>
-            <Paper className={fixedHeightPaper}>
+            <Paper className={classes.paper}>
               Test table
               {/*
               <MaterialDatatable
