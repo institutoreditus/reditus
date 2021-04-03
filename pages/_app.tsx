@@ -29,7 +29,7 @@ import { useEffect } from "react";
 import * as gtag from "../helpers/gtag";
 import * as gtm from "../helpers/gtm";
 
-const isProduction = process.env.NODE_ENV === "production";
+const isProduction = (process.env.NODE_ENV === "production") || (process.env.HEROKU_APP_NAME === "reditus-next-staging");
 
 function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
