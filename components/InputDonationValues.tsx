@@ -36,7 +36,7 @@ export const InputDonationValues = (props: any) => {
   const successDonation = (userExists: boolean) => {
     push(ReditusEvent.info, "Donation concluded");
     if (userExists) {
-      push(ReditusEvent.info, "Donation done by a recurring.");
+      push(ReditusEvent.info, "Donation done by a recurring user");
     }
     props.update("userExists", userExists);
     props.goToStep(3);
