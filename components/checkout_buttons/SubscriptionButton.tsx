@@ -10,7 +10,9 @@ export const SubscriptionButton = ({
   const setDonationModeAndGoToNextStep = (e: any) => {
     // Pushing to data layer is used by the GTM.
     // @ts-ignore
-    window && window.dataLayer && window.dataLayer.push({event: "donateMonthly"});
+    window &&
+      window.dataLayer &&
+      window.dataLayer.push({ event: "donateMonthly" });
     update("donationMode", "subscriptions");
     nextStep(e);
   };
