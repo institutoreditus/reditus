@@ -1,5 +1,6 @@
 import { Button } from "@rmwc/button";
 import styles from "../Form.module.css";
+import { ReditusEvent, push } from "../../helpers/gtm";
 
 export const SubscriptionButton = ({
   nextStep,
@@ -9,8 +10,7 @@ export const SubscriptionButton = ({
 }: any) => {
   const setDonationModeAndGoToNextStep = (e: any) => {
     // Pushing to data layer is used by the GTM.
-    // @ts-ignore
-    window && window.dataLayer && window.dataLayer.push({ event: "donateMonthly" });
+    push(ReditusEvent.click, "Donate monthly");
     update("donationMode", "subscriptions");
     nextStep(e);
   };

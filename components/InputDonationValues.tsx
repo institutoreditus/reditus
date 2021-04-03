@@ -12,6 +12,7 @@ import styles from "./Form.module.css";
 import RoxContainer from "../services/rox/RoxContainer";
 import service from "../services/rox/RoxService";
 import Link from "next/link";
+import { ReditusEvent, push } from "../helpers/gtm";
 
 const theme = createMuiTheme({
   palette: {
@@ -33,6 +34,10 @@ export const InputDonationValues = (props: any) => {
   };
 
   const successDonation = (userExists: boolean) => {
+    push(ReditusEvent.info, "Donation concluded");
+    if (userExists) {
+      push(ReditusEvent.info, "Donation done by a recurring.");
+    }
     props.update("userExists", userExists);
     props.goToStep(3);
   };
@@ -47,6 +52,7 @@ export const InputDonationValues = (props: any) => {
     if (e.target && e.target.type === "radio") {
       checkedRadio = e.target;
     }
+    push(ReditusEvent.click, `Select ${e.target.value}`);
     props.update(e.target.name, e.target.value);
     setErrorInputValue(false);
   };
@@ -81,6 +87,11 @@ export const InputDonationValues = (props: any) => {
       setErrorInputValue(true);
     }
     if (error) return;
+
+    push(
+      ReditusEvent.click,
+      `Open modal to donate: ${props.form.amountInCents}`
+    );
 
     const amountInCents = props.form.amountInCents * 100;
     const donationMode = props.form.donationMode;
@@ -201,6 +212,7 @@ export const InputDonationValues = (props: any) => {
                     checkedRadio.checked = false;
                   }
 
+                  push(ReditusEvent.type, `Donate custom value: ${value}`);
                   props.update("amountInCents", value);
                   setUserInputValue(value);
                 }}
@@ -244,6 +256,10 @@ export const InputDonationValues = (props: any) => {
                 type="checkbox"
                 name="consentCheckbox"
                 onChange={(e: any) => {
+                  push(
+                    ReditusEvent.click,
+                    `Mark T&C checkbox: ${e.target.checked}`
+                  );
                   setPrivacyTermsAck(e.target.checked);
                   setErrorConsent(false);
                 }}
