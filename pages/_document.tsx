@@ -3,7 +3,8 @@ import Document, { Html, Head, Main, NextScript } from "next/document";
 import { GA_TRACKING_ID } from "../helpers/gtag";
 import { GTM_TRACKING_ID } from "../helpers/gtm";
 
-const isProduction = process.env.NODE_ENV === "production";
+const isProduction = process.env.NODE_ENV === "production"||
+process.env.HEROKU_APP_NAME === "reditus-next-staging";;
 
 export default class MyDocument extends Document {
   render(): JSX.Element {
