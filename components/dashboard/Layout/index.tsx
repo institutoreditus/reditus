@@ -491,7 +491,7 @@ export const Layout = ({ children }: any) => {
                 <>
                   {
                     {
-                      0: <DashboardIcon className={classes.icon} />,
+                      0: <DashboardIcon color="#2E384D" className={classes.icon} />,
                       1: <TimelineRoundedIcon className={classes.icon} />,
                       2: <PersonRoundedIcon className={classes.icon} />,
                     }[index]
