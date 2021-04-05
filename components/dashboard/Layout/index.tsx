@@ -389,6 +389,7 @@ export const Layout = ({ children }: any) => {
                 alt="Picture of the website logo"
                 width="18px"
                 height={"auto"}
+                loading="eager"
               />
             </IconButton>
             {/* Messages and notifications ->
@@ -435,6 +436,7 @@ export const Layout = ({ children }: any) => {
                 alt="Picture of the website logo"
                 width="18px"
                 height={"auto"}
+                loading="eager"
               />
             </IconButton>
 
