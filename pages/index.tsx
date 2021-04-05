@@ -24,7 +24,7 @@ export default function Home() {
       </Head>
 
       <main>
-        <GridRow>
+        <GridRow className={styles.leftSideWrapper}>
           <GridCell
             order={0}
             className={styles.leftSide}

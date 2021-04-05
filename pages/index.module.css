@@ -39,6 +39,9 @@
   margin-top: 1rem;
 }
 
+.leftSideWrapper {
+  background-color: #fff;
+}
 
 .leftSide {
   padding: 10px 15%;
