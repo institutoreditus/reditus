@@ -1,3 +1,9 @@
+export enum ReditusEvent {
+  click = "Reditus Click",
+  type = "Reditus Type",
+  info = "Reditus Info",
+}
+
 // Used by Google Tag Manager
 export const GTM_TRACKING_ID: string = process.env.GTM_TRACKING_ID || "";
 
@@ -15,4 +21,11 @@ export const pageview = (url: URL) => {
   // @ts-ignore
   window && window.dataLayer && window.dataLayer.push(pageEvent);
   return pageEvent;
+};
+
+// Pushes the object to the data layer.
+export const push = (e: ReditusEvent, id: string) => {
+  const data = { event: e, "Reditus ID": id };
+  // @ts-ignore
+  window && window.dataLayer && window.dataLayer.push(data);
 };
