@@ -6,14 +6,21 @@ export enum BalanceGrouping {
   year = "year",
 }
 
-interface CreateContributionArgs {
+interface GetBalanceArgs {
   dbClient: PrismaClient;
   fromDate?: Date;
   toDate?: Date;
   groupBy?: BalanceGrouping;
 }
 
-export default async function getBalance(args: CreateContributionArgs) {
+interface Balance {
+  referenceDate: Date;
+  balance: number;
+}
+
+export default async function getBalance(
+  args: GetBalanceArgs
+): Promise<Balance[]> {
   const fromDateCondition = args.fromDate ?? new Date("0000-01-01");
   const toDateCondition = args.toDate ?? new Date("9999-12-30");
 
@@ -37,12 +44,17 @@ export default async function getBalance(args: CreateContributionArgs) {
   } else {
     return await getBalanceWithoutGrouping(
       toDatePlusOneDayAndThreeHours,
+      args.toDate,
       args.dbClient
     );
   }
 }
 
-async function getBalanceWithoutGrouping(toDate: Date, dbClient: PrismaClient) {
+async function getBalanceWithoutGrouping(
+  toDate: Date,
+  originalToDate: Date | undefined,
+  dbClient: PrismaClient
+) {
   const sum = await dbClient.contribution.aggregate({
     sum: {
       amountInCents: true,
@@ -64,7 +76,8 @@ async function getBalanceWithoutGrouping(toDate: Date, dbClient: PrismaClient) {
   });
   const response = [
     {
-      referenceDate: new Date(),
+      referenceDate:
+        originalToDate ?? new Date(new Date().setUTCHours(0, 0, 0, 0)),
       balance: sum["sum"]["amountInCents"],
     },
   ];

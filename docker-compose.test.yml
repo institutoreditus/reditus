@@ -1,0 +1,16 @@
+version: '3.7'
+
+volumes:
+  postgres_data_test:
+    driver: local
+
+services:
+  postgres_test:
+    image: postgres:11-alpine
+    ports:
+      - 5433:5432
+    volumes:
+      - postgres_data_test:/var/lib/postgresql/data_test
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
