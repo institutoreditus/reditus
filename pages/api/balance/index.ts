@@ -75,7 +75,8 @@ async function runGetBalance(
     }
 
     if (groupByFromQuery in BalanceGrouping) {
-      groupBy = BalanceGrouping[groupByFromQuery];
+      groupBy =
+        BalanceGrouping[groupByFromQuery as keyof typeof BalanceGrouping];
     } else {
       res.statusCode = 422;
       res.send("O agrupamento deve ser por: week, month, year");
