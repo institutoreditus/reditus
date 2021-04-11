@@ -13,6 +13,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   }
 };
 
+// GET /balance
+// Query params:
+//      @from: (optional) begin date
+//      @to: (optional) end date
+//      @groupBy: (optional) week, month, year
 async function runGetBalance(
   req: DIContainerNextApiRequest,
   res: NextApiResponse
