@@ -17,6 +17,8 @@ export default async function getBalance(args: CreateContributionArgs) {
   const fromDateCondition = args.fromDate ?? new Date("0000-01-01");
   const toDateCondition = args.toDate ?? new Date("9999-12-31");
 
+  // TODO: review the usage of these dates. Maybe they sould be only for "visualization" purposes, but instead they are actively influencing on the computed balance
+   
   if (args.groupBy) {
     return await getBalanceWithGrouping(
       args.groupBy,
