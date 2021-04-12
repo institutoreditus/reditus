@@ -10,7 +10,7 @@ services:
     ports:
       - 5433:5432
     volumes:
-      - postgres_data_test:/var/lib/postgresql/data_test
+      - postgres_data_test:/var/lib/postgresql/data
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
