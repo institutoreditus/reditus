@@ -61,7 +61,7 @@ export const lightTheme = createMuiTheme({
     },
   },
   typography: {
-    fontFamily: "Open sans",
+    fontFamily: "'Open sans', sans-serif !important",
   },
   transitions: {
     duration: {
@@ -96,7 +96,7 @@ export const lightTheme = createMuiTheme({
     },
     MuiButton: {
       root: {
-        fontFamily: "Open Sans",
+        fontFamily: "'Open sans', sans-serif !important",
         fontSize: 15,
         textTransform: "none",
         background: "linear-gradient(45deg, #2196F3 30%, #00d4ff 90%)",
