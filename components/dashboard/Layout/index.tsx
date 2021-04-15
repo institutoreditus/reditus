@@ -90,6 +90,9 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: 180,
     border: "none",
     overflow: "hidden",
+    [theme.breakpoints.down("md")]: {
+      display: "none",
+    },
   },
   drawerBottom: {
     display: "flex",
