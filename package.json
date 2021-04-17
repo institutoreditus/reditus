@@ -11,6 +11,7 @@
     "start": "next start -p $PORT",
     "heroku-postbuild": "npm run build",
     "test": "jest --runInBand",
+    "test-local": "docker-compose -f docker-compose.test.yml -p reditus_test  up -d ; sleep 3; export DATABASE_URL=\"postgres://postgres:postgres@localhost:5433/reditus-test?schema=public&sslmode=disable\"; prisma migrate reset --force --preview-feature; jest --runInBand ; unset DATABASE_URL ; docker-compose -f docker-compose.test.yml -p reditus_test  down; docker volume rm reditus_test_postgres_data_test",
     "lint": "eslint '*/**/*.{js,ts,tsx}'",
     "typecheck": "tsc --noEmit",
     "migrate-deploy": "prisma migrate deploy --preview-feature",
