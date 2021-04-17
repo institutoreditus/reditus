@@ -26,6 +26,13 @@ enum SubscriptionState {
   @@map("subscription_state")
 }
 
+enum ContributionOrigin {
+  online
+  pgc
+
+  @@map("contribution_origin")
+}
+
 model ContributionSubscription {
   id Int @default(autoincrement()) @id
   state SubscriptionState
@@ -48,6 +55,7 @@ model Contribution {
   externalId String? @map("external_id")
   createdAt DateTime @default(now())
   experimentId String? @map("experiment_id")
+  origin ContributionOrigin @default(online)
 
   @@map("contributions")
 }
