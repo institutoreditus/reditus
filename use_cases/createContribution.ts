@@ -1,4 +1,8 @@
-import { Contribution, PrismaClient } from "@prisma/client";
+import {
+  Contribution,
+  ContributionSubscription,
+  PrismaClient,
+} from "@prisma/client";
 
 interface CreateContributionArgs {
   dbClient: PrismaClient;
@@ -38,19 +42,8 @@ const createContribution = async (
     );
   }
 
-  let connectUser = {};
-  if (args.email) {
-    const user = await args.dbClient.user.findUnique({
-      where: {
-        email: args.email,
-      },
-    });
-
-    if (user != null) {
-      // TODO(rrozendo): it won't work for subscriptions, since we get the user email from the subscription itself instead of the email argument
-      connectUser = { connect: { id: user.id } };
-    }
-  }
+  let email = args.email;
+  let subscription: ContributionSubscription | null = null;
 
   if (args.subscriptionId) {
     const existingContribution = await args.dbClient.contribution.findMany({
@@ -64,20 +57,32 @@ const createContribution = async (
       return existingContribution[0];
     }
 
-    const subscription = await args.dbClient.contributionSubscription.findUnique(
-      {
-        where: {
-          id: args.subscriptionId,
-        },
-      }
-    );
+    subscription = await args.dbClient.contributionSubscription.findUnique({
+      where: {
+        id: args.subscriptionId,
+      },
+    });
 
     if (subscription == null)
       throw new Error(`Subscription Id ${args.subscriptionId} not found`);
 
+    email = subscription.email;
+  }
+
+  const user = await args.dbClient.user.findUnique({
+    where: {
+      email: email,
+    },
+  });
+  let connectUser = {};
+  if (user != null) {
+    connectUser = { connect: { id: user.id } };
+  }
+
+  if (args.subscriptionId) {
     return await args.dbClient.contribution.create({
       data: {
-        email: subscription.email,
+        email: email!,
         amountInCents: args.amountInCents,
         state: "completed",
         externalId: args.externalContributionId,
@@ -87,13 +92,13 @@ const createContribution = async (
           },
         },
         User: connectUser,
-        experimentId: subscription.experimentId,
+        experimentId: subscription!.experimentId,
       },
     });
   } else {
     return await args.dbClient.contribution.create({
       data: {
-        email: args.email!,
+        email: email!,
         amountInCents: args.amountInCents,
         state: "pending",
         experimentId: args.experimentId,
