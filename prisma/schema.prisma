@@ -28,7 +28,8 @@ enum SubscriptionState {
 
 enum ContributionOrigin {
   online
-  pgc
+  manual
+  old_site
 
   @@map("contribution_origin")
 }
