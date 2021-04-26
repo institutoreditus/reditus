@@ -5,6 +5,10 @@
   --mdc-layout-grid-margin-desktop: 0;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 html,
 body {
   padding: 0;
@@ -12,8 +16,10 @@ body {
   font-family: "Open Sans", sans-serif;
 }
 
-* {
-  box-sizing: border-box;
+@media (min-resolution: 2dppx) {
+  body {
+    zoom: 80% !important;
+  }
 }
 
 [type="radio"]:checked,

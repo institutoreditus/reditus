@@ -21,13 +21,27 @@
   background-image: url("/loginBkg.png");
   background-size: cover;
   background-repeat: no-repeat;
-  height: 100vh;
+  height: 125vh;
   padding: 10px 32%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   vertical-align: middle;
 }
+
+@media not all and (min-resolution:.001dpcm) { 
+  @supports (-webkit-appearance:none) {
+      .rightSide {
+        height: 100vh;
+      }
+  }
+}
+
+@-moz-document url-prefix() {
+  .rightSide {
+    height: 100vh;
+  }
+}  
 
 .rightSide img {
   width: 100px;
