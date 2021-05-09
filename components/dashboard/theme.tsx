@@ -113,7 +113,6 @@ export const lightTheme = createMuiTheme({
         borderColor: "#00d4ff !important",
       },
     },
-
     MuiButtonGroup: {
       root: {
         marginBottom: 15,
@@ -126,6 +125,11 @@ export const lightTheme = createMuiTheme({
       },
       formControl: {
         transform: "translate(0, 12px) scale(1)",
+      },
+    },
+    MuiIcon: {
+      fontSizeSmall: {
+        fontSize: 15,
       },
     },
   },
