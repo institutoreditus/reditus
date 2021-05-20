@@ -6,6 +6,15 @@ import { useRouter } from "next/router";
 import NextLink from "next/link";
 import MuiLink from "@material-ui/core/Link";
 
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles(() => ({
+  link: {
+    display: "flex",
+    textDecoration: "none !important",
+  },
+}));
+
 const NextComposed = React.forwardRef(function NextComposed(
   props: any,
   ref: any
@@ -77,6 +86,8 @@ Link.propTypes = {
 };
 
 // eslint-disable-next-line react/display-name
-export default React.forwardRef((props: any, ref: any) => (
-  <Link {...props} innerRef={ref} />
-));
+export default React.forwardRef((props: any, ref: any) => {
+  const classes = useStyles();
+
+  return <Link {...props} className={classes.link} innerRef={ref} />;
+});
