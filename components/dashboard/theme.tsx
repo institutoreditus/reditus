@@ -46,10 +46,10 @@ export const lightTheme = createMuiTheme({
   palette: {
     type: "light",
     primary: {
-      main: "#00d4ff",
+      main: "#0E0B1F",
     },
     secondary: {
-      main: "#0E0B1F",
+      main: "#00d4ff",
     },
     background: {
       default: "#F7FAFC",
@@ -99,7 +99,7 @@ export const lightTheme = createMuiTheme({
         fontFamily: "'Open sans', sans-serif !important",
         fontSize: 15,
         textTransform: "none",
-        background: "linear-gradient(45deg, #2196F3 30%, #00d4ff 90%)",
+        background: "linear-gradient(45deg, #00d4ff 30%, #00d4ff 90%)",
         borderRadius: 2,
         color: "black",
         fontWeight: 600,
