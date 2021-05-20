@@ -18,12 +18,15 @@ import Box from "@material-ui/core/Box";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import Avatar from "@material-ui/core/Avatar";
-import TimelineRoundedIcon from "@material-ui/icons/TimelineRounded";
-import PersonRoundedIcon from "@material-ui/icons/PersonRounded";
-import { DashboardIcon } from "../assets/DashboardIcon";
+import { Timeline } from "@styled-icons/material/Timeline";
+// import PersonRoundedIcon from "@material-ui/icons/PersonRounded";
+import { Person } from "@styled-icons/material-rounded/Person";
+import { DashboardCustomize } from "@styled-icons/material/DashboardCustomize";
 import { MenuCollapseIcon } from "../assets/MenuCollapseIcon";
 import CreditCardIcon from "@material-ui/icons/CreditCardOutlined";
 import Footer from "../Footer";
+
+import Link from "../Link/";
 
 // import useStyles from "./styles";
 // import useDarkMode from "use-dark-mode";
@@ -31,7 +34,7 @@ import { useSpring, animated } from "react-spring";
 
 import { makeStyles } from "@material-ui/core/styles";
 
-const drawerWidth = 302;
+const drawerWidth = 270;
 const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1,
@@ -50,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
     border: "none",
   },
   donationButton: {
-    boxShadow: "5px 6px 10px rgba(33, 150, 243, 0.31)",
+    // boxShadow: "5px 6px 10px rgba(33, 150, 243, 0.31)",
     borderRadius: 4,
     color: "#fff",
     width: 240,
@@ -133,26 +136,19 @@ const useStyles = makeStyles((theme) => ({
     opacity: 0,
   },
   icon: {
-    "&:hover": {
-      color: "#00d4ff",
-    },
-    "&:active": {
-      color: "#0E0B1F",
-    },
+    color: "#0E0B1F",
   },
-  overlayIconActive: {
-    backgroundColor: "#0E0B1F !important",
+  iconActive: {
+    color: "#00d4ff",
+    padding: 14,
+    marginTop: -10,
+    marginLeft: -15,
+    backgroundColor: "#0E0B1F",
     borderRadius: 3,
+    display: "flex",
+    position: "absolute",
   },
-  overlayIcon: {
-    backgroundColor: "#fff",
-    border: "none",
-    height: 55,
-    width: 55,
-    paddingTop: 6,
-    marginLeft: -16,
-    zIndex: 1,
-  },
+
   drawerOpen: {
     width: drawerWidth,
     transition: theme.transitions.create("width", {
@@ -238,17 +234,17 @@ const useStyles = makeStyles((theme) => ({
 
 const path = [
   {
-    id: 1,
+    id: 0,
     nome: "Dashboard",
     url: "/dashboard",
   },
   {
-    id: 2,
+    id: 1,
     nome: "Contribuições",
     url: "/dashboard/contribuicoes",
   },
   {
-    id: 3,
+    id: 2,
     nome: "Perfil",
     url: "/dashboard/perfil",
   },
@@ -268,8 +264,6 @@ export const Layout = ({ children }: any) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   // const [expand, setExpand] = React.useState(false);
-  const [isActive, setIsActive] = React.useState(false);
-  // const [activePath, setActivePath] = React.useState("");
 
   // const handleClickExpand = () => {
   //  setExpand(!expand);
@@ -481,41 +475,49 @@ export const Layout = ({ children }: any) => {
       >
         <List component="div">
           {path.map((path: any, index: number) => (
-            <ListItem
-              onClick={() => {
-                setIsActive(isActive === true ? false : true);
-                // setActivePath(`${path.url}`);
-                router.push(`${path.url}`);
-              }}
-              key={path.id}
-              className={classes.drawerMenuItem}
-              button={true}
-              selected={path.index == path.id ? true : false}
-            >
-              <ListItemIcon className={clsx(classes.drawerMenuIcon)}>
-                <>
-                  {
+            <ListItem key={path.id} className={classes.drawerMenuItem}>
+              <Link key={path.id} href={path.url}>
+                <ListItemIcon className={clsx(classes.drawerMenuIcon)}>
+                  <>
                     {
-                      0: (
-                        <DashboardIcon
-                          color="#2E384D"
-                          className={classes.icon}
-                        />
-                      ),
-                      1: <TimelineRoundedIcon className={classes.icon} />,
-                      2: <PersonRoundedIcon className={classes.icon} />,
-                    }[index]
+                      {
+                        0: (
+                          <Link
+                            activeClassName={clsx(classes.iconActive)}
+                            href={path.url}
+                          >
+                            <DashboardCustomize size={24} />
+                          </Link>
+                        ),
+                        1: (
+                          <Link
+                            activeClassName={clsx(classes.iconActive)}
+                            href={path.url}
+                          >
+                            <Timeline size={24} />
+                          </Link>
+                        ),
+                        2: (
+                          <Link
+                            activeClassName={clsx(classes.iconActive)}
+                            href={path.url}
+                          >
+                            <Person size={24} />
+                          </Link>
+                        ),
+                      }[index]
+                    }
+                  </>
+                </ListItemIcon>
+                <ListItemText
+                  className={
+                    open == true
+                      ? classes.drawerMenuText
+                      : classes.drawerMenuTextCollapsed
                   }
-                </>
-              </ListItemIcon>
-              <ListItemText
-                className={
-                  open == true
-                    ? classes.drawerMenuText
-                    : classes.drawerMenuTextCollapsed
-                }
-                primary={path.nome}
-              />
+                  primary={path.nome}
+                />
+              </Link>
             </ListItem>
           ))}
         </List>
