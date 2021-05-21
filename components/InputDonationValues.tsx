@@ -271,7 +271,12 @@ export const InputDonationValues = (props: any) => {
               <Checkbox
                 className={styles.checkbox}
                 disabled={loading}
-                label={<div>Declaro que a origem desta doação é lícita</div>}
+                label={
+                  <div style={{ fontSize: 13 }}>
+                    Declaro que as quantias doadas não são produto de crime ou
+                    oriundas de quaisquer atividades ilícitas.
+                  </div>
+                }
                 type="checkbox"
                 name="consentLicitOriginCheckbox"
                 onChange={(e: any) => {
