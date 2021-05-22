@@ -50,3 +50,25 @@ yarn dev
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+
+## Run tests
+
+Run the following command to run the tests:
+```bash
+npm run test-local
+```
+
+This command will do the following:
+1. create a new Postgresql database from scratch using docker-compose running on port 5433,
+2. run the migrations
+3. run the tests
+4. destroy the database
+
+Even if the database already exists, it will be reset using the command "npx prisma migrate reset".
+
+Alternatively, if you don't have Docker, you may run the following command:
+```bash
+npm run test
+```
+
+However, note that in this case the tests might fail, since they assume that the database is empty. You will need to setup the database accordingly.
