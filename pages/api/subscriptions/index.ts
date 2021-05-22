@@ -114,6 +114,8 @@ async function runCreateSubscription(
           name: args.customer.name,
           document_number: args.customer.document_number,
           email: args.customer.email,
+          address: args.customer.address,
+          phone: args.customer.phone,
         },
       });
 
@@ -138,6 +140,12 @@ async function runCreateSubscription(
       mail(args.customer.email, args.customer.name);
     } catch (err) {
       mailError(args.customer.email, err);
+      console.log(err);
+      console.log("###########################");
+      console.log(err.response);
+
+      res.statusCode = 500;
+      res.send("");
     }
   } else {
     res.statusCode = 400;

@@ -59,6 +59,8 @@ export const InputDonationValues = (props: any) => {
 
   // privacyTermsAck stores whether user has marked the checkbox or not.
   const [privacyTermsAck, setPrivacyTermsAck] = useState(false);
+  // licitConsent stores whether user has marked the checkbox or not.
+  const [consentLicitOrigin, setConsentLicitOrigin] = useState(false);
   // errorConsent controls showing the user an error msg in case the user clicks
   // the contribute button without having ack the privacy policy.
   const [errorConsent, setErrorConsent] = useState(false);
@@ -77,9 +79,10 @@ export const InputDonationValues = (props: any) => {
     e.preventDefault();
     const error =
       !privacyTermsAck ||
+      !consentLicitOrigin ||
       !props.form.amountInCents ||
       props.form.amountInCents < 5;
-    if (!privacyTermsAck) {
+    if (!privacyTermsAck || !consentLicitOrigin) {
       setErrorConsent(true);
     }
     if (!props.form.amountInCents || props.form.amountInCents < 5) {
@@ -264,12 +267,44 @@ export const InputDonationValues = (props: any) => {
                   setErrorConsent(false);
                 }}
               />
-              {errorConsent && (
+
+              <Checkbox
+                className={styles.checkbox}
+                disabled={loading}
+                label={
+                  <div style={{ fontSize: 13 }}>
+                    Declaro que as quantias doadas não são produto de crime ou
+                    oriundas de quaisquer atividades ilícitas.
+                  </div>
+                }
+                type="checkbox"
+                name="consentLicitOriginCheckbox"
+                onChange={(e: any) => {
+                  push(
+                    ReditusEvent.click,
+                    `Mark T&C checkbox: ${e.target.checked}`
+                  );
+                  setConsentLicitOrigin(e.target.checked);
+                  setErrorConsent(false);
+                }}
+              />
+
+              {errorConsent && !privacyTermsAck && (
                 <FormHelperText
                   id="terms-privacy-component-error-text"
                   style={{ margin: 0 }}
                 >
                   Por favor, leia nossos termos de uso antes de prosseguir.
+                </FormHelperText>
+              )}
+
+              {errorConsent && !consentLicitOrigin && (
+                <FormHelperText
+                  id="consent-licit-prigin-component-error-text"
+                  style={{ margin: 0 }}
+                >
+                  Para prosseguir também precisamos que você confirme que a
+                  origem da doação é lícita.
                 </FormHelperText>
               )}
             </FormControl>
