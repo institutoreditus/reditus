@@ -116,11 +116,11 @@ export const InputDonationValues = (props: any) => {
       success: async function (data: any) {
         try {
 
-          props.form.donationMode == "subscriptions" ? 
-          data["ssr"] = RoxContainer.suggestedMonthlyDonationValues.getValue(): 
-          data["ssr"] = RoxContainer.suggestedSingleDonationValues.getValue();
+          // props.form.donationMode == "subscriptions" ? 
+          // data["ssr"] = RoxContainer.suggestedMonthlyDonationValues.getValue(): 
+          // data["ssr"] = RoxContainer.suggestedSingleDonationValues.getValue();
           
-          //data["ssr"] = `${val1}|${val2}|${val3}`;
+          data["ssr"] = `${val1}|${val2}|${val3}`;
           props.update("email", data.customer.email);
           setLoading(true);
           const response = await axios.post(`/api/${donationMode}`, data);

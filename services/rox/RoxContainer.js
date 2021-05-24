@@ -17,7 +17,6 @@ if (!Rox.containerCache) {
       suggestedMonthlyDonationValues: new FakeFlag("30|75|150"),
       suggestedSingleDonationValues: new FakeFlag("100|200|500"),
       shouldShowRegistrationForm: new FakeFlag(false),
-      
     };
   } else {
     Rox.containerCache = {
