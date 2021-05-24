@@ -14,15 +14,20 @@ if (!Rox.containerCache) {
   const key = process.env.ROLLOUT_API_KEY || "";
   if (!key) {
     Rox.containerCache = {
-      suggestedDonationValues: new FakeFlag("25|75|100"),
+      suggestedMonthlyDonationValues: new FakeFlag("30|75|150"),
+      suggestedSingleDonationValues: new FakeFlag("100|200|500"),
       shouldShowRegistrationForm: new FakeFlag(false),
+      
     };
   } else {
     Rox.containerCache = {
-      suggestedDonationValues: new Variant("25|75|150", [
+      suggestedMonthlyDonationValues: new Variant("30|75|150", [
         "25|75|150",
-        "50|150|300",
-        "150|300|500",
+        "50|75|150",
+      ]),
+      suggestedSingleDonationValues: new Variant("100|200|500", [
+        "100|150|200",
+        "100|110|120",
       ]),
       shouldShowRegistrationForm: new Flag(),
     };
