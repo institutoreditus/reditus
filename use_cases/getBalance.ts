@@ -13,7 +13,7 @@ interface GetBalanceArgs {
   groupBy?: BalanceGrouping;
 }
 
-interface Balance {
+export interface Balance {
   referenceDate: Date;
   balance: number;
 }

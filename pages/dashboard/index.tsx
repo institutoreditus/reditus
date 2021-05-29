@@ -1,18 +1,41 @@
 import React from "react";
 import Head from "next/head";
 import { Box } from "@material-ui/core";
-
 import { Dashboard as DashboardWrapper } from "../../components/dashboard";
 import Cards from "../../components/dashboard/Layout/Cards";
+import { getSession } from "next-auth/client";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+import useSession from "../../hooks/useSession";
+import getBalance, {
+  BalanceGrouping,
+  Balance,
+} from "../../use_cases/getBalance";
+import createDIContainer from "../../dependency_injection/createDIContainer";
+import { PrismaClient } from "@prisma/client";
 // import useDarkMode from "use-dark-mode";
 
-function Dashboard() {
-  // const { Component, pageProps } = props;
-  // const { value: isDark } = useDarkMode(true);
+interface Props {
+  loggedIn?: boolean;
+  email?: string;
+  balance?: Balance[];
+}
 
-  // const themeConfig = isDark ? darkTheme : lightTheme;
+const Dashboard = ({ loggedIn, email, balance }: Props) => {
+  const [session, loading] = useSession();
+  const router = useRouter();
 
-  return (
+  useEffect(() => {
+    if (!(session || loading)) {
+      router.push("/");
+    }
+  }, [session, loading]);
+
+  console.log(loggedIn);
+  console.log(email);
+  console.log(balance);
+
+  return session ? (
     <React.Fragment>
       <Head>
         <title>Reditus - Dashboard</title>
@@ -29,7 +52,33 @@ function Dashboard() {
         <Cards />
       </DashboardWrapper>
     </React.Fragment>
+  ) : (
+    ""
   );
-}
+};
+
+Dashboard.getInitialProps = async (ctx: any) => {
+  const session = await getSession(ctx);
+
+  if (!session) {
+    return { loggedIn: false };
+  }
+
+  const groupBy = BalanceGrouping.month;
+  const fromDate = new Date(2020, 1, 1);
+  const toDate = new Date(2021, 12, 31);
+  const container = await createDIContainer();
+  const scope = container.createScope();
+  const dbClient: PrismaClient = scope.resolve("dbClient");
+
+  const balance = await getBalance({
+    dbClient: dbClient,
+    fromDate: fromDate,
+    toDate: toDate,
+    groupBy: groupBy,
+  });
+
+  return { loggedIn: true, email: session.user.email, balance: balance };
+};
 
 export default Dashboard;
