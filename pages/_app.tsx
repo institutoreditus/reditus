@@ -75,7 +75,7 @@ function App({ Component, pageProps }: AppProps) {
       router.events.off("routeChangeComplete", handleRouteChange);
     };
   }, [router.events]);
-  
+
   if (!dashboardEnabled) return <Component {...pageProps} />;
 
   return (
