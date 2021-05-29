@@ -28,16 +28,22 @@ import LinearProgress from "@material-ui/core/LinearProgress";
 import { useState } from "react";
 import { AppProps } from "next/app";
 import { useRouter } from "next/router";
+import { Provider } from "next-auth/client";
 import { useEffect } from "react";
 import * as gtag from "../helpers/gtag";
 import * as gtm from "../helpers/gtm";
 import { ThemeProvider } from "@material-ui/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { lightTheme } from "../components/dashboard/theme";
+import RoxContainer from "../services/rox/RoxContainer";
+import roxService from "../services/rox/RoxService";
+
+roxService(RoxContainer);
 
 const isProduction = process.env.NODE_ENV === "production";
 
 function App({ Component, pageProps }: AppProps) {
+  const dashboardEnabled = JSON.parse(RoxContainer.dashboardEnabled.getValue());
   const router = useRouter();
 
   const [pageLoading, setPageLoading] = useState<boolean>(false);
@@ -69,15 +75,20 @@ function App({ Component, pageProps }: AppProps) {
       router.events.off("routeChangeComplete", handleRouteChange);
     };
   }, [router.events]);
+  
+  if (!dashboardEnabled) return <Component {...pageProps} />;
+
   return (
-    <ThemeProvider theme={lightTheme}>
-      <CssBaseline />
-      {pageLoading ? (
-        <LinearProgress color="primary" />
-      ) : (
-        <Component {...pageProps} />
-      )}
-    </ThemeProvider>
+    <Provider session={pageProps.session}>
+      <ThemeProvider theme={lightTheme}>
+        <CssBaseline />
+        {pageLoading ? (
+          <LinearProgress color="primary" />
+        ) : (
+          <Component {...pageProps} />
+        )}
+      </ThemeProvider>
+    </Provider>
   );
 }
 
