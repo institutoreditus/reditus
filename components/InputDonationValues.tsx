@@ -71,22 +71,23 @@ export const InputDonationValues = (props: any) => {
   // loading controls showing the loading bar.
   const [loading, setLoading] = useState(false);
 
-  
-  const [mValue1, mValue2 , mValue3] = RoxContainer.suggestedMonthlyDonationValues
-  .getValue()
-  .split("|", 3)
-  .map((x: string) => +x);
+  const [
+    mValue1,
+    mValue2,
+    mValue3,
+  ] = RoxContainer.suggestedMonthlyDonationValues
+    .getValue()
+    .split("|", 3)
+    .map((x: string) => +x);
 
   const [sValue1, sValue2, sValue3] = RoxContainer.suggestedSingleDonationValues
-  .getValue()
-  .split("|", 3)
-  .map((x: string) => +x);
+    .getValue()
+    .split("|", 3)
+    .map((x: string) => +x);
 
   const val1 = props.form.donationMode == "subscriptions" ? mValue1 : sValue1;
   const val2 = props.form.donationMode == "subscriptions" ? mValue2 : sValue2;
   const val3 = props.form.donationMode == "subscriptions" ? mValue3 : sValue3;
-
-
 
   async function onCheckout(e: any) {
     e.preventDefault();
@@ -117,13 +118,15 @@ export const InputDonationValues = (props: any) => {
       encryption_key: encryptionKey,
       success: async function (data: any) {
         try {
+          props.form.donationMode == "subscriptions"
+            ? (data[
+                "ssr"
+              ] = RoxContainer.suggestedMonthlyDonationValues.getValue())
+            : (data[
+                "ssr"
+              ] = RoxContainer.suggestedSingleDonationValues.getValue());
 
-          props.form.donationMode == "subscriptions" ? 
-          data["ssr"] = RoxContainer.suggestedMonthlyDonationValues.getValue(): 
-          data["ssr"] = RoxContainer.suggestedSingleDonationValues.getValue();
-          
-
-          //data["ssr"] = `${val1}|${val2}|${val3}`;
+          // data["ssr"] = `${val1}|${val2}|${val3}`;
           props.update("email", data.customer.email);
           setLoading(true);
           const response = await axios.post(`/api/${donationMode}`, data);

@@ -20,8 +20,14 @@ if (!Rox.containerCache) {
     };
   } else {
     Rox.containerCache = {
-      suggestedMonthlyDonationValues: new RoxString("25|75|150",["25|75|150", "50|75|150"]),
-      suggestedSingleDonationValues: new RoxString("100|150|200", ["100|150|200", "100|110|120"]),
+      suggestedMonthlyDonationValues: new RoxString("25|75|150", [
+        "25|75|150",
+        "50|75|150",
+      ]),
+      suggestedSingleDonationValues: new RoxString("100|150|200", [
+        "100|150|200",
+        "100|110|120",
+      ]),
       shouldShowRegistrationForm: new Flag(),
     };
   }
