@@ -1,4 +1,4 @@
-import { Rox, Flag, Variant } from "rox-ssr";
+import { Rox, Flag, RoxString } from "rox-ssr";
 
 class FakeFlag {
   constructor(value) {
@@ -20,14 +20,8 @@ if (!Rox.containerCache) {
     };
   } else {
     Rox.containerCache = {
-      suggestedMonthlyDonationValues: new Variant("30|75|150", [
-        "25|75|150",
-        "50|75|150",
-      ]),
-      suggestedSingleDonationValues: new Variant("100|200|500", [
-        "100|150|200",
-        "100|110|120",
-      ]),
+      suggestedMonthlyDonationValues: new RoxString("25|75|150",["25|75|150", "50|75|150"]),
+      suggestedSingleDonationValues: new RoxString("100|150|200", ["100|150|200", "100|110|120"]),
       shouldShowRegistrationForm: new Flag(),
     };
   }

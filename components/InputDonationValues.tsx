@@ -86,6 +86,8 @@ export const InputDonationValues = (props: any) => {
   const val2 = props.form.donationMode == "subscriptions" ? mValue2 : sValue2;
   const val3 = props.form.donationMode == "subscriptions" ? mValue3 : sValue3;
 
+
+
   async function onCheckout(e: any) {
     e.preventDefault();
     const error =
@@ -116,11 +118,12 @@ export const InputDonationValues = (props: any) => {
       success: async function (data: any) {
         try {
 
-          // props.form.donationMode == "subscriptions" ? 
-          // data["ssr"] = RoxContainer.suggestedMonthlyDonationValues.getValue(): 
-          // data["ssr"] = RoxContainer.suggestedSingleDonationValues.getValue();
+          props.form.donationMode == "subscriptions" ? 
+          data["ssr"] = RoxContainer.suggestedMonthlyDonationValues.getValue(): 
+          data["ssr"] = RoxContainer.suggestedSingleDonationValues.getValue();
           
-          data["ssr"] = `${val1}|${val2}|${val3}`;
+
+          //data["ssr"] = `${val1}|${val2}|${val3}`;
           props.update("email", data.customer.email);
           setLoading(true);
           const response = await axios.post(`/api/${donationMode}`, data);
