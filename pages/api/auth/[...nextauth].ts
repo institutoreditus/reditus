@@ -21,17 +21,9 @@ const service: string = process.env.MAILER_SERVICE || "mailhog";
 if (!from || !email || !pass || !service)
   throw new Error("Invalid auth configuration.");
 
-const prisma = new PrismaClient();
-const baseAdapter = Adapters.Prisma.Adapter({ prisma });
 async function notImplemented() {
   throw new Error("Not implemented");
 }
-const adapter = {
-  ...baseAdapter,
-  createUser: notImplemented,
-  deleteUser: notImplemented,
-  unlinkAccount: notImplemented,
-};
 
 // TODO: Maybe we can share this with the nodemailer config
 const serviceServer =
@@ -49,51 +41,63 @@ const serviceServer =
         port: 1025,
       };
 
-const options: InitOptions = {
-  // Configure one or more authentication providers
-  providers: [
-    Providers.Email({
-      server: {
-        ...serviceServer,
-        auth: {
-          user: email,
-          pass,
-        },
-      },
-      from,
-    }),
-  ],
-  adapter,
-  callbacks: {
-    async session(session): Promise<Session> {
-      const container = await createDIContainer();
-      const scope = container.createScope();
-      const dbClient: PrismaClient = scope.resolve("dbClient");
-
-      if (session.user.email) {
-        const dbUser = await dbClient.user.findFirst({
-          where: { email: session.user.email },
-        });
-        if (dbUser) {
-          const { email, firstName, lastName } = dbUser;
-          const user: User = {
-            email,
-            firstName,
-            lastName,
-          };
-          return { ...session, user };
-        }
-      }
-
-      throw new Error("User without email");
-    },
-  },
-};
-
-export default (req: NextApiRequest, res: NextApiResponse) => {
+export default async (req: NextApiRequest, res: NextApiResponse) => {
   const dashboardEnabled = JSON.parse(RoxContainer.dashboardEnabled.getValue());
   if (dashboardEnabled) {
-    return NextAuth(req, res, options);
+    const container = await createDIContainer();
+    const scope = container.createScope();
+
+    try {
+      const prisma: PrismaClient = scope.resolve("dbClient");
+      const baseAdapter = Adapters.Prisma.Adapter({ prisma });
+      const adapter = {
+        ...baseAdapter,
+        createUser: notImplemented,
+        deleteUser: notImplemented,
+        unlinkAccount: notImplemented,
+      };
+
+      const options: InitOptions = {
+        // Configure one or more authentication providers
+        providers: [
+          Providers.Email({
+            server: {
+              ...serviceServer,
+              auth: {
+                user: email,
+                pass,
+              },
+            },
+            from,
+          }),
+        ],
+        adapter,
+        callbacks: {
+          async session(session): Promise<Session> {
+            if (session.user.email) {
+              const dbUser = await prisma.user.findFirst({
+                where: { email: session.user.email },
+              });
+              if (dbUser) {
+                const { email, firstName, lastName } = dbUser;
+                const user: User = {
+                  email,
+                  firstName,
+                  lastName,
+                };
+                return { ...session, user };
+              }
+            }
+
+            throw new Error("User without email");
+          },
+        },
+      };
+
+      await NextAuth(req, res, options);
+    } finally {
+      scope.dispose();
+    }
   } else {
     res.status(404).json({});
   }

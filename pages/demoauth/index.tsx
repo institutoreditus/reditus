@@ -86,6 +86,7 @@ DemoAuth.getInitialProps = async (ctx) => {
     }
   }
 
+  scope.dispose();
   return {};
 };
 

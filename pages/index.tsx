@@ -2,11 +2,16 @@ import Head from "next/head";
 import { GridRow, GridCell } from "@rmwc/grid";
 import { List, SimpleListItem } from "@rmwc/list";
 import styles from "./index.module.css";
+import useSession from "../hooks/useSession";
+import { signIn, signOut } from "next-auth/client";
+import url from "url";
 
 // Components
 import { Form } from "../components/Form";
 
 export default function Home() {
+  const [session, loading] = useSession();
+
   return (
     <div className={styles.body}>
       <Head>
@@ -58,6 +63,30 @@ export default function Home() {
             phone={12}
             align={"middle"}
           >
+            {!loading && !session && (
+              <>
+                Not signed in <br />
+                <button
+                  onClick={() =>
+                    signIn(undefined, {
+                      callbackUrl: url.resolve(
+                        window.location.href,
+                        "/dashboard"
+                      ),
+                    })
+                  }
+                >
+                  Sign in
+                </button>
+              </>
+            )}
+            {!loading && session && (
+              <>
+                Signed in as {session.user.lastName}, {session.user.firstName}{" "}
+                <br />
+                <button onClick={() => signOut()}>Sign out</button>
+              </>
+            )}
             <img src="./logoReditusWhite.png" />
             <Form />
           </GridCell>

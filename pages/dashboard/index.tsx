@@ -45,7 +45,7 @@ const Dashboard = ({ loggedIn, email, balance }: Props) => {
         />
       </Head>
 
-      <DashboardWrapper>
+      <DashboardWrapper user={session.user}>
         <Box color="#2E384D" fontSize={28} fontWeight={300} component="h2">
           Acompanhamento das doações
         </Box>
@@ -57,11 +57,11 @@ const Dashboard = ({ loggedIn, email, balance }: Props) => {
   );
 };
 
-Dashboard.getInitialProps = async (ctx: any) => {
+export async function getServerSideProps(ctx: any) {
   const session = await getSession(ctx);
 
   if (!session) {
-    return { loggedIn: false };
+    return { props: { loggedIn: false } };
   }
 
   const groupBy = BalanceGrouping.month;
@@ -69,16 +69,22 @@ Dashboard.getInitialProps = async (ctx: any) => {
   const toDate = new Date(2021, 12, 31);
   const container = await createDIContainer();
   const scope = container.createScope();
-  const dbClient: PrismaClient = scope.resolve("dbClient");
+  try {
+    const dbClient: PrismaClient = scope.resolve("dbClient");
 
-  const balance = await getBalance({
-    dbClient: dbClient,
-    fromDate: fromDate,
-    toDate: toDate,
-    groupBy: groupBy,
-  });
+    const balance = await getBalance({
+      dbClient: dbClient,
+      fromDate: fromDate,
+      toDate: toDate,
+      groupBy: groupBy,
+    });
 
-  return { loggedIn: true, email: session.user.email, balance: balance };
-};
+    return {
+      props: { loggedIn: true, email: session.user.email, balance: balance },
+    };
+  } finally {
+    scope.dispose();
+  }
+}
 
 export default Dashboard;

@@ -34,19 +34,21 @@ const createUser = async (args: CreateUserArgs): Promise<User> => {
       `Usuário com email ${args.email} já está cadastado.`
     );
 
-  const existingContributionsForUser =
-    await args.dbClient.contribution.findMany({
+  const existingContributionsForUser = await args.dbClient.contribution.findMany(
+    {
       where: {
         email: args.email,
       },
-    });
+    }
+  );
 
-  const existingSubscriptionsForUser =
-    await args.dbClient.contributionSubscription.findMany({
+  const existingSubscriptionsForUser = await args.dbClient.contributionSubscription.findMany(
+    {
       where: {
         email: args.email,
       },
-    });
+    }
+  );
 
   user = await args.dbClient.user.create({
     data: {

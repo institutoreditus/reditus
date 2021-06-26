@@ -250,8 +250,12 @@ const path = [
   },
 ];
 
-export const Layout = ({ children }: any) => {
-  const userName = "Cláudia Milano";
+export const Layout = ({ children, user }: any) => {
+  let userName = "Cláudia Milano";
+  if (user) {
+    userName = `${user.firstName} ${user.lastName}`;
+  }
+
   const classes = useStyles();
 
   const router = useRouter();
@@ -446,6 +450,7 @@ export const Layout = ({ children }: any) => {
               aria-haspopup="true"
               onClick={handleMobileMenuOpen}
               color="inherit"
+              userName
               className={classes.iconButton}
             >
               <MoreIcon />
