@@ -18,7 +18,7 @@ export interface Session extends NextAuthSession {
 // Tricking typescript to believe that we know what we are doing.
 const useSession = (): [Session | null, boolean] => {
   const [session, loading] = nextAuthUseSession();
-  return [(session as unknown) as Session | null, loading];
+  return [session as unknown as Session | null, loading];
 };
 
 export default useSession;
