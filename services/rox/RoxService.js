@@ -1,5 +1,5 @@
 import { Rox } from "rox-ssr";
-export default function (container) {
+export default async function (container) {
   if (!Rox.hasStarted) {
     Rox.hasStarted = true;
 
@@ -7,7 +7,7 @@ export default function (container) {
     if (!key) return;
 
     Rox.register("SSR", container);
-    Rox.setup(key, {
+    await Rox.setup(key, {
       version: "1.0.0",
       platform: "Isomorphic",
       configuration:
