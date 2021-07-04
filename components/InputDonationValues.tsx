@@ -12,7 +12,7 @@ import styles from "./Form.module.css";
 import RoxContainer from "../services/rox/RoxContainer";
 import service from "../services/rox/RoxService";
 import Link from "next/link";
-import { ReditusEvent, push } from "../helpers/gtm";
+import { ReditusEvent, push, pushDonation } from "../helpers/gtm";
 
 const theme = createMuiTheme({
   palette: {
@@ -33,8 +33,8 @@ export const InputDonationValues = (props: any) => {
     props.previousStep();
   };
 
-  const successDonation = (userExists: boolean) => {
-    push(ReditusEvent.info, "Donation concluded");
+  const successDonation = (userExists: boolean, amountInCents: number, type: string) => {
+    pushDonation(ReditusEvent.info, "Donation concluded", amountInCents, type);
     if (userExists) {
       push(ReditusEvent.info, "Donation done by a recurring user");
     }
@@ -136,7 +136,7 @@ export const InputDonationValues = (props: any) => {
             userExists = !!response.data.userExists;
 
           setLoading(false);
-          return successDonation(userExists);
+          return successDonation(userExists, amountInCents, donationMode);
         } catch (err) {
           return failedDonation();
         }
