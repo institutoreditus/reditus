@@ -103,18 +103,18 @@ test("creates a subscription in the database, completes it and returns it", asyn
   ).toEqual(resultCompleteAgain);
   expect(resultCompleteAgain).toEqual(resultComplete);
 
-  const contributionCountAfterSecondCompletion =
-    await prisma.contribution.count();
+  const contributionCountAfterSecondCompletion = await prisma.contribution.count();
   expect(contributionCountAfter).toEqual(
     contributionCountAfterSecondCompletion
   );
 
-  const contributionCreatedAfterSecondCompletion =
-    await prisma.contribution.findMany({
+  const contributionCreatedAfterSecondCompletion = await prisma.contribution.findMany(
+    {
       where: {
         subscriptionId: resultCompleteAgain.id,
       },
-    });
+    }
+  );
   expect(contributionCreatedAfterSecondCompletion).toHaveLength(1);
   expect(contributionCreatedAfterSecondCompletion[0]).toEqual(
     contributionCreated[0]
