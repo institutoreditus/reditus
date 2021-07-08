@@ -25,6 +25,11 @@ const SelectDonationMode = (props: any) => {
           de 2021 será triplicada
         </span>
       </p>
+      <p>
+        <span style={{ fontSize: "small" }}>
+          * Limitado a R$ 5.000 por CPF.
+        </span>
+      </p>
     </div>
   );
 };
