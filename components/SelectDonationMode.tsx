@@ -21,8 +21,8 @@ const SelectDonationMode = (props: any) => {
       </p>
       <p>
         <span style={{ fontSize: "small" }}>
-          * Para novas doações recorrentes, apenas a parcela referente ao mês de Julho
-          de 2021 será triplicada
+          * Para novas doações recorrentes, apenas a parcela referente ao mês de
+          Julho de 2021 será triplicada
         </span>
       </p>
       <p>
