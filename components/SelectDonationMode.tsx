@@ -16,12 +16,12 @@ const SelectDonationMode = (props: any) => {
       <ContributionButton step={1} {...props} />
       <p>
         <span style={{ fontSize: "small" }}>
-          * Válido de 04 a 31 de Julho de 2021
+          * Válido para novas doações realizadas de 04 a 31 de Julho de 2021
         </span>
       </p>
       <p>
         <span style={{ fontSize: "small" }}>
-          * Para doações recorrentes, apenas a parcela referente ao mês de Julho
+          * Para novas doações recorrentes, apenas a parcela referente ao mês de Julho
           de 2021 será triplicada
         </span>
       </p>
