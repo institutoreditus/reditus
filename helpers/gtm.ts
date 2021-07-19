@@ -29,3 +29,20 @@ export const push = (e: ReditusEvent, id: string) => {
   // @ts-ignore
   window && window.dataLayer && window.dataLayer.push(data);
 };
+
+// Pushes the donation object to the data layer.
+export const pushDonation = (
+  e: ReditusEvent,
+  id: string,
+  value: number,
+  donationType: string
+) => {
+  const data = {
+    event: e,
+    "Reditus ID": id,
+    amount: value,
+    type: donationType,
+  };
+  // @ts-ignore
+  window && window.dataLayer && window.dataLayer.push(data);
+};

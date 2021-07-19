@@ -30,6 +30,11 @@ const SelectDonationMode = (props: any) => {
           * Limitado a R$ 5.000 por CPF.
         </span>
       </p>
+      <p>
+        <span style={{ fontSize: "small" }}>
+          * Limitado a R$ 5.000 por CPF.
+        </span>
+      </p>
     </div>
   );
 };
