@@ -5,6 +5,7 @@ interface CreateSubscriptionArgs {
   email: string;
   amountInCents: number;
   experimentId?: string;
+  dateOfBirth?: Date;
 }
 
 const createSubscription = async (
@@ -33,6 +34,7 @@ const createSubscription = async (
       state: "pending",
       experimentId: args.experimentId,
       User: connectUser,
+      dateOfBirth: args.dateOfBirth,
     },
   });
 };

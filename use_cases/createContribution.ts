@@ -11,6 +11,7 @@ interface CreateContributionArgs {
   subscriptionId?: number;
   externalContributionId?: string;
   experimentId?: string;
+  dateOfBirth?: Date;
 }
 
 const createContribution = async (
@@ -31,6 +32,12 @@ const createContribution = async (
     if (args.subscriptionId == null) {
       throw new Error("Empty email");
     }
+  }
+
+  let dob = args.dateOfBirth;
+
+  if (args.dateOfBirth !== undefined && args.dateOfBirth.getFullYear() < 1900) {
+    dob = undefined;
   }
 
   // for subscriptions postbacks, it is possible that we actually create the contribution in the database but we don't respond Pagarme successfully (maybe some sort of network error or any other unexpected error)
@@ -93,6 +100,7 @@ const createContribution = async (
         },
         User: connectUser,
         experimentId: subscription!.experimentId,
+        dateOfBirth: dob,
       },
     });
   } else {
@@ -103,6 +111,7 @@ const createContribution = async (
         state: "pending",
         experimentId: args.experimentId,
         User: connectUser,
+        dateOfBirth: dob,
       },
     });
   }

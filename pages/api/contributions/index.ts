@@ -47,6 +47,7 @@ const CreateContributionSchema = schema({
   payment_method: schema.enum(PaymentMethod, "Invalid payment method"),
   customer: CustomerData,
   ssr: string,
+  dob: Date,
 });
 
 async function userExists(
@@ -74,6 +75,7 @@ async function runCreateContribution(
       email: args.customer.email,
       amountInCents: args.amount,
       experimentId: args.ssr,
+      dateOfBirth: new Date(args.dob),
     });
 
     try {

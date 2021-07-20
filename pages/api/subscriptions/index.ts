@@ -52,6 +52,7 @@ const CreateSubscriptionSchema = schema({
   payment_method: schema.enum(PaymentMethod, "Invalid payment method"),
   customer: CustomerData,
   ssr: string,
+  dob: Date,
 });
 
 async function userExists(
@@ -91,6 +92,7 @@ async function runCreateSubscription(
         email: args.customer.email,
         amountInCents: args.amount,
         experimentId: args.ssr,
+        dateOfBirth: new Date(args.dob),
       });
 
       const billingPeriodString =

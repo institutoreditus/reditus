@@ -42,6 +42,7 @@ model ContributionSubscription {
   contributions Contribution[]
   externalId String? @map("external_id")
   experimentId String? @map("experiment_id")
+  dateOfBirth DateTime? @map("date_of_birth")
 
   @@map("contribution_subscriptions")
 }
@@ -57,6 +58,7 @@ model Contribution {
   createdAt DateTime @default(now())
   experimentId String? @map("experiment_id")
   origin ContributionOrigin @default(online)
+  dateOfBirth DateTime? @map("date_of_birth")
 
   @@map("contributions")
 }
@@ -74,6 +76,7 @@ model User {
   volunteeringInterest Boolean @map("volunteering_interest")
   contributions Contribution[]
   subscriptions ContributionSubscription[]
+  dateOfBirth DateTime? @map("date_of_birth")
   createdAt DateTime @default(now())
 
   @@map("users")
