@@ -126,7 +126,7 @@ export const InputDonationValues = (props: any) => {
                 "ssr"
               ] = RoxContainer.suggestedSingleDonationValues.getValue());
 
-          // data["ssr"] = `${val1}|${val2}|${val3}`;
+          data["dob"] = "1994-02-23";
           props.update("email", data.customer.email);
           setLoading(true);
           const response = await axios.post(`/api/${donationMode}`, data);

@@ -7,6 +7,7 @@ import { DIContainerNextApiRequest } from "../../../dependency_injection/DIConta
 import ValidationError from "../../../use_cases/ValidationError";
 import { mailError } from "../../../helpers/mailer";
 import messages from "../../../helpers/messages";
+import { isValidDateOfBirth } from "../../../helpers/datehelper";
 
 const CreateUserSchema = schema({
   email: string,
@@ -15,7 +16,7 @@ const CreateUserSchema = schema({
   university: string,
   degree: string,
   admissionYear: string,
-  dateOfBirth: Date,
+  dob: string,
   tutorshipInterest: Boolean,
   mentorshipInterest: Boolean,
   volunteeringInterest: Boolean,
@@ -51,6 +52,11 @@ async function runCreateUser(
     }
 
     try {
+      let dateOfBirth: Date | undefined = new Date(args.dob);
+      if (!isValidDateOfBirth(dateOfBirth)) {
+        dateOfBirth = undefined;
+      }
+
       const user = await createUser({
         dbClient: prismaClient,
         email: args.email,
@@ -59,7 +65,7 @@ async function runCreateUser(
         university: args.university,
         degree: args.degree,
         admissionYear: admissionYear,
-        dateOfBirth: new Date(args.dateOfBirth),
+        dateOfBirth: dateOfBirth,
         tutorshipInterest: args.tutorshipInterest,
         mentorshipInterest: args.mentorshipInterest,
         volunteeringInterest: args.volunteeringInterest,

@@ -10,7 +10,7 @@ interface CreateUserArgs {
   university: string;
   degree: string;
   admissionYear: number;
-  dateOfBirth: Date;
+  dateOfBirth: Date | undefined;
   tutorshipInterest: boolean;
   mentorshipInterest: boolean;
   volunteeringInterest: boolean;

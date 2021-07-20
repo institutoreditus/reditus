@@ -9,3 +9,11 @@ export default function convertQueryParamToDate(dateString: string): Date {
     throw new Error("A data deve estar no formato yyyy-MM-dd");
   }
 }
+
+export function isValidDateOfBirth(dateOfBirth: Date): boolean {
+  return !(
+    !dateOfBirth ||
+    dateOfBirth.getFullYear() < 1900 ||
+    dateOfBirth.getFullYear() === new Date().getFullYear()
+  );
+}
