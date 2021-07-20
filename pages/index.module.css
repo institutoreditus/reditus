@@ -12,6 +12,14 @@
   margin: 1px auto 6px -1rem;
 }
 
+@media not all and (min-resolution:.001dpcm) {
+  @media {
+    .rightSide label span {
+      margin: 1px auto 6px -.8rem;
+    }
+  }
+}
+
 .rightSide {
   color: white;
   background-image: url("/loginBkg.png");
