@@ -6,7 +6,12 @@ import { Checkbox } from "@rmwc/checkbox";
 import axios from "axios";
 import { useState } from "react";
 import { FormControl, FormHelperText, LinearProgress } from "@material-ui/core";
-import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import {
+  createMuiTheme,
+  createStyles,
+  makeStyles,
+  ThemeProvider,
+} from "@material-ui/core/styles";
 
 import styles from "./Form.module.css";
 import RoxContainer from "../services/rox/RoxContainer";
@@ -14,13 +19,79 @@ import service from "../services/rox/RoxService";
 import Link from "next/link";
 import { ReditusEvent, push } from "../helpers/gtm";
 
+import Grid from "@material-ui/core/Grid";
+import "date-fns";
+import DateFnsUtils from "@date-io/date-fns";
+import { ptBR } from "date-fns/locale";
+
+import EventIcon from "@material-ui/icons/Event";
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+  // DatePicker
+} from "@material-ui/pickers";
+
 const theme = createMuiTheme({
   palette: {
     primary: {
       main: "#00d4ff",
     },
   },
+
+  overrides: {
+    MuiInputBase: {
+      input: {
+        color: "white",
+      },
+    },
+    MuiInput: {
+      underline: {
+        "&:before": {
+          borderBottomColor: "white",
+        },
+        "&:hover:not($disabled):not($focused):not($error):before": {
+          borderBottomColor: "#00d4ff",
+        },
+      },
+    },
+    MuiInputLabel: {
+      root: {
+        color: "white",
+        marginBottom: "-25px !important",
+        paddingBottom: "20px",
+        position: "absolute",
+      },
+    },
+    MuiFormLabel: {
+      root: {
+        marginTop: "-10px",
+      },
+    },
+    MuiButtonBase: {
+      root: {
+        marginBottom: "20px",
+      },
+    },
+  },
 });
+
+const useStyles = makeStyles(() =>
+  createStyles({
+    picker: {
+      width: "100%",
+      marginTop: 5,
+    },
+    datePickerIcon: {
+      color: "white",
+      "&:hover": {
+        color: "#00d4ff",
+      },
+    },
+    "&.MuiPickersToolbarButton-toolbarBtn": {
+      fontSize: "40px !important",
+    },
+  })
+);
 
 service(RoxContainer);
 
@@ -29,6 +100,8 @@ const encryptionKey = process.env.PAGARME_ENC_KEY;
 let checkedRadio: any;
 
 export const InputDonationValues = (props: any) => {
+  const classes = useStyles();
+
   const validate = () => {
     props.previousStep();
   };
@@ -162,6 +235,15 @@ export const InputDonationValues = (props: any) => {
     });
   }
 
+  // Picker to birthday's field
+  const [selectedDate, setSelectedDate] = useState<Date | null>(
+    new Date("2014-08-18T21:11:54")
+  );
+
+  const handleDateChange = (date: Date | null) => {
+    setSelectedDate(date);
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <div>
@@ -258,6 +340,45 @@ export const InputDonationValues = (props: any) => {
 
           <p>Vou doar: R$ {props.form.amountInCents}</p>
           <div style={{ display: "inline-block" }}>
+            <FormControl fullWidth={true}>
+              <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ptBR}>
+                <Grid container>
+                  <KeyboardDatePicker
+                    name="birthday"
+                    margin="normal"
+                    id="date-picker-dialog"
+                    label="Data de nascimento"
+                    format="MM/dd/yyyy"
+                    color="primary"
+                    className={classes.picker}
+                    value={selectedDate}
+                    onChange={handleDateChange}
+                    KeyboardButtonProps={{
+                      "aria-label": "change date",
+                    }}
+                    keyboardIcon={
+                      <EventIcon className={classes.datePickerIcon} />
+                    }
+                    helperText={""}
+                    autoOk
+                    disableFuture
+                    views={["year", "month", "date"]}
+                  />
+                  {/* <DatePicker
+                    disableFuture
+                    openTo="year"
+                    format="dd/MM/yyyy"
+                    label="Date of birth"
+                    views={["year", "month", "date"]}
+                    value={selectedDate}
+                    onChange={handleDateChange}
+                    rightArrowIcon={
+                      <EventIcon className={classes.datePickerIcon} />
+                    }
+                  />*/}
+                </Grid>
+              </MuiPickersUtilsProvider>
+            </FormControl>
             <FormControl error={errorConsent} fullWidth={true}>
               <Checkbox
                 className={styles.checkbox}
