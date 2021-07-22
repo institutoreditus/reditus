@@ -80,6 +80,7 @@ const useStyles = makeStyles(() =>
     picker: {
       width: "100%",
       marginTop: 5,
+      paddingTop: 0,
     },
     datePickerIcon: {
       color: "white",
@@ -182,7 +183,7 @@ export const InputDonationValues = (props: any) => {
     if (error) return;
 
     // At this point, we are guaranteed to have a valid date obj.
-    const birthday: Date = selectedBirthday as Date;
+    const birthday: string = format(selectedBirthday as Date, "yyyy-MM-dd");
 
     push(
       ReditusEvent.click,
@@ -203,8 +204,9 @@ export const InputDonationValues = (props: any) => {
             : (data["ssr"] =
                 RoxContainer.suggestedSingleDonationValues.getValue());
 
-          data["dob"] = format(birthday, "yyyy-MM-dd");
+          data["dob"] = birthday;
           props.update("email", data.customer.email);
+          props.update("birthday", birthday);
           setLoading(true);
           const response = await axios.post(`/api/${donationMode}`, data);
 
@@ -297,7 +299,6 @@ export const InputDonationValues = (props: any) => {
               R$ {val3}
             </label>
           </div>
-
           <div id={styles.customValue}>
             <FormControl error={errorInputValue} fullWidth={true}>
               <NumberFormat
@@ -335,10 +336,8 @@ export const InputDonationValues = (props: any) => {
               )}
             </FormControl>
           </div>
-
-          <p>Vou doar: R$ {props.form.amountInCents}</p>
-          <div style={{ display: "inline-block" }}>
-            <FormControl error={errorBirthday} fullWidth={true}>
+          <FormControl error={errorBirthday} fullWidth={true}>
+            <div className="label-class">
               <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ptBR}>
                 <Grid container>
                   <KeyboardDatePicker
@@ -377,7 +376,9 @@ export const InputDonationValues = (props: any) => {
                   Por favor, selecione uma data de nascimento válida.
                 </FormHelperText>
               )}
-            </FormControl>
+            </div>
+          </FormControl>
+          <div style={{ display: "inline-block" }}>
             <FormControl error={errorConsent} fullWidth={true}>
               <Checkbox
                 className={styles.checkbox}

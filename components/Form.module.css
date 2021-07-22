@@ -148,3 +148,8 @@
 .checkbox {
     margin-bottom: -10px;
 }
+
+.label-class label {
+    color: red;
+    padding-top: 0 !important;
+}
