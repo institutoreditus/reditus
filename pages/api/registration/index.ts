@@ -7,7 +7,7 @@ import { DIContainerNextApiRequest } from "../../../dependency_injection/DIConta
 import ValidationError from "../../../use_cases/ValidationError";
 import { mailError } from "../../../helpers/mailer";
 import messages from "../../../helpers/messages";
-import { isValidDateOfBirth } from "../../../helpers/datehelper";
+import { isValidBirthday } from "../../../helpers/datehelper";
 
 const CreateUserSchema = schema({
   email: string,
@@ -52,9 +52,9 @@ async function runCreateUser(
     }
 
     try {
-      let dateOfBirth: Date | undefined = new Date(args.dob);
-      if (!isValidDateOfBirth(dateOfBirth)) {
-        dateOfBirth = undefined;
+      let birthday: Date | undefined = new Date(args.dob);
+      if (!isValidBirthday(birthday)) {
+        birthday = undefined;
       }
 
       const user = await createUser({
@@ -65,7 +65,7 @@ async function runCreateUser(
         university: args.university,
         degree: args.degree,
         admissionYear: admissionYear,
-        dateOfBirth: dateOfBirth,
+        birthday: birthday,
         tutorshipInterest: args.tutorshipInterest,
         mentorshipInterest: args.mentorshipInterest,
         volunteeringInterest: args.volunteeringInterest,

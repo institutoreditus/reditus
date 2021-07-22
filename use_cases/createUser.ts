@@ -10,7 +10,7 @@ interface CreateUserArgs {
   university: string;
   degree: string;
   admissionYear: number;
-  dateOfBirth: Date | undefined;
+  birthday: Date | undefined;
   tutorshipInterest: boolean;
   mentorshipInterest: boolean;
   volunteeringInterest: boolean;
@@ -23,7 +23,7 @@ const createUser = async (args: CreateUserArgs): Promise<User> => {
     throw new ValidationError(messages.INVALID_ADMISSION_YEAR);
   if (!args.firstName || !args.lastName || !args.university || !args.degree)
     throw new ValidationError(messages.REQUIRED_FIELDS);
-  if (args.dateOfBirth.getFullYear() < 1900)
+  if (!args.birthday || args.birthday.getFullYear() < 1900)
     throw new ValidationError(messages.INVALID_DATE_OF_BIRTH);
 
   let user = await args.dbClient.user.findUnique({
@@ -37,21 +37,19 @@ const createUser = async (args: CreateUserArgs): Promise<User> => {
       `Usuário com email ${args.email} já está cadastado.`
     );
 
-  const existingContributionsForUser = await args.dbClient.contribution.findMany(
-    {
+  const existingContributionsForUser =
+    await args.dbClient.contribution.findMany({
       where: {
         email: args.email,
       },
-    }
-  );
+    });
 
-  const existingSubscriptionsForUser = await args.dbClient.contributionSubscription.findMany(
-    {
+  const existingSubscriptionsForUser =
+    await args.dbClient.contributionSubscription.findMany({
       where: {
         email: args.email,
       },
-    }
-  );
+    });
 
   user = await args.dbClient.user.create({
     data: {
@@ -61,7 +59,7 @@ const createUser = async (args: CreateUserArgs): Promise<User> => {
       university: args.university,
       degree: args.degree,
       admissionYear: args.admissionYear,
-      dateOfBirth: args.dateOfBirth,
+      birthday: args.birthday,
       tutorshipInterest: args.tutorshipInterest,
       mentorshipInterest: args.mentorshipInterest,
       volunteeringInterest: args.volunteeringInterest,

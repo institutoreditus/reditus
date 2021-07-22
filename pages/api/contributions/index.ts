@@ -7,7 +7,7 @@ import runRequestWithDIContainer from "../../../middlewares/diContainerMiddlewar
 import { PrismaClient } from "@prisma/client";
 import { DIContainerNextApiRequest } from "../../../dependency_injection/DIContainerNextApiRequest";
 import mail, { mailError } from "../../../helpers/mailer";
-import { isValidDateOfBirth } from "../../../helpers/datehelper";
+import { isValidBirthday } from "../../../helpers/datehelper";
 
 const herokuAppName = process.env.HEROKU_APP_NAME || `reditus-staging`;
 const publicUrl =
@@ -71,9 +71,13 @@ async function runCreateContribution(
   const validator = CreateContributionSchema.destruct();
   const [err, args] = validator(req.body);
   if (!err && args) {
-    let dateOfBirth: Date | undefined = new Date(args.dob);
-    if (!isValidDateOfBirth(dateOfBirth)) {
-      dateOfBirth = undefined;
+    let birthday: Date | undefined = new Date(args.dob);
+    console.log(`dob: ${args.dob}`);
+    console.log("parsed birthday: ");
+    console.log(birthday);
+    console.log(isValidBirthday(birthday));
+    if (!isValidBirthday(birthday)) {
+      birthday = undefined;
     }
 
     const contribution = await createContribution({
@@ -81,7 +85,7 @@ async function runCreateContribution(
       email: args.customer.email,
       amountInCents: args.amount,
       experimentId: args.ssr,
-      dateOfBirth: dateOfBirth,
+      birthday: birthday,
     });
 
     try {

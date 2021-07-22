@@ -10,10 +10,11 @@ export default function convertQueryParamToDate(dateString: string): Date {
   }
 }
 
-export function isValidDateOfBirth(dateOfBirth: Date): boolean {
+export function isValidBirthday(birthday: Date | null | undefined): boolean {
   return !(
-    !dateOfBirth ||
-    dateOfBirth.getFullYear() < 1900 ||
-    dateOfBirth.getFullYear() === new Date().getFullYear()
+    !birthday ||
+    !(birthday instanceof Date && !isNaN(birthday.getTime())) ||
+    birthday.getFullYear() < 1900 ||
+    birthday.getFullYear() >= new Date().getFullYear()
   );
 }

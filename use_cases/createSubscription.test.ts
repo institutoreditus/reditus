@@ -17,13 +17,13 @@ test("creates a subscription in the database and returns it", async () => {
     email: "email@examplesub.com",
     amountInCents: 100,
     experimentId: "1|2|3",
-    dateOfBirth: new Date(2010, 12, 25),
+    birthday: new Date(2010, 12, 25),
   });
 
   expect(result.id).not.toBeNull();
   expect(result.state).toEqual("pending");
   expect(result.experimentId).toEqual("1|2|3");
-  expect(result.dateOfBirth).toEqual(new Date(2010, 12, 25));
+  expect(result.birthday).toEqual(new Date(2010, 12, 25));
   expect(
     await prisma.contributionSubscription.findUnique({
       where: {

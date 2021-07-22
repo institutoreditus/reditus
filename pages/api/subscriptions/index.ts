@@ -12,7 +12,7 @@ import runRequestWithDIContainer from "../../../middlewares/diContainerMiddlewar
 import { PrismaClient } from "@prisma/client";
 import { DIContainerNextApiRequest } from "../../../dependency_injection/DIContainerNextApiRequest";
 import mail, { mailError } from "../../../helpers/mailer";
-import { isValidDateOfBirth } from "../../../helpers/datehelper";
+import { isValidBirthday } from "../../../helpers/datehelper";
 
 const herokuAppName = process.env.HEROKU_APP_NAME || `reditus-staging`;
 const publicUrl =
@@ -88,9 +88,9 @@ async function runCreateSubscription(
       const prismaClient: PrismaClient = req.scope.resolve("dbClient");
       const pagarmeClient: any = await req.scope.resolve("pagarmeClient");
 
-      let dateOfBirth: Date | undefined = new Date(args.dob);
-      if (!isValidDateOfBirth(dateOfBirth)) {
-        dateOfBirth = undefined;
+      let birthday: Date | undefined = new Date(args.dob);
+      if (!isValidBirthday(birthday)) {
+        birthday = undefined;
       }
 
       let subscription = await createSubscription({
@@ -98,7 +98,7 @@ async function runCreateSubscription(
         email: args.customer.email,
         amountInCents: args.amount,
         experimentId: args.ssr,
-        dateOfBirth: dateOfBirth,
+        birthday: birthday,
       });
 
       const billingPeriodString =

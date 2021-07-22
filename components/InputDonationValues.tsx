@@ -7,7 +7,7 @@ import axios from "axios";
 import { useState } from "react";
 import { FormControl, FormHelperText, LinearProgress } from "@material-ui/core";
 import {
-  createMuiTheme,
+  createTheme,
   createStyles,
   makeStyles,
   ThemeProvider,
@@ -20,18 +20,18 @@ import Link from "next/link";
 import { ReditusEvent, push } from "../helpers/gtm";
 
 import Grid from "@material-ui/core/Grid";
-import "date-fns";
 import DateFnsUtils from "@date-io/date-fns";
 import { ptBR } from "date-fns/locale";
+import format from "date-fns/format";
 
 import EventIcon from "@material-ui/icons/Event";
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
-  // DatePicker
 } from "@material-ui/pickers";
+import { isValidBirthday } from "../helpers/datehelper";
 
-const theme = createMuiTheme({
+const theme = createTheme({
   palette: {
     primary: {
       main: "#00d4ff",
@@ -141,17 +141,16 @@ export const InputDonationValues = (props: any) => {
   const [errorInputValue, setErrorInputValue] = useState(false);
   // userInputValue controls the NumberFormat input from the user.
   const [userInputValue, setUserInputValue] = useState("");
+  // errorBirthday controls whether in invalid birthday was selected.
+  const [errorBirthday, setErrorBirthday] = useState(false);
   // loading controls showing the loading bar.
   const [loading, setLoading] = useState(false);
 
-  const [
-    mValue1,
-    mValue2,
-    mValue3,
-  ] = RoxContainer.suggestedMonthlyDonationValues
-    .getValue()
-    .split("|", 3)
-    .map((x: string) => +x);
+  const [mValue1, mValue2, mValue3] =
+    RoxContainer.suggestedMonthlyDonationValues
+      .getValue()
+      .split("|", 3)
+      .map((x: string) => +x);
 
   const [sValue1, sValue2, sValue3] = RoxContainer.suggestedSingleDonationValues
     .getValue()
@@ -168,7 +167,8 @@ export const InputDonationValues = (props: any) => {
       !privacyTermsAck ||
       !consentLicitOrigin ||
       !props.form.amountInCents ||
-      props.form.amountInCents < 5;
+      props.form.amountInCents < 5 ||
+      !isValidBirthday(selectedBirthday);
     if (!privacyTermsAck || !consentLicitOrigin) {
       setErrorConsent(true);
     }
@@ -176,7 +176,13 @@ export const InputDonationValues = (props: any) => {
       console.log(props.form.amountInCents);
       setErrorInputValue(true);
     }
+    if (!isValidBirthday(selectedBirthday)) {
+      setErrorBirthday(true);
+    }
     if (error) return;
+
+    // At this point, we are guaranteed to have a valid date obj.
+    const birthday: Date = selectedBirthday as Date;
 
     push(
       ReditusEvent.click,
@@ -192,14 +198,12 @@ export const InputDonationValues = (props: any) => {
       success: async function (data: any) {
         try {
           props.form.donationMode == "subscriptions"
-            ? (data[
-                "ssr"
-              ] = RoxContainer.suggestedMonthlyDonationValues.getValue())
-            : (data[
-                "ssr"
-              ] = RoxContainer.suggestedSingleDonationValues.getValue());
+            ? (data["ssr"] =
+                RoxContainer.suggestedMonthlyDonationValues.getValue())
+            : (data["ssr"] =
+                RoxContainer.suggestedSingleDonationValues.getValue());
 
-          data["dob"] = "1994-02-23";
+          data["dob"] = format(birthday, "yyyy-MM-dd");
           props.update("email", data.customer.email);
           setLoading(true);
           const response = await axios.post(`/api/${donationMode}`, data);
@@ -236,13 +240,7 @@ export const InputDonationValues = (props: any) => {
   }
 
   // Picker to birthday's field
-  const [selectedDate, setSelectedDate] = useState<Date | null>(
-    new Date("2014-08-18T21:11:54")
-  );
-
-  const handleDateChange = (date: Date | null) => {
-    setSelectedDate(date);
-  };
+  const [selectedBirthday, setSelectedBirthday] = useState<Date | null>(null);
 
   return (
     <ThemeProvider theme={theme}>
@@ -340,7 +338,7 @@ export const InputDonationValues = (props: any) => {
 
           <p>Vou doar: R$ {props.form.amountInCents}</p>
           <div style={{ display: "inline-block" }}>
-            <FormControl fullWidth={true}>
+            <FormControl error={errorBirthday} fullWidth={true}>
               <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ptBR}>
                 <Grid container>
                   <KeyboardDatePicker
@@ -348,36 +346,37 @@ export const InputDonationValues = (props: any) => {
                     margin="normal"
                     id="date-picker-dialog"
                     label="Data de nascimento"
-                    format="MM/dd/yyyy"
+                    format="dd/MM/yyyy"
                     color="primary"
                     className={classes.picker}
-                    value={selectedDate}
-                    onChange={handleDateChange}
+                    value={selectedBirthday}
+                    onChange={(date: Date | null) => {
+                      setSelectedBirthday(date);
+                      setErrorBirthday(false);
+                    }}
                     KeyboardButtonProps={{
                       "aria-label": "change date",
                     }}
                     keyboardIcon={
                       <EventIcon className={classes.datePickerIcon} />
                     }
-                    helperText={""}
+                    invalidDateMessage={null}
+                    maxDateMessage={null}
+                    minDateMessage={null}
                     autoOk
                     disableFuture
                     views={["year", "month", "date"]}
                   />
-                  {/* <DatePicker
-                    disableFuture
-                    openTo="year"
-                    format="dd/MM/yyyy"
-                    label="Date of birth"
-                    views={["year", "month", "date"]}
-                    value={selectedDate}
-                    onChange={handleDateChange}
-                    rightArrowIcon={
-                      <EventIcon className={classes.datePickerIcon} />
-                    }
-                  />*/}
                 </Grid>
               </MuiPickersUtilsProvider>
+              {errorBirthday && (
+                <FormHelperText
+                  id="input-value-birthday-error-text"
+                  style={{ margin: 0 }}
+                >
+                  Por favor, selecione uma data de nascimento válida.
+                </FormHelperText>
+              )}
             </FormControl>
             <FormControl error={errorConsent} fullWidth={true}>
               <Checkbox

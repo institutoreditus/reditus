@@ -35,49 +35,53 @@ enum ContributionOrigin {
 }
 
 model ContributionSubscription {
-  id Int @default(autoincrement()) @id
-  state SubscriptionState
-  amountInCents Int @map("amount_in_cents")
-  email String
+  id            Int               @id @default(autoincrement())
+  state         SubscriptionState
+  amountInCents Int               @map("amount_in_cents")
+  email         String
   contributions Contribution[]
-  externalId String? @map("external_id")
-  experimentId String? @map("experiment_id")
-  dateOfBirth DateTime? @map("date_of_birth")
+  externalId    String?           @map("external_id")
+  experimentId  String?           @map("experiment_id")
+  birthday      DateTime?
 
+  User   User? @relation(fields: [userId], references: [id])
+  userId Int?
   @@map("contribution_subscriptions")
 }
 
 model Contribution {
-  id Int @default(autoincrement()) @id
-  state ContributionState
-  amountInCents Int @map("amount_in_cents")
-  email String
-  subscriptionId Int? @map("subscription_id")
-  subscription ContributionSubscription? @relation(fields: [subscriptionId], references: [id])
-  externalId String? @map("external_id")
-  createdAt DateTime @default(now())
-  experimentId String? @map("experiment_id")
-  origin ContributionOrigin @default(online)
-  dateOfBirth DateTime? @map("date_of_birth")
+  id             Int                       @id @default(autoincrement())
+  state          ContributionState
+  amountInCents  Int                       @map("amount_in_cents")
+  email          String
+  subscriptionId Int?                      @map("subscription_id")
+  subscription   ContributionSubscription? @relation(fields: [subscriptionId], references: [id])
+  externalId     String?                   @map("external_id")
+  createdAt      DateTime                  @default(now())
+  experimentId   String?                   @map("experiment_id")
+  origin         ContributionOrigin        @default(online)
+  birthday       DateTime?
 
+  User   User? @relation(fields: [userId], references: [id])
+  userId Int?
   @@map("contributions")
 }
 
 model User {
-  id Int @default(autoincrement()) @id
-  email String  @unique
-  firstName String @map("first_name")
-  lastName String @map("last_name")
-  university String
-  degree String
-  admissionYear Int @map("admission_year")
-  tutorshipInterest Boolean @map("tutorship_interest")
-  mentorshipInterest Boolean @map("mentorship_interest")
-  volunteeringInterest Boolean @map("volunteering_interest")
-  contributions Contribution[]
-  subscriptions ContributionSubscription[]
-  dateOfBirth DateTime? @map("date_of_birth")
-  createdAt DateTime @default(now())
+  id                   Int                        @id @default(autoincrement())
+  email                String                     @unique
+  firstName            String                     @map("first_name")
+  lastName             String                     @map("last_name")
+  university           String
+  degree               String
+  admissionYear        Int                        @map("admission_year")
+  tutorshipInterest    Boolean                    @map("tutorship_interest")
+  mentorshipInterest   Boolean                    @map("mentorship_interest")
+  volunteeringInterest Boolean                    @map("volunteering_interest")
+  contributions        Contribution[]
+  subscriptions        ContributionSubscription[]
+  birthday             DateTime?
+  createdAt            DateTime                   @default(now())
 
   @@map("users")
 }
