@@ -72,10 +72,6 @@ async function runCreateContribution(
   const [err, args] = validator(req.body);
   if (!err && args) {
     let birthday: Date | undefined = new Date(args.dob);
-    console.log(`dob: ${args.dob}`);
-    console.log("parsed birthday: ");
-    console.log(birthday);
-    console.log(isValidBirthday(birthday));
     if (!isValidBirthday(birthday)) {
       birthday = undefined;
     }
