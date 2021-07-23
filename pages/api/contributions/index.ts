@@ -7,6 +7,7 @@ import runRequestWithDIContainer from "../../../middlewares/diContainerMiddlewar
 import { PrismaClient } from "@prisma/client";
 import { DIContainerNextApiRequest } from "../../../dependency_injection/DIContainerNextApiRequest";
 import mail, { mailError } from "../../../helpers/mailer";
+import { isValidBirthday } from "../../../helpers/datehelper";
 
 const herokuAppName = process.env.HEROKU_APP_NAME || `reditus-staging`;
 const publicUrl =
@@ -47,6 +48,7 @@ const CreateContributionSchema = schema({
   payment_method: schema.enum(PaymentMethod, "Invalid payment method"),
   customer: CustomerData,
   ssr: string,
+  dob: string,
 });
 
 async function userExists(
@@ -69,11 +71,17 @@ async function runCreateContribution(
   const validator = CreateContributionSchema.destruct();
   const [err, args] = validator(req.body);
   if (!err && args) {
+    let birthday: Date | undefined = new Date(args.dob);
+    if (!isValidBirthday(birthday)) {
+      birthday = undefined;
+    }
+
     const contribution = await createContribution({
       dbClient: prismaClient,
       email: args.customer.email,
       amountInCents: args.amount,
       experimentId: args.ssr,
+      birthday: birthday,
     });
 
     try {

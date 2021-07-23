@@ -13,6 +13,12 @@ body {
   font-family: "Open Sans", sans-serif;
 }
 
+@media (min-resolution: 2dppx) {
+  body {
+    zoom: 80% !important;
+  }
+}
+
 * {
   box-sizing: border-box;
 }

@@ -231,6 +231,7 @@ export const SuccessDonation = (props: any) => {
       await axios.post("/api/registration", {
         ...registerForm,
         email: props.form.email,
+        dob: props.form.birthday,
       });
       setSignupFinish(true);
       setOpen(false);

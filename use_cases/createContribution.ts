@@ -3,6 +3,7 @@ import {
   ContributionSubscription,
   PrismaClient,
 } from "@prisma/client";
+import { isValidBirthday } from "../helpers/datehelper";
 
 interface CreateContributionArgs {
   dbClient: PrismaClient;
@@ -11,6 +12,7 @@ interface CreateContributionArgs {
   subscriptionId?: number;
   externalContributionId?: string;
   experimentId?: string;
+  birthday?: Date;
 }
 
 const createContribution = async (
@@ -32,6 +34,8 @@ const createContribution = async (
       throw new Error("Empty email");
     }
   }
+
+  const dob = isValidBirthday(args.birthday) ? args.birthday : undefined;
 
   // for subscriptions postbacks, it is possible that we actually create the contribution in the database but we don't respond Pagarme successfully (maybe some sort of network error or any other unexpected error)
   // in those cases, Pagarme will try to contact us again
@@ -93,6 +97,7 @@ const createContribution = async (
         },
         User: connectUser,
         experimentId: subscription!.experimentId,
+        birthday: dob,
       },
     });
   } else {
@@ -103,6 +108,7 @@ const createContribution = async (
         state: "pending",
         experimentId: args.experimentId,
         User: connectUser,
+        birthday: dob,
       },
     });
   }

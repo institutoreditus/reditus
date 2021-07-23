@@ -6,13 +6,30 @@ import { Checkbox } from "@rmwc/checkbox";
 import axios from "axios";
 import { useState } from "react";
 import { FormControl, FormHelperText, LinearProgress } from "@material-ui/core";
-import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import {
+  createMuiTheme,
+  createStyles,
+  makeStyles,
+  ThemeProvider,
+} from "@material-ui/core/styles";
 
 import styles from "./Form.module.css";
 import RoxContainer from "../services/rox/RoxContainer";
 import service from "../services/rox/RoxService";
 import Link from "next/link";
-import { ReditusEvent, push, pushDonation } from "../helpers/gtm";
+import { ReditusEvent, push } from "../helpers/gtm";
+
+import Grid from "@material-ui/core/Grid";
+import DateFnsUtils from "@date-io/date-fns";
+import { ptBR } from "date-fns/locale";
+import format from "date-fns/format";
+
+import EventIcon from "@material-ui/icons/Event";
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+} from "@material-ui/pickers";
+import { isValidBirthday } from "../helpers/datehelper";
 
 const theme = createMuiTheme({
   palette: {
@@ -20,7 +37,69 @@ const theme = createMuiTheme({
       main: "#00d4ff",
     },
   },
+
+  overrides: {
+    MuiInputBase: {
+      input: {
+        color: "rgba(255, 255, 255, 0.692)",
+      },
+    },
+    MuiInput: {
+      underline: {
+        "&:before": {
+          borderBottomColor: "rgba(255, 255, 255, 0.692)",
+          marginBottom: "-5px",
+        },
+        "&:hover:not($disabled):not($focused):not($error):before": {
+          borderBottomColor: "#00d4ff",
+        },
+        "&:after": {
+          marginBottom: "-5px",
+        },
+      },
+    },
+    MuiInputLabel: {
+      root: {
+        color: "rgba(255, 255, 255, 0.692)",
+        paddingLeft: ".1rem",
+        fontWeight: 300,
+        position: "absolute",
+      },
+      shrink: {
+        transform: "translate(0, 20px) scale(0.75)",
+      },
+    },
+    MuiFormLabel: {
+      root: {
+        marginTop: "-20px",
+      },
+    },
+    MuiButtonBase: {
+      root: {
+        marginBottom: "20px",
+      },
+    },
+  },
 });
+
+const useStyles = makeStyles(() =>
+  createStyles({
+    picker: {
+      width: "100%",
+      marginTop: 5,
+      paddingTop: 0,
+    },
+    datePickerIcon: {
+      color: "rgba(255, 255, 255, 0.692)",
+      "&:hover": {
+        color: "#00d4ff",
+      },
+    },
+    "&.MuiPickersToolbarButton-toolbarBtn": {
+      fontSize: "40px !important",
+    },
+  })
+);
 
 service(RoxContainer);
 
@@ -29,16 +108,14 @@ const encryptionKey = process.env.PAGARME_ENC_KEY;
 let checkedRadio: any;
 
 export const InputDonationValues = (props: any) => {
+  const classes = useStyles();
+
   const validate = () => {
     props.previousStep();
   };
 
-  const successDonation = (
-    userExists: boolean,
-    amountInCents: number,
-    type: string
-  ) => {
-    pushDonation(ReditusEvent.info, "Donation concluded", amountInCents, type);
+  const successDonation = (userExists: boolean) => {
+    push(ReditusEvent.info, "Donation concluded");
     if (userExists) {
       push(ReditusEvent.info, "Donation done by a recurring user");
     }
@@ -72,6 +149,8 @@ export const InputDonationValues = (props: any) => {
   const [errorInputValue, setErrorInputValue] = useState(false);
   // userInputValue controls the NumberFormat input from the user.
   const [userInputValue, setUserInputValue] = useState("");
+  // errorBirthday controls whether in invalid birthday was selected.
+  const [errorBirthday, setErrorBirthday] = useState(false);
   // loading controls showing the loading bar.
   const [loading, setLoading] = useState(false);
 
@@ -99,7 +178,8 @@ export const InputDonationValues = (props: any) => {
       !privacyTermsAck ||
       !consentLicitOrigin ||
       !props.form.amountInCents ||
-      props.form.amountInCents < 5;
+      props.form.amountInCents < 5 ||
+      !isValidBirthday(selectedBirthday);
     if (!privacyTermsAck || !consentLicitOrigin) {
       setErrorConsent(true);
     }
@@ -107,7 +187,13 @@ export const InputDonationValues = (props: any) => {
       console.log(props.form.amountInCents);
       setErrorInputValue(true);
     }
+    if (!isValidBirthday(selectedBirthday)) {
+      setErrorBirthday(true);
+    }
     if (error) return;
+
+    // At this point, we are guaranteed to have a valid date obj.
+    const birthday: string = format(selectedBirthday as Date, "yyyy-MM-dd");
 
     push(
       ReditusEvent.click,
@@ -130,8 +216,9 @@ export const InputDonationValues = (props: any) => {
                 "ssr"
               ] = RoxContainer.suggestedSingleDonationValues.getValue());
 
-          // data["ssr"] = `${val1}|${val2}|${val3}`;
+          data["dob"] = birthday;
           props.update("email", data.customer.email);
+          props.update("birthday", birthday);
           setLoading(true);
           const response = await axios.post(`/api/${donationMode}`, data);
 
@@ -140,7 +227,7 @@ export const InputDonationValues = (props: any) => {
             userExists = !!response.data.userExists;
 
           setLoading(false);
-          return successDonation(userExists, amountInCents, donationMode);
+          return successDonation(userExists);
         } catch (err) {
           return failedDonation();
         }
@@ -165,6 +252,9 @@ export const InputDonationValues = (props: any) => {
       headerText: "Vou contribuir com {price_info}",
     });
   }
+
+  // Picker to birthday's field
+  const [selectedBirthday, setSelectedBirthday] = useState<Date | null>(null);
 
   return (
     <ThemeProvider theme={theme}>
@@ -221,7 +311,6 @@ export const InputDonationValues = (props: any) => {
               R$ {val3}
             </label>
           </div>
-
           <div id={styles.customValue}>
             <FormControl error={errorInputValue} fullWidth={true}>
               <NumberFormat
@@ -259,9 +348,49 @@ export const InputDonationValues = (props: any) => {
               )}
             </FormControl>
           </div>
-
-          <p>Vou doar: R$ {props.form.amountInCents}</p>
-          <div style={{ display: "inline-block" }}>
+          <FormControl error={errorBirthday} fullWidth={true}>
+            <div className="label-class">
+              <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ptBR}>
+                <Grid container>
+                  <KeyboardDatePicker
+                    name="birthday"
+                    margin="normal"
+                    id="date-picker-dialog"
+                    label="Data de nascimento"
+                    format="dd/MM/yyyy"
+                    color="primary"
+                    className={classes.picker}
+                    value={selectedBirthday}
+                    onChange={(date: Date | null) => {
+                      setSelectedBirthday(date);
+                      setErrorBirthday(false);
+                    }}
+                    KeyboardButtonProps={{
+                      "aria-label": "change date",
+                    }}
+                    keyboardIcon={
+                      <EventIcon className={classes.datePickerIcon} />
+                    }
+                    invalidDateMessage={null}
+                    maxDateMessage={null}
+                    minDateMessage={null}
+                    autoOk
+                    disableFuture
+                    views={["year", "month", "date"]}
+                  />
+                </Grid>
+              </MuiPickersUtilsProvider>
+              {errorBirthday && (
+                <FormHelperText
+                  id="input-value-birthday-error-text"
+                  style={{ margin: 0 }}
+                >
+                  Por favor, selecione uma data de nascimento válida.
+                </FormHelperText>
+              )}
+            </div>
+          </FormControl>
+          <div style={{ display: "inline-block", marginTop: "1.5rem" }}>
             <FormControl error={errorConsent} fullWidth={true}>
               <Checkbox
                 className={styles.checkbox}
