@@ -55,7 +55,7 @@ const theme = createMuiTheme({
         },
         "&:after": {
           marginBottom: "-5px",
-        }
+        },
       },
     },
     MuiInputLabel: {
@@ -66,7 +66,7 @@ const theme = createMuiTheme({
         position: "absolute",
       },
       shrink: {
-        transform: "translate(0, 20px) scale(0.75)"
+        transform: "translate(0, 20px) scale(0.75)",
       },
     },
     MuiFormLabel: {
