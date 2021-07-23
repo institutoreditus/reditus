@@ -41,30 +41,37 @@ const theme = createMuiTheme({
   overrides: {
     MuiInputBase: {
       input: {
-        color: "white",
+        color: "rgba(255, 255, 255, 0.692)",
       },
     },
     MuiInput: {
       underline: {
         "&:before": {
-          borderBottomColor: "white",
+          borderBottomColor: "rgba(255, 255, 255, 0.692)",
+          marginBottom: "-5px",
         },
         "&:hover:not($disabled):not($focused):not($error):before": {
           borderBottomColor: "#00d4ff",
         },
+        "&:after": {
+          marginBottom: "-5px",
+        }
       },
     },
     MuiInputLabel: {
       root: {
-        color: "white",
-        marginBottom: "-25px !important",
-        paddingBottom: "20px",
+        color: "rgba(255, 255, 255, 0.692)",
+        paddingLeft: ".1rem",
+        fontWeight: 300,
         position: "absolute",
+      },
+      shrink: {
+        transform: "translate(0, 20px) scale(0.75)"
       },
     },
     MuiFormLabel: {
       root: {
-        marginTop: "-10px",
+        marginTop: "-20px",
       },
     },
     MuiButtonBase: {
@@ -83,7 +90,7 @@ const useStyles = makeStyles(() =>
       paddingTop: 0,
     },
     datePickerIcon: {
-      color: "white",
+      color: "rgba(255, 255, 255, 0.692)",
       "&:hover": {
         color: "#00d4ff",
       },
@@ -383,7 +390,7 @@ export const InputDonationValues = (props: any) => {
               )}
             </div>
           </FormControl>
-          <div style={{ display: "inline-block" }}>
+          <div style={{ display: "inline-block", marginTop: "1.5rem" }}>
             <FormControl error={errorConsent} fullWidth={true}>
               <Checkbox
                 className={styles.checkbox}
