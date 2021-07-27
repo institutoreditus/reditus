@@ -17,7 +17,7 @@ import styles from "./Form.module.css";
 import RoxContainer from "../services/rox/RoxContainer";
 import service from "../services/rox/RoxService";
 import Link from "next/link";
-import { ReditusEvent, push } from "../helpers/gtm";
+import { ReditusEvent, push, pushDonation } from "../helpers/gtm";
 
 import Grid from "@material-ui/core/Grid";
 import DateFnsUtils from "@date-io/date-fns";
@@ -114,7 +114,8 @@ export const InputDonationValues = (props: any) => {
     props.previousStep();
   };
 
-  const successDonation = (userExists: boolean) => {
+  const successDonation = (userExists: boolean) => {    
+    pushDonation(ReditusEvent.info, "Donation concluded", amountInCents, type);
     push(ReditusEvent.info, "Donation concluded");
     if (userExists) {
       push(ReditusEvent.info, "Donation done by a recurring user");
