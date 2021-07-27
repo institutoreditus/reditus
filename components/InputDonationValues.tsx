@@ -114,7 +114,11 @@ export const InputDonationValues = (props: any) => {
     props.previousStep();
   };
 
-  const successDonation = (userExists: boolean) => {    
+  const successDonation = (
+    userExists: boolean,
+    amountInCents: number,
+    type: string
+  ) => {
     pushDonation(ReditusEvent.info, "Donation concluded", amountInCents, type);
     push(ReditusEvent.info, "Donation concluded");
     if (userExists) {
@@ -228,7 +232,7 @@ export const InputDonationValues = (props: any) => {
             userExists = !!response.data.userExists;
 
           setLoading(false);
-          return successDonation(userExists);
+          return successDonation(userExists, amountInCents, donationMode);
         } catch (err) {
           return failedDonation();
         }
