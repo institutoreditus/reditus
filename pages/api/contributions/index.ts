@@ -99,6 +99,7 @@ async function runCreateContribution(
           name: args.customer.name,
           email: args.customer.email,
           country: "br",
+          birthday: birthday ? args.dob : "",
           phone_numbers: [
             `+55${args.customer.phone.ddd}${args.customer.phone.number}`,
           ],
