@@ -2,6 +2,7 @@ import React from "react";
 import clsx from "clsx";
 import { Grid, Paper, Button } from "@material-ui/core";
 import Drawer from "@material-ui/core/Drawer";
+import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import List from "@material-ui/core/List";
@@ -13,6 +14,8 @@ import ListItemText from "@material-ui/core/ListItemText";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import Menu from "@material-ui/core/Menu";
+import MenuIcon from "@material-ui/icons/Menu";
+import CloseIcon from "@material-ui/icons/Close";
 import MenuItem from "@material-ui/core/MenuItem";
 import Box from "@material-ui/core/Box";
 import { useRouter } from "next/router";
@@ -24,6 +27,7 @@ import { Person } from "@styled-icons/material-rounded/Person";
 import { DashboardCustomize } from "@styled-icons/material/DashboardCustomize";
 import { MenuCollapseIcon } from "../assets/MenuCollapseIcon";
 import CreditCardIcon from "@material-ui/icons/CreditCardOutlined";
+import Hidden from "@material-ui/core/Hidden";
 import Footer from "../Footer";
 
 import Link from "../Link/";
@@ -32,13 +36,14 @@ import Link from "../Link/";
 // import useDarkMode from "use-dark-mode";
 import { useSpring, animated } from "react-spring";
 
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
+import Form from "../../Form";
+import Modal from "@material-ui/core/Modal";
+import Backdrop from "@material-ui/core/Backdrop";
+import Fade from "@material-ui/core/Fade";
 
 const drawerWidth = 270;
 const useStyles = makeStyles((theme) => ({
-  grow: {
-    flexGrow: 1,
-  },
   menuButton: {
     marginRight: theme.spacing(2),
   },
@@ -52,6 +57,21 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: -10,
     border: "none",
   },
+  headerWrapper: {
+    [theme.breakpoints.down("md")]: {
+      // position: "fixed !important",
+      // paddingTop: "85vh",
+      position: "sticky",
+      display: "inline-block",
+      marginTop: 0,
+      paddingTop: 0,
+    },
+  },
+  buttonsWrapper: {
+    [theme.breakpoints.up("md")]: {
+      marginTop: 8.5,
+    },
+  },
   donationButton: {
     // boxShadow: "5px 6px 10px rgba(33, 150, 243, 0.31)",
     borderRadius: 4,
@@ -59,6 +79,11 @@ const useStyles = makeStyles((theme) => ({
     width: 240,
     height: 54,
     top: -5.375,
+    // //******** */
+    [theme.breakpoints.down("md")]: {
+      marginTop: "2rem",
+      width: "100%",
+    },
   },
   appBar: {
     transition: theme.transitions.create(["margin", "width"], {
@@ -70,7 +95,15 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: 35,
     backgroundColor: "#fff",
     boxShadow: "6px 9px 17px rgba(135, 152, 173, 0.04)",
-    zIndex: 2,
+    zIndex: 1201,
+  },
+  menuProfile: {
+    // marginLeft: "22em",
+    // marginTop: "68px"
+  },
+  appBarWrapper: {
+    display: "flex",
+    marginLeft: "auto",
   },
   appBarShift: {
     marginLeft: drawerWidth,
@@ -88,6 +121,14 @@ const useStyles = makeStyles((theme) => ({
     zIndex: 1,
     marginRight: 50,
   },
+  drawerMobile: {
+    display: "grid !important",
+    placeContent: "center !important",
+    width: "100% !important",
+    // ///********* */
+    transform: "translate(0px, 0px)",
+    transition: "all 195ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
+  },
   drawerPaper: {
     width: drawerWidth,
     paddingTop: 180,
@@ -96,6 +137,10 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down("md")]: {
       display: "none",
     },
+    transition: theme.transitions.create(["width"], {
+      easing: theme.transitions.easing.easeInOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
   },
   drawerBottom: {
     display: "flex",
@@ -152,7 +197,7 @@ const useStyles = makeStyles((theme) => ({
   drawerOpen: {
     width: drawerWidth,
     transition: theme.transitions.create("width", {
-      easing: theme.transitions.easing.easeIn,
+      easing: theme.transitions.easing.easeInOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
   },
@@ -176,6 +221,11 @@ const useStyles = makeStyles((theme) => ({
     }),
     marginTop: 136,
     marginRight: 113,
+    [theme.breakpoints.down("md")]: {
+      marginRight: "auto",
+      marginLeft: "auto",
+      padding: "10px 3rem",
+    },
   },
   contentShift: {
     transition: theme.transitions.create("margin", {
@@ -216,18 +266,36 @@ const useStyles = makeStyles((theme) => ({
       width: "20ch",
     },
   },
-  sectionDesktop: {
+  section: {
     width: "100%",
-    display: "none",
-    [theme.breakpoints.up("md")]: {
-      display: "flex",
-    },
+    display: "flex",
   },
   sectionMobile: {
     width: "100%",
     display: "flex",
     [theme.breakpoints.up("md")]: {
       display: "none",
+    },
+  },
+  modal: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    zIndex: 9997,
+  },
+  paper: {
+    position: "relative",
+    color: "white",
+    display: "grid",
+    placeContent: "center",
+    padding: "4rem",
+    width: "35%",
+    backgroundColor: "black !important",
+    borderRadius: 5,
+    // border: '2px solid #000',
+    boxShadow: theme.shadows[4],
+    [theme.breakpoints.down("md")]: {
+      width: "100%",
     },
   },
 }));
@@ -251,10 +319,13 @@ const path = [
 ];
 
 export const Layout = ({ children, user }: any) => {
+  const theme = useTheme();
   let userName = "Cláudia Milano";
   if (user) {
     userName = `${user.firstName} ${user.lastName}`;
   }
+
+  type Anchor = "top" | "left" | "bottom" | "right";
 
   const classes = useStyles();
 
@@ -267,29 +338,56 @@ export const Layout = ({ children, user }: any) => {
   const [open, setOpen] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+
+  const mobileMenuId = "primary-search-account-menu-mobile";
+  const menuId = "appbar-menu";
+
+  // /new
+  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
+  // / end new
+
+  const [openModal, setOpenModal] = React.useState(false);
+
+  const handleOpenModal = () => {
+    setOpenModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
+
   // const [expand, setExpand] = React.useState(false);
 
   // const handleClickExpand = () => {
   //  setExpand(!expand);
   // };
   const isMenuOpen = Boolean(anchorEl);
-  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  // const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState({
+    top: false,
+    left: false,
+    bottom: false,
+    right: false,
+  });
 
   const handleProfileMenuOpen = (event: any) => {
     setAnchorEl(event.currentTarget);
   };
 
   const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
+    setMobileOpen(false);
+  };
+
+  const handleMobileMenuOpen = () => {
+    setMobileOpen(true);
   };
 
   const handleMenuClose = () => {
     setAnchorEl(null);
     handleMobileMenuClose();
-  };
-
-  const handleMobileMenuOpen = (event: any) => {
-    setMobileMoreAnchorEl(event.currentTarget);
   };
 
   const handleDrawerOpen = () => {
@@ -305,7 +403,104 @@ export const Layout = ({ children, user }: any) => {
     router.push("/");
   };
 
-  const menuId = "primary-search-account-menu";
+  const toggleDrawer = (anchor: Anchor, open: boolean) => (
+    event: React.KeyboardEvent | React.MouseEvent
+  ) => {
+    if (
+      event &&
+      event.type === "keydown" &&
+      ((event as React.KeyboardEvent).key === "Tab" ||
+        (event as React.KeyboardEvent).key === "Shift")
+    ) {
+      return;
+    }
+    setIsMobileMenuOpen({ ...isMobileMenuOpen, [anchor]: open });
+
+    open ? setMobileOpen(true) : setMobileOpen(false);
+  };
+
+  const drawer = (
+    <>
+      <Box marginLeft="auto">
+        <Hidden lgUp>
+          <IconButton
+            aria-label="Close mobile menu"
+            aria-controls={mobileMenuId}
+            aria-haspopup="true"
+            disableRipple={true}
+            disableFocusRipple={true}
+            className={classes.drawerMenuIcon}
+            onClick={
+              mobileOpen == true ? handleMobileMenuClose : handleMobileMenuOpen
+            }
+          >
+            <CloseIcon />
+          </IconButton>
+        </Hidden>
+      </Box>
+      <List component="div">
+        {path.map((path: any, index: number) => (
+          <ListItem key={path.id} className={classes.drawerMenuItem}>
+            <Link key={path.id} href={path.url}>
+              <ListItemIcon className={clsx(classes.drawerMenuIcon)}>
+                <>
+                  {
+                    {
+                      0: (
+                        <Link
+                          activeClassName={clsx(classes.iconActive)}
+                          href={path.url}
+                        >
+                          <DashboardCustomize size={24} />
+                        </Link>
+                      ),
+                      1: (
+                        <Link
+                          activeClassName={clsx(classes.iconActive)}
+                          href={path.url}
+                        >
+                          <Timeline size={24} />
+                        </Link>
+                      ),
+                      2: (
+                        <Link
+                          activeClassName={clsx(classes.iconActive)}
+                          href={path.url}
+                        >
+                          <Person size={24} />
+                        </Link>
+                      ),
+                    }[index]
+                  }
+                </>
+              </ListItemIcon>
+              <ListItemText
+                className={
+                  open == true
+                    ? classes.drawerMenuText
+                    : classes.drawerMenuTextCollapsed
+                }
+                primary={path.nome}
+              />
+            </Link>
+          </ListItem>
+        ))}
+      </List>
+      <div className={classes.drawerBottom}>
+        <Hidden mdDown>
+          <IconButton
+            disableRipple={true}
+            disableFocusRipple={true}
+            className={classes.drawerMenuIcon}
+            onClick={open == true ? handleDrawerClose : handleDrawerOpen}
+          >
+            <MenuCollapseIcon />
+          </IconButton>
+        </Hidden>
+      </div>
+    </>
+  );
+
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
@@ -315,52 +510,9 @@ export const Layout = ({ children, user }: any) => {
       transformOrigin={{ vertical: "top", horizontal: "right" }}
       open={isMenuOpen}
       onClose={handleMenuClose}
+      className={classes.menuProfile}
     >
       <MenuItem onClick={handleMenuClose}>Meu perfil</MenuItem>
-      <MenuItem onClick={handleLogout}>Desconectar</MenuItem>
-    </Menu>
-  );
-
-  const mobileMenuId = "primary-search-account-menu-mobile";
-  const renderMobileMenu = (
-    <Menu
-      anchorEl={mobileMoreAnchorEl}
-      anchorOrigin={{ vertical: "top", horizontal: "right" }}
-      id={mobileMenuId}
-      keepMounted
-      transformOrigin={{ vertical: "top", horizontal: "right" }}
-      open={isMobileMenuOpen}
-      onClose={handleMobileMenuClose}
-    >
-      {/* Messages and notifications ->
-      <MenuItem>
-        <IconButton aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="secondary">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton aria-label="show 11 new notifications" color="inherit">
-          <Badge badgeContent={11} color="secondary">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
-      </MenuItem>
-      */}
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Perfil</p>
-      </MenuItem>
       <MenuItem onClick={handleLogout}>Desconectar</MenuItem>
     </Menu>
   );
@@ -374,57 +526,7 @@ export const Layout = ({ children, user }: any) => {
         })}
       >
         <Toolbar>
-          <div className={classes.grow} />
-          {/* <Switch checked={isDark} onChange={toggleDarkMode} />*/}
-
-          <div className={classes.sectionDesktop}>
-            <IconButton
-              edge="start"
-              disableFocusRipple={true}
-              disableRipple={true}
-              className={clsx(classes.iconButton, classes.logo)}
-              aria-label="Logo"
-            >
-              <Image
-                src="/logo.svg"
-                alt="Picture of the website logo"
-                width="18px"
-                height={"auto"}
-                loading="eager"
-              />
-            </IconButton>
-            {/* Messages and notifications ->
-            <IconButton aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <MailIcon />
-              </Badge>
-            </IconButton>
-            <IconButton aria-label="show 17 new notifications" color="inherit">
-              <Badge badgeContent={17} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-            */}
-
-            <Typography className={classes.userName} color="textSecondary">
-              Olá, {userName}
-            </Typography>
-            <IconButton
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-              disableFocusRipple={true}
-              disableRipple={true}
-              className={classes.iconButton}
-            >
-              <Avatar className={classes.avatarAccount}>CM</Avatar>
-            </IconButton>
-          </div>
-
-          <div className={classes.sectionMobile}>
+          <div className={classes.section}>
             <IconButton
               edge="start"
               disableFocusRipple={true}
@@ -441,103 +543,89 @@ export const Layout = ({ children, user }: any) => {
               />
             </IconButton>
 
-            <Typography className={classes.userName} color="textSecondary">
-              Olá, {userName}
-            </Typography>
-            <IconButton
-              aria-label="show more"
-              aria-controls={mobileMenuId}
-              aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
-              color="inherit"
-              userName
-              className={classes.iconButton}
-            >
-              <MoreIcon />
-            </IconButton>
+            <div className={classes.appBarWrapper}>
+              <Hidden smDown>
+                <Typography className={classes.userName} color="textSecondary">
+                  Olá, {userName}
+                </Typography>
+                <IconButton
+                  edge="end"
+                  aria-haspopup="true"
+                  aria-label="account of current user"
+                  aria-controls={menuId}
+                  onClick={handleProfileMenuOpen}
+                  color="inherit"
+                  disableFocusRipple={true}
+                  disableRipple={true}
+                  className={classes.iconButton}
+                >
+                  <Avatar className={classes.avatarAccount}>CM</Avatar>
+                </IconButton>
+              </Hidden>
+
+              {renderMenu}
+
+              <Hidden lgUp>
+                <IconButton
+                  aria-label="show more"
+                  aria-controls={mobileMenuId}
+                  aria-haspopup="true"
+                  disableRipple={true}
+                  disableFocusRipple={true}
+                  className={classes.drawerMenuIcon}
+                  onClick={
+                    mobileOpen == true
+                      ? handleMobileMenuClose
+                      : handleMobileMenuOpen
+                  }
+                >
+                  <MenuIcon />
+                </IconButton>
+              </Hidden>
+            </div>
           </div>
         </Toolbar>
       </AppBar>
-      {renderMobileMenu}
-      {renderMenu}
-      <Drawer
-        variant="permanent"
-        anchor="left"
-        open={open}
-        className={clsx(classes.drawer, {
-          [classes.drawerOpen]: open,
-          [classes.drawerClose]: !open,
-        })}
-        classes={{
-          paper: clsx(
-            {
+
+      <nav>
+        <Hidden lgUp>
+          <SwipeableDrawer
+            variant="temporary"
+            open={mobileOpen}
+            onClose={toggleDrawer("right", false)}
+            onOpen={toggleDrawer("right", true)}
+            ModalProps={{
+              keepMounted: true, // Better open performance on mobile.
+            }}
+          >
+            {drawer}
+          </SwipeableDrawer>
+        </Hidden>
+
+        <Hidden mdDown>
+          <Drawer
+            variant="permanent"
+            open={open}
+            className={clsx(classes.drawer, {
               [classes.drawerOpen]: open,
               [classes.drawerClose]: !open,
-            },
-            classes.drawerPaper
-          ),
-        }}
-      >
-        <List component="div">
-          {path.map((path: any, index: number) => (
-            <ListItem key={path.id} className={classes.drawerMenuItem}>
-              <Link key={path.id} href={path.url}>
-                <ListItemIcon className={clsx(classes.drawerMenuIcon)}>
-                  <>
-                    {
-                      {
-                        0: (
-                          <Link
-                            activeClassName={clsx(classes.iconActive)}
-                            href={path.url}
-                          >
-                            <DashboardCustomize size={24} />
-                          </Link>
-                        ),
-                        1: (
-                          <Link
-                            activeClassName={clsx(classes.iconActive)}
-                            href={path.url}
-                          >
-                            <Timeline size={24} />
-                          </Link>
-                        ),
-                        2: (
-                          <Link
-                            activeClassName={clsx(classes.iconActive)}
-                            href={path.url}
-                          >
-                            <Person size={24} />
-                          </Link>
-                        ),
-                      }[index]
-                    }
-                  </>
-                </ListItemIcon>
-                <ListItemText
-                  className={
-                    open == true
-                      ? classes.drawerMenuText
-                      : classes.drawerMenuTextCollapsed
-                  }
-                  primary={path.nome}
-                />
-              </Link>
-            </ListItem>
-          ))}
-        </List>
-        <div className={classes.drawerBottom}>
-          <IconButton
-            disableRipple={true}
-            disableFocusRipple={true}
-            className={classes.drawerMenuIcon}
-            onClick={open == true ? handleDrawerClose : handleDrawerOpen}
+            })}
+            classes={{
+              paper: clsx(
+                {
+                  [classes.drawerOpen]: open,
+                  [classes.drawerClose]: !open,
+                },
+                classes.drawerPaper
+              ),
+            }}
+            anchor={theme.direction === "rtl" ? "right" : "left"}
+            onClose={handleDrawerToggle}
           >
-            <MenuCollapseIcon />
-          </IconButton>
-        </div>
-      </Drawer>
-
+            {drawer}
+          </Drawer>
+        </Hidden>
+      </nav>
       <main
         className={clsx(classes.content, {
           [classes.contentShift]: open,
@@ -546,12 +634,13 @@ export const Layout = ({ children, user }: any) => {
         {/* Menu central da aplicação */}
         <Grid item xs={12}>
           <Paper className={classes.defaultPaper}>
-            <Box display="flex" width={1}>
+            <Box display="flex" width={1} className={classes.headerWrapper}>
               <Typography variant="body2">Painel</Typography>
               <Box marginLeft="auto">
                 <Button
                   className={classes.donationButton}
                   endIcon={<CreditCardIcon />}
+                  onClick={handleOpenModal}
                 >
                   Doar agora
                 </Button>
@@ -560,9 +649,37 @@ export const Layout = ({ children, user }: any) => {
           </Paper>
         </Grid>
         <animated.div style={springProps}>{children}</animated.div>
-        <Box marginTop={8.5}>
+        {/* <Box className={classes.buttonsWrapper}>
+          <Hidden lgUp>
+            <Button
+              className={classes.donationButton}
+              endIcon={<CreditCardIcon />}
+              onClick={handleOpenModal}
+            >
+              Doar agora
+            </Button>
+          </Hidden>
           <Footer />
-        </Box>
+      </Box>*/}
+
+        <Modal
+          aria-labelledby="transition-modal-title"
+          aria-describedby="transition-modal-description"
+          className={classes.modal}
+          open={openModal}
+          onClose={handleCloseModal}
+          closeAfterTransition
+          BackdropComponent={Backdrop}
+          BackdropProps={{
+            timeout: 500,
+          }}
+        >
+          <div className={classes.paper}>
+            <Fade in={openModal}>
+              <Form />
+            </Fade>
+          </div>
+        </Modal>
       </main>
     </div>
   );
