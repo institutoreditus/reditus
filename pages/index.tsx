@@ -5,6 +5,9 @@ import styles from "./index.module.css";
 import useSession from "../hooks/useSession";
 import { signIn, signOut } from "next-auth/client";
 import url from "url";
+import IconButton from '@material-ui/core/IconButton';
+import { Button } from '@rmwc/button';
+import { Login } from "@styled-icons/material-outlined/Login";
 
 // Components
 import { Form } from "../components/Form";
@@ -64,22 +67,19 @@ export default function Home() {
             align={"middle"}
           >
             {!loading && !session && (
-              <>
-                Not signed in <br />
-                <button
-                  onClick={() =>
-                    signIn(undefined, {
-                      callbackUrl: url.resolve(
-                        window.location.href,
-                        "/dashboard"
-                      ),
-                    })
-                  }
+              //TODO: Maybe change the label text to "Track my donations"
+                <GridCell
+                  dir="rtl"
                 >
-                  Sign in
-                </button>
-              </>
+                  <Button
+                    className={styles.loginButton}
+                    label="Acompanhar as minhas doações"
+                    onClick={() => signIn(undefined, {callbackUrl: url.resolve(window.location.href, "/dashboard")})}
+                    icon='login'
+                  />
+                </GridCell>
             )}
+
             {!loading && session && (
               <>
                 Signed in as {session.user.lastName}, {session.user.firstName}{" "}
