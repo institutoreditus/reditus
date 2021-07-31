@@ -79,12 +79,11 @@ export const Cards = () => {
   const classes = useStyles();
   // const [selectedId, setSelectedId] = useState(null);
 
+  // let fromDate: Date | undefined = undefined;
+  // let toDate: Date | undefined = undefined;
+  // let groupBy: BalanceGrouping | undefined = undefined;
 
-  //let fromDate: Date | undefined = undefined;
-  //let toDate: Date | undefined = undefined;
-  //let groupBy: BalanceGrouping | undefined = undefined;
-
-  //TODO: Get data from getBalance api
+  // TODO: Get data from getBalance api
   const totalDonationAmountValue = 1.4;
   const totalUserDonationAmountValue = 1245;
 
@@ -124,8 +123,7 @@ export const Cards = () => {
 
             <Grid item xs={12} className={classes.cardBanner}>
               <DefaultCard anotherClasses={classes.cardBanner}>
-                <Box borderRadius={0.25}>Banner text
-                </Box>
+                <Box borderRadius={0.25}>Banner text</Box>
               </DefaultCard>
             </Grid>
           </Grid>
@@ -136,5 +134,3 @@ export const Cards = () => {
 };
 
 export default Cards;
-
-

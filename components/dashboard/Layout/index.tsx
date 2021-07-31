@@ -11,8 +11,8 @@ import IconButton from "@material-ui/core/IconButton";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import AccountCircle from "@material-ui/icons/AccountCircle";
-import MoreIcon from "@material-ui/icons/MoreVert";
+// import AccountCircle from "@material-ui/icons/AccountCircle";
+// import MoreIcon from "@material-ui/icons/MoreVert";
 import Menu from "@material-ui/core/Menu";
 import MenuIcon from "@material-ui/icons/Menu";
 import CloseIcon from "@material-ui/icons/Close";
@@ -28,8 +28,8 @@ import { DashboardCustomize } from "@styled-icons/material/DashboardCustomize";
 import { MenuCollapseIcon } from "../assets/MenuCollapseIcon";
 import CreditCardIcon from "@material-ui/icons/CreditCardOutlined";
 import Hidden from "@material-ui/core/Hidden";
-import Footer from "../Footer";
 
+// import Footer from "../Footer";
 import Link from "../Link/";
 
 // import useStyles from "./styles";
@@ -337,7 +337,6 @@ export const Layout = ({ children, user }: any) => {
 
   const [open, setOpen] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
   const mobileMenuId = "primary-search-account-menu-mobile";
   const menuId = "appbar-menu";
@@ -403,21 +402,21 @@ export const Layout = ({ children, user }: any) => {
     router.push("/");
   };
 
-  const toggleDrawer = (anchor: Anchor, open: boolean) => (
-    event: React.KeyboardEvent | React.MouseEvent
-  ) => {
-    if (
-      event &&
-      event.type === "keydown" &&
-      ((event as React.KeyboardEvent).key === "Tab" ||
-        (event as React.KeyboardEvent).key === "Shift")
-    ) {
-      return;
-    }
-    setIsMobileMenuOpen({ ...isMobileMenuOpen, [anchor]: open });
+  const toggleDrawer =
+    (anchor: Anchor, open: boolean) =>
+    (event: React.KeyboardEvent | React.MouseEvent) => {
+      if (
+        event &&
+        event.type === "keydown" &&
+        ((event as React.KeyboardEvent).key === "Tab" ||
+          (event as React.KeyboardEvent).key === "Shift")
+      ) {
+        return;
+      }
+      setIsMobileMenuOpen({ ...isMobileMenuOpen, [anchor]: open });
 
-    open ? setMobileOpen(true) : setMobileOpen(false);
-  };
+      open ? setMobileOpen(true) : setMobileOpen(false);
+    };
 
   const drawer = (
     <>

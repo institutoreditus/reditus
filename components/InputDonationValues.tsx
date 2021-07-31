@@ -75,14 +75,11 @@ export const InputDonationValues = (props: any) => {
   // loading controls showing the loading bar.
   const [loading, setLoading] = useState(false);
 
-  const [
-    mValue1,
-    mValue2,
-    mValue3,
-  ] = RoxContainer.suggestedMonthlyDonationValues
-    .getValue()
-    .split("|", 3)
-    .map((x: string) => +x);
+  const [mValue1, mValue2, mValue3] =
+    RoxContainer.suggestedMonthlyDonationValues
+      .getValue()
+      .split("|", 3)
+      .map((x: string) => +x);
 
   const [sValue1, sValue2, sValue3] = RoxContainer.suggestedSingleDonationValues
     .getValue()
@@ -123,12 +120,10 @@ export const InputDonationValues = (props: any) => {
       success: async function (data: any) {
         try {
           props.form.donationMode == "subscriptions"
-            ? (data[
-                "ssr"
-              ] = RoxContainer.suggestedMonthlyDonationValues.getValue())
-            : (data[
-                "ssr"
-              ] = RoxContainer.suggestedSingleDonationValues.getValue());
+            ? (data["ssr"] =
+                RoxContainer.suggestedMonthlyDonationValues.getValue())
+            : (data["ssr"] =
+                RoxContainer.suggestedSingleDonationValues.getValue());
 
           // data["ssr"] = `${val1}|${val2}|${val3}`;
           props.update("email", data.customer.email);
