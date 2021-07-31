@@ -13,7 +13,7 @@
 }
 
 .rightSide label span {
-  margin: 1px auto 6px -1rem;
+  margin: 1px auto 6px -.8rem;
 }
 
 .rightSide {
@@ -51,6 +51,11 @@
 
 .rightSide button {
   margin-top: 1rem;
+}
+
+.rightSide .loginButton {
+  text-transform: none;
+  font-size: 1.05rem;
 }
 
 .leftSideWrapper {
