@@ -64,15 +64,26 @@ export const lightTheme = createMuiTheme({
     fontFamily: "'Open sans', sans-serif !important",
   },
   transitions: {
+    easing: {
+      easeInOut: "cubic-bezier(0.4, 0, 0.2, 1)",
+      easeOut: "cubic-bezier(0.0, 0, 0.2, 1)",
+      easeIn: "cubic-bezier(0.4, 0, 1, 1)",
+      sharp: "cubic-bezier(0.4, 0, 0.6, 1)",
+    },
     duration: {
-      enteringScreen: 0.4,
-      leavingScreen: 0.4,
+      enteringScreen: 500,
+      leavingScreen: 500,
     },
   },
   overrides: {
     MuiDrawer: {
       paper: {
         overflow: "hidden !important",
+        [theme.breakpoints.down("md")]: {
+          display: "grid",
+          placeContent: "center",
+          width: "100%",
+        },
       },
     },
     MuiTypography: {
