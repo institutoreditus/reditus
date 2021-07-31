@@ -13,6 +13,7 @@ const testData = {
   university: "UFRJ",
   degree: "Engenharia de Computação",
   admissionYear: 2011,
+  birthday: new Date(2010, 12, 25),
   tutorshipInterest: true,
   mentorshipInterest: true,
   volunteeringInterest: true,
@@ -37,6 +38,7 @@ test("creates a new user", async () => {
     university: "UFRJ",
     degree: "Engenharia de Computação",
     admissionYear: 2011,
+    birthday: new Date(2010, 12, 25),
     tutorshipInterest: true,
     mentorshipInterest: true,
     volunteeringInterest: true,
@@ -49,6 +51,7 @@ test("creates a new user", async () => {
   expect(user.university).toEqual("UFRJ");
   expect(user.degree).toEqual("Engenharia de Computação");
   expect(user.admissionYear).toEqual(2011);
+  expect(user.birthday).toEqual(new Date(2010, 12, 25));
   expect(user.tutorshipInterest).toEqual(true);
   expect(user.mentorshipInterest).toEqual(true);
   expect(user.volunteeringInterest).toEqual(true);
@@ -143,6 +146,17 @@ test("throws error if admission date is invalid", async () => {
       admissionYear: 0,
     })
   ).rejects.toThrow(messages.INVALID_ADMISSION_YEAR);
+});
+
+test("throws error if date of birth is less than 1900", async () => {
+  await expect(
+    createUser({
+      ...testData,
+      dbClient: prisma,
+      email: `email${uuidv4()}@examplesub.com`, // unique email per user.
+      birthday: new Date(1800, 10, 10),
+    })
+  ).rejects.toThrow(messages.INVALID_DATE_OF_BIRTH);
 });
 
 test("throws error if user already exists", async () => {

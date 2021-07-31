@@ -35,29 +35,35 @@ enum ContributionOrigin {
 }
 
 model ContributionSubscription {
-  id Int @default(autoincrement()) @id
-  state SubscriptionState
-  amountInCents Int @map("amount_in_cents")
-  email String
+  id            Int               @id @default(autoincrement())
+  state         SubscriptionState
+  amountInCents Int               @map("amount_in_cents")
+  email         String
   contributions Contribution[]
-  externalId String? @map("external_id")
-  experimentId String? @map("experiment_id")
+  externalId    String?           @map("external_id")
+  experimentId  String?           @map("experiment_id")
+  birthday      DateTime?
 
+  User   User? @relation(fields: [userId], references: [id])
+  userId Int?
   @@map("contribution_subscriptions")
 }
 
 model Contribution {
-  id Int @default(autoincrement()) @id
-  state ContributionState
-  amountInCents Int @map("amount_in_cents")
-  email String
-  subscriptionId Int? @map("subscription_id")
-  subscription ContributionSubscription? @relation(fields: [subscriptionId], references: [id])
-  externalId String? @map("external_id")
-  createdAt DateTime @default(now())
-  experimentId String? @map("experiment_id")
-  origin ContributionOrigin @default(online)
+  id             Int                       @id @default(autoincrement())
+  state          ContributionState
+  amountInCents  Int                       @map("amount_in_cents")
+  email          String
+  subscriptionId Int?                      @map("subscription_id")
+  subscription   ContributionSubscription? @relation(fields: [subscriptionId], references: [id])
+  externalId     String?                   @map("external_id")
+  createdAt      DateTime                  @default(now())
+  experimentId   String?                   @map("experiment_id")
+  origin         ContributionOrigin        @default(online)
+  birthday       DateTime?
 
+  User   User? @relation(fields: [userId], references: [id])
+  userId Int?
   @@map("contributions")
 }
 
@@ -75,9 +81,10 @@ model User {
   volunteeringInterest Boolean @map("volunteering_interest")
   contributions Contribution[]
   subscriptions ContributionSubscription[]
+  birthday  DateTime?
   createdAt DateTime @default(now())
   updatedAt  DateTime  @default(now()) @map(name: "updated_at")
-
+  
   @@map("users")
 }
 

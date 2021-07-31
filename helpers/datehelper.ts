@@ -9,3 +9,12 @@ export default function convertQueryParamToDate(dateString: string): Date {
     throw new Error("A data deve estar no formato yyyy-MM-dd");
   }
 }
+
+export function isValidBirthday(birthday: Date | null | undefined): boolean {
+  return !(
+    !birthday ||
+    !(birthday instanceof Date && !isNaN(birthday.getTime())) ||
+    birthday.getFullYear() < 1900 ||
+    birthday.getFullYear() >= new Date().getFullYear()
+  );
+}

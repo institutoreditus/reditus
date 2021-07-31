@@ -20,11 +20,13 @@ test("creates a contribution in the database and returns it", async () => {
     email: "email@example.com",
     amountInCents: 100,
     experimentId: "1|2|3",
+    birthday: new Date("2010-12-25"),
   });
 
   expect(result.id).not.toBeNull();
   expect(result.state).toEqual("pending");
   expect(result.experimentId).toEqual("1|2|3");
+  expect(result.birthday).toEqual(new Date("2010-12-25"));
   expect(
     await prisma.contribution.findUnique({
       where: {
@@ -51,11 +53,13 @@ test("creates a contribution for a existing subscription in the database and ret
     amountInCents: 123,
     subscriptionId: subscription.id,
     externalContributionId: uuidv4(),
+    birthday: new Date("2010-12-25"),
   });
 
   expect(contribution.id).not.toBeNull();
   expect(contribution.state).toEqual("completed");
   expect(contribution.experimentId).toEqual("1|2|3");
+  expect(contribution.birthday).toEqual(new Date("2010-12-25"));
   expect(
     await prisma.contribution.findUnique({
       where: {
@@ -80,6 +84,7 @@ test("creates a contribution with an existing user in the database and connects 
     university: "UFRJ",
     degree: "Engenharia de Computação",
     admissionYear: 2011,
+    birthday: new Date("2010-12-25"),
     tutorshipInterest: true,
     mentorshipInterest: true,
     volunteeringInterest: true,
@@ -93,6 +98,19 @@ test("creates a contribution with an existing user in the database and connects 
   });
 
   expect(contribution.userId).toEqual(user.id);
+});
+
+test("does not insert invalid date of birth", async () => {
+  const result = await createContribution({
+    dbClient: prisma,
+    email: "email@example.com",
+    amountInCents: 100,
+    experimentId: "1|2|3",
+    birthday: new Date("1800-12-25"),
+  });
+
+  expect(result.id).not.toBeNull();
+  expect(result.birthday).toBeNull();
 });
 
 test("throws error if amount is invalid", async () => {

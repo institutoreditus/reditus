@@ -14,6 +14,7 @@ export const Form = () => {
       donationMode: "",
       amountInCents: 0,
       email: "",
+      birthday: "",
     },
   });
 
