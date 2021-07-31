@@ -1,6 +1,27 @@
-import { Button } from "@rmwc/button";
-import styles from "../Form.module.css";
+import Button from "@material-ui/core/Button";
+import DoneIcon from "@material-ui/icons/Done";
 import { ReditusEvent, push } from "../../helpers/gtm";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      "& > *": {
+        margin: theme.spacing(1),
+      },
+    },
+    outlinedButton: {
+      color: "#00d4ff",
+      width: "100%",
+      height: "100%",
+      padding: "1.5rem",
+      border: "2px solid #00d4ff",
+      borderRadius: "2px",
+      textTransform: "none",
+      fontSize: "15px",
+    },
+  })
+);
 
 export const ContributionButton = ({
   nextStep,
@@ -13,20 +34,22 @@ export const ContributionButton = ({
     update("donationMode", "contributions");
     nextStep(e);
   };
+  const classes = useStyles();
 
   return (
     <div>
       {step < totalSteps && (
         <Button
-          label="Doar uma única vez"
           name="donationMode"
           id="donateOnlyOnce"
-          className={styles.outlinedButton}
-          icon="done"
+          variant="outlined"
+          startIcon={<DoneIcon />}
+          className={classes.outlinedButton}
           value="contributions"
           onClick={setDonationModeAndGoToNextStep}
-          outlined
-        />
+        >
+          Doar uma única vez
+        </Button>
       )}
     </div>
   );
