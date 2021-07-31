@@ -12,13 +12,6 @@ const useStyles = makeStyles((theme) =>
     root: {
       flexGrow: 1,
     },
-    defaultPaper: {
-      color: "#8097B1",
-      background: "transparent",
-      boxShadow: "none",
-      marginBottom: -10,
-      border: "none",
-    },
     paper: {
       color: "#8097B1",
       padding: theme.spacing(4),
@@ -28,6 +21,9 @@ const useStyles = makeStyles((theme) =>
       boxShadow: "none",
       borderRadius: "1px",
       height: "auto",
+      [theme.breakpoints.down("md")]: {
+        width: "100% !important",
+      },
     },
   })
 );
