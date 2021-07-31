@@ -38,6 +38,12 @@ const useStyles = makeStyles((theme) =>
       borderRadius: "1px",
       height: "12rem",
     },
+    wrapper: {
+      [theme.breakpoints.down("lg")]: {
+        display: "flex !important",
+        flexDirection: "column-reverse !important",
+      },
+    },
     cardBanner: {
       backgroundImage: `url(${bannerCard})`,
       backgroundSize: "cover",
@@ -72,6 +78,13 @@ const useStyles = makeStyles((theme) =>
 export const Cards = () => {
   const classes = useStyles();
   // const [selectedId, setSelectedId] = useState(null);
+
+
+  //let fromDate: Date | undefined = undefined;
+  //let toDate: Date | undefined = undefined;
+  //let groupBy: BalanceGrouping | undefined = undefined;
+
+  //TODO: Get data from getBalance api
   const totalDonationAmountValue = 1.4;
   const totalUserDonationAmountValue = 1245;
 
@@ -80,11 +93,11 @@ export const Cards = () => {
       <Box width={1} height={1}>
         <div className={classes.root}>
           <Grid container spacing={2}>
-            <Grid item xs={5}>
+            <Grid item xs={12} lg={5}>
               <Typography>Evolução do montante doado</Typography>
               <DonationChart alt="Donation chart" />
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={12} lg={3}>
               <Box marginTop={4.7}>
                 <StatusCard cardLabel="Total gerenciado pelo fundo">
                   <PublicOutlinedIcon className={classes.iconCard} />
@@ -104,13 +117,15 @@ export const Cards = () => {
                 </StatusCard>
               </Box>
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={12} lg={4}>
               <Typography>Minhas atividades</Typography>
               <TableCard />
             </Grid>
-            <Grid item xs={12}>
+
+            <Grid item xs={12} className={classes.cardBanner}>
               <DefaultCard anotherClasses={classes.cardBanner}>
-                <Box borderRadius={0.25}>Banner text</Box>
+                <Box borderRadius={0.25}>Banner text
+                </Box>
               </DefaultCard>
             </Grid>
           </Grid>
@@ -121,3 +136,5 @@ export const Cards = () => {
 };
 
 export default Cards;
+
+
