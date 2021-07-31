@@ -336,14 +336,16 @@ export const InputDonationValues = (props: any) => {
             </FormControl>
           </div>
         </div>
-        <Button
-          label="Doar agora"
-          raised
-          unelevated
-          disabled={loading}
-          onClick={onCheckout}
-          id={styles.defaultButton}
-        />
+        <div className={styles.donate}>
+          <Button
+            label="Doar agora"
+            raised
+            unelevated
+            disabled={loading}
+            onClick={onCheckout}
+            id={styles.defaultButton}
+          />
+        </div>
         {loading && <LinearProgress color="primary" />}
         <br />
         <br />
