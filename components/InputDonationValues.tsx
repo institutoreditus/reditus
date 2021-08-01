@@ -7,7 +7,7 @@ import axios from "axios";
 import { useState } from "react";
 import { FormControl, FormHelperText, LinearProgress } from "@material-ui/core";
 import {
-  createMuiTheme,
+  createTheme,
   createStyles,
   makeStyles,
   ThemeProvider,
@@ -31,7 +31,7 @@ import {
 } from "@material-ui/pickers";
 import { isValidBirthday } from "../helpers/datehelper";
 
-const theme = createMuiTheme({
+const theme = createTheme({
   palette: {
     primary: {
       main: "#00d4ff",

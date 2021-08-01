@@ -15,7 +15,7 @@ import {
   TextField,
 } from "@material-ui/core";
 import { ThemeProvider } from "@material-ui/core/styles";
-import { createMuiTheme } from "@material-ui/core/styles";
+import { createTheme } from "@material-ui/core/styles";
 import { red } from "@material-ui/core/colors";
 
 import axios from "axios";
@@ -51,7 +51,7 @@ function isNullOrWhitespace(s: string): boolean {
  * @return {Theme} returns a theme which is consistent to the rest of the site.
  */
 const reditusTheme = () =>
-  createMuiTheme({
+  createTheme({
     palette: {
       type: "dark",
       primary: {
