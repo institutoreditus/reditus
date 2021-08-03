@@ -13,6 +13,7 @@ interface CreateContributionArgs {
   externalContributionId?: string;
   experimentId?: string;
   birthday?: Date;
+  failed?: boolean;
 }
 
 const createContribution = async (
@@ -35,7 +36,7 @@ const createContribution = async (
     }
   }
 
-  const dob = isValidBirthday(args.birthday) ? args.birthday : undefined;
+  let dob = isValidBirthday(args.birthday) ? args.birthday : undefined;
 
   // for subscriptions postbacks, it is possible that we actually create the contribution in the database but we don't respond Pagarme successfully (maybe some sort of network error or any other unexpected error)
   // in those cases, Pagarme will try to contact us again
@@ -71,6 +72,7 @@ const createContribution = async (
       throw new Error(`Subscription Id ${args.subscriptionId} not found`);
 
     email = subscription.email;
+    dob = subscription.birthday ?? undefined;
   }
 
   const user = await args.dbClient.user.findUnique({
@@ -88,7 +90,7 @@ const createContribution = async (
       data: {
         email: email!,
         amountInCents: args.amountInCents,
-        state: "completed",
+        state: args.failed ? "cancelled" : "completed",
         externalId: args.externalContributionId,
         subscription: {
           connect: {

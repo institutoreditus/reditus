@@ -73,6 +73,40 @@ test("creates a contribution for a existing subscription in the database and ret
   expect(contribution.createdAt).not.toBeNull();
 });
 
+test("creates a contribution that failed for a existing subscription in the database and returns it", async () => {
+  const subscription = await createSubscription({
+    dbClient: prisma,
+    amountInCents: 123,
+    email: "email2@example.com",
+    birthday: new Date("2010-12-25"),
+    experimentId: "1|2|3",
+  });
+
+  const contribution = await createContribution({
+    dbClient: prisma,
+    amountInCents: 123,
+    subscriptionId: subscription.id,
+    externalContributionId: uuidv4(),
+    failed: true
+  });
+
+  expect(contribution.id).not.toBeNull();
+  expect(contribution.state).toEqual("cancelled");
+  expect(contribution.experimentId).toEqual("1|2|3");
+  expect(contribution.birthday).toEqual(new Date("2010-12-25"));
+  expect(
+    await prisma.contribution.findUnique({
+      where: {
+        id: contribution.id,
+      },
+    })
+  ).toEqual(contribution);
+
+  expect(contribution.subscriptionId).toEqual(subscription.id);
+  expect(contribution.email).toEqual(subscription.email);
+  expect(contribution.createdAt).not.toBeNull();
+});
+
 test("creates a contribution with an existing user in the database and connects them", async () => {
   const uniqueEmail = `uniqueemail${uuidv4()}@example.com`;
 
