@@ -72,7 +72,9 @@ const createContribution = async (
       throw new Error(`Subscription Id ${args.subscriptionId} not found`);
 
     email = subscription.email;
-    dob = subscription.birthday ?? undefined;
+    if (!dob) {
+      dob = subscription.birthday ?? undefined;
+    }
   }
 
   const user = await args.dbClient.user.findUnique({
