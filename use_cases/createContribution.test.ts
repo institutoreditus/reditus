@@ -87,7 +87,7 @@ test("creates a contribution that failed for a existing subscription in the data
     amountInCents: 123,
     subscriptionId: subscription.id,
     externalContributionId: uuidv4(),
-    failed: true
+    failed: true,
   });
 
   expect(contribution.id).not.toBeNull();
