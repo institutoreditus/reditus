@@ -7,7 +7,7 @@ import {
 } from "@material-ui/core";
 // import MaterialDatatable from "material-datatable";
 import Dashboard from "../../../components/dashboard";
-import TableCard from "../../../components/dashboard/Layout/Cards/TableCard";
+import LargeTable from "../../../components/dashboard/Layout/Cards/TableCard/LargeTable";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,14 +32,14 @@ export default function Contribuicoes() {
       <Dashboard>
         <Box display="flex" color="#2E384D" fontWeight={300} component="h2">
           <Box fontSize={28} marginRight={2}>
-            Minhas assinaturas
+            Minhas contribuições
           </Box>
           <Typography>13 no total</Typography>
         </Box>
         <Container maxWidth="xl">
           <Grid className={classes.container} item xs={12} md={8} lg={12}>
             <Box className={classes.wrapper}>
-              <TableCard />
+              <LargeTable />
             </Box>
           </Grid>
         </Container>
