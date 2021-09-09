@@ -5,7 +5,7 @@ import { createTheme, Theme } from "@material-ui/core/styles";
 import { createStyles, makeStyles } from "@material-ui/styles";
 import Pagination from "@material-ui/lab/Pagination";
 import PaginationItem from "@material-ui/lab/PaginationItem";
-//import { Box, Typography } from "@material-ui/core";
+// import { Box, Typography } from "@material-ui/core";
 
 function customCheckbox(theme: Theme) {
   return {
@@ -53,7 +53,7 @@ function customCheckbox(theme: Theme) {
 }
 
 const defaultTheme = createTheme();
-/*const useStyle = makeStyles({
+/* const useStyle = makeStyles({
   label: {
     textTransform: "uppercase",
     fontSize: 15,
@@ -99,7 +99,7 @@ const useStyles = makeStyles(
           letterSpacing: "1.12px",
           textTransform: "uppercase",
           color: "#BFC5D2",
-        },  
+        },
         "& .MuiDataGrid-columnHeader, .MuiDataGrid-cell": {
           borderRight: "none",
         },
@@ -153,19 +153,73 @@ const columns = [
   { field: "donationType", headerName: "Tipo de doação", width: 290 },
   { field: "amount", headerName: "Valor", width: 300 },
   { field: "date", headerName: "Data", width: 370 },
-  { field: "status", headerName: "Situação", width: 150},
+  { field: "status", headerName: "Situação", width: 150 },
 ];
 
 const rows = [
-  { id: 0, donationType: "Contribuição pontual", amount: 120, date: "03/05/2020", status: "Concluída" },
-  { id: 1, donationType: "Contribuição pontual", amount: 120, date: "03/05/2020", status: "Concluída" },
-  { id: 2, donationType: "Assinatura", amount: 120, date: "03/05/2020", status: "Ativa" },
-  { id: 3, donationType: "Assinatura", amount: 120, date: "03/05/2020", status: "Ativa" },
-  { id: 4, donationType: "Contribuição pontual", amount: 120, date: "03/05/2020", status: "Concluída" },
-  { id: 5, donationType: "Contribuição pontual", amount: 120, date: "03/05/2020", status: "Concluída" },
-  { id: 6, donationType: "Contribuição pontual", amount: 120, date: "03/05/2020", status: "Concluída" },
-  { id: 7, donationType: "Assinatura", amount: 120, date: "03/05/2020", status: "Inativa" },
-  { id: 8, donationType: "Contribuição pontual", amount: 120, date: "03/05/2020", status: "Concluída" },
+  {
+    id: 0,
+    donationType: "Contribuição pontual",
+    amount: 120,
+    date: "03/05/2020",
+    status: "Concluída",
+  },
+  {
+    id: 1,
+    donationType: "Contribuição pontual",
+    amount: 120,
+    date: "03/05/2020",
+    status: "Concluída",
+  },
+  {
+    id: 2,
+    donationType: "Assinatura",
+    amount: 120,
+    date: "03/05/2020",
+    status: "Ativa",
+  },
+  {
+    id: 3,
+    donationType: "Assinatura",
+    amount: 120,
+    date: "03/05/2020",
+    status: "Ativa",
+  },
+  {
+    id: 4,
+    donationType: "Contribuição pontual",
+    amount: 120,
+    date: "03/05/2020",
+    status: "Concluída",
+  },
+  {
+    id: 5,
+    donationType: "Contribuição pontual",
+    amount: 120,
+    date: "03/05/2020",
+    status: "Concluída",
+  },
+  {
+    id: 6,
+    donationType: "Contribuição pontual",
+    amount: 120,
+    date: "03/05/2020",
+    status: "Concluída",
+  },
+  {
+    id: 7,
+    donationType: "Assinatura",
+    amount: 120,
+    date: "03/05/2020",
+    status: "Inativa",
+  },
+  {
+    id: 8,
+    donationType: "Contribuição pontual",
+    amount: 120,
+    date: "03/05/2020",
+    status: "Concluída",
+  },
 ];
 
 function CustomPagination() {
@@ -179,7 +233,9 @@ function CustomPagination() {
       page={state.pagination.page}
       count={state.pagination.pageCount}
       // @ts-expect-error
-      renderItem={(props2) => <PaginationItem type="page" {...props2} disableRipple />}
+      renderItem={(props2) => (
+        <PaginationItem type="page" {...props2} disableRipple />
+      )}
       onChange={(_event, value) => apiRef.current.setPage(value)}
     />
   );
@@ -194,11 +250,11 @@ export default function LargeTable() {
   });*/
 
   const classes = useStyles();
-  //const customClasses = useStyle();
+  // const customClasses = useStyle();
 
   return (
     <>
-      {/*<Box marginBottom={3}>
+      {/* <Box marginBottom={3}>
         <Typography className={customClasses.label} variant="body2">
           Assinaturas & Contribuições
         </Typography>
