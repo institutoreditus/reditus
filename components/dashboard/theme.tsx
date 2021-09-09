@@ -93,6 +93,9 @@ export const lightTheme = createTheme({
       body2: {
         fontFamily: "'Rubik', sans-serif !important",
       },
+      subtitle1: {
+        color: "#8798AD",
+      },
     },
     MuiPaper: {
       root: {
@@ -141,6 +144,19 @@ export const lightTheme = createTheme({
     MuiIcon: {
       fontSizeSmall: {
         fontSize: 15,
+      },
+    },
+    MuiTableCell: {
+      root: {
+        borderBottom: "none",
+      },
+    },
+    MuiTableRow: {
+      root: {
+        "&:hover": {
+          backgroundColor: "#F7FAFC",
+          transition: ".4s ease-in",
+        },
       },
     },
   },
