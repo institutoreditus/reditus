@@ -23,6 +23,8 @@
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.57",
     "@material-ui/pickers": "^3.3.10",
+    "@mui/x-data-grid": "^4.0.0",
+    "@mui/x-data-grid-generator": "^4.0.0",
     "@prisma/client": "^2.16.1",
     "@types/ejs": "^3.0.5",
     "@types/nodemailer": "^6.4.0",
