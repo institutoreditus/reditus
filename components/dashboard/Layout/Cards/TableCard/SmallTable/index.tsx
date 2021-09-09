@@ -7,8 +7,9 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import DefaultCard from "../DefaultCard";
+import DefaultCard from "../../DefaultCard";
 import { Typography } from "@material-ui/core";
+// import { MessageSquareCheck } from "@styled-icons/boxicons-regular/MessageSquareCheck";
 
 const useStyles = makeStyles({
   table: {
@@ -17,12 +18,13 @@ const useStyles = makeStyles({
   },
   label: {
     textTransform: "uppercase",
-    fontSize: 17,
+    fontSize: 15,
     fontWeight: 300,
   },
   rowLabel: {
     fontSize: 15,
     fontWeight: 700,
+    display: "flex",
   },
   currencyText: {
     fontWeight: 500,
@@ -30,22 +32,23 @@ const useStyles = makeStyles({
 });
 
 function createData(
+  username: string,
   donationType: string,
   donationDate: string,
   donationValue: number
 ) {
-  return { donationType, donationDate, donationValue };
+  return { username, donationType, donationDate, donationValue };
 }
 
 const rows = [
-  createData("Cláudia Milano - Doação pontual", "09/06/2020", 159),
-  createData("Cláudia Milano - Assinatura", "09/06/2020", 237),
-  createData("Cláudia Milano - Assinatura", "09/06/2020", 262),
-  createData("Cláudia Milano - Doação pontual", "09/06/2020", 305),
-  createData("Cláudia Milano - Doação pontual", "09/06/2020", 356),
+  createData("Cláudia Milano", "Doação pontual", "09/06/2020", 159),
+  createData("Cláudia Milano", "Assinatura", "09/06/2020", 237),
+  createData("Cláudia Milano", "Assinatura", "09/06/2020", 262),
+  createData("Cláudia Milano", "Doação pontual", "09/06/2020", 305),
+  createData("Cláudia Milano", "Doação pontual", "09/06/2020", 356),
 ];
 
-export const TableCard = () => {
+export const SmallTable = () => {
   const classes = useStyles();
   return (
     <DefaultCard height="100%">
@@ -71,10 +74,26 @@ export const TableCard = () => {
             {rows.map((row) => (
               <TableRow key={row.donationType}>
                 <TableCell component="th" scope="row">
-                  <Typography className={classes.rowLabel}>
-                    {row.donationType}
-                  </Typography>
-                  <Typography variant="body2">{row.donationDate}</Typography>
+                  <Box display="flex">
+                    {/* <MessageSquareCheck size={20} color={(row.donationType == "Assinatura")? "#00d777" : "#223345"}/>*/}
+                    <Box marginLeft={-2}>
+                      <Typography className={classes.rowLabel}>
+                        {row.username} -
+                        <Box
+                          color={
+                            row.donationType == "Assinatura"
+                              ? "#00d777"
+                              : "#223345"
+                          }
+                        >
+                          &nbsp;{row.donationType}
+                        </Box>
+                      </Typography>
+                      <Typography variant="subtitle1">
+                        {row.donationDate}
+                      </Typography>
+                    </Box>
+                  </Box>
                 </TableCell>
                 <TableCell align="right">
                   <Typography className={classes.currencyText} variant="body2">
@@ -90,4 +109,4 @@ export const TableCard = () => {
   );
 };
 
-export default TableCard;
+export default SmallTable;

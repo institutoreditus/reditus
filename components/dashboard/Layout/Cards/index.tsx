@@ -10,7 +10,7 @@ import { Typography } from "@material-ui/core";
 import DonationChart from "./DonationChart";
 import DefaultCard from "./DefaultCard";
 import StatusCard from "./StatusCard";
-import TableCard from "./TableCard";
+import SmallTable from "./TableCard/SmallTable";
 import PublicOutlinedIcon from "@material-ui/icons/PublicOutlined";
 import CheckCircleOutlineOutlinedIcon from "@material-ui/icons/CheckCircleOutlineOutlined";
 
@@ -118,7 +118,7 @@ export const Cards = () => {
             </Grid>
             <Grid item xs={12} lg={4}>
               <Typography>Minhas atividades</Typography>
-              <TableCard />
+              <SmallTable />
             </Grid>
 
             <Grid item xs={12} className={classes.cardBanner}>
