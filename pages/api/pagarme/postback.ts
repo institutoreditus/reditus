@@ -152,11 +152,14 @@ async function runProcessSubscriptionPostback(
       res.send("");
     }
   } else if (event === "transaction_created") {
+    const transactionStatus =
+      req.body["subscription[current_transaction][status]"];
     const result = await createContribution({
       dbClient: dbClient,
       amountInCents: +req.body["subscription[current_transaction][amount]"],
       subscriptionId: subscriptionId,
       externalContributionId: externalPagarmeContributionId,
+      failed: transactionStatus !== "paid",
     });
     res.json(result);
   } else {
