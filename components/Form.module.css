@@ -45,17 +45,6 @@
     position: relative;
 }
 
-.donationModeWrapper .textItems {
-    margin-top: 40px;
-}
-
-.donationModeWrapper .textItems p {
-    font-family: 'Open sans' sans-serif !important;
-    font-size: 14px;
-    font-weight: 300;
-    color: #919BB0;
-}
-
 .donationValues .defaultValues {
     margin-bottom: 20px;
     display: flex;
@@ -67,7 +56,7 @@
 }
 
 .title {
-    margin: 32px 0 15px 0;
+    margin: 35px 0 15px 0;
 }
 
 /*Checkbox code styles*/
