@@ -1,0 +1,20 @@
+
+
+{
+
+ "invalid_data" : "Dados inválidos",
+ "invalid_email": "Email inválido",
+ "empty_email"  : "Email deve ser informado",
+ "invalid_amount": "Quantia inválida",
+ "id_and_email_informed": "Não se deve informar e-mail quando o ID de assinatura for informado",
+ "subscription_id_not_found": "`Id de assinatura ${args.subscriptionId} não encontrado`",
+ "failed_Donation": " Por algum motivo sua doação não foi efetuada. Retorne e tente mais uma vez.",
+ "invalid_id": "Id inválida",
+ "missing_external_contribution_id": "Deve-se informar o id de contribuição externa quando o id de assinatura for informado",
+ "invalid_year": "Ano de admissão inválido", 
+ "user_not_created": "Não foi possível criar o usuário",
+ "empty_data": "Entradas vazias não são permitidas", 
+ "user_null": "Erro inesperado durante a criação do usuário",
+ "invalid_auth_configuration": "Configuração de autenticação invalida"
+
+}
