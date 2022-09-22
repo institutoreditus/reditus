@@ -23,9 +23,8 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main>
-        <GridRow>
-          <GridCell
+      <main class={styles.main}>
+          <div
             order={0}
             className={styles.leftSide}
             desktop={4}
@@ -49,8 +48,8 @@ export default function Home() {
                 text="perpetua uma cultura de retribuição"
               />
             </List>
-          </GridCell>
-          <GridCell
+          </div>
+          <div
             order={1}
             className={styles.rightSide}
             desktop={8}
@@ -60,8 +59,7 @@ export default function Home() {
           >
             <img src="./logoReditusWhite.png" />
             <Form />
-          </GridCell>
-        </GridRow>
+          </div>
       </main>
     </div>
   );
