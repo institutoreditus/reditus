@@ -1,12 +1,10 @@
 import { useState, createContext } from "react";
 import useBirthday, { BirthdayInit } from "../hooks/useBirthday";
 import useConsent, { ConsentInit } from "../hooks/useConsent";
-import useDonation, {DonationInit} from "../hooks/useDonation";
 import useDonationMode, { DonationModeInit } from "../hooks/useDonationMode";
 import useDonationValue, { DonationValueInit } from "../hooks/useDonationValue";
 
 type DonationContextValues = {
-    // donation: ReturnType<typeof useDonation>,
     value: ReturnType<typeof useDonationValue>,
     mode: ReturnType<typeof useDonationMode>,
     birthday: ReturnType<typeof useBirthday>,
@@ -18,7 +16,6 @@ type DonationContextValues = {
 }
 
 const initialValues : DonationContextValues = {
-    // donation: DonationInit,
     value: DonationValueInit, 
     mode: DonationModeInit, 
     birthday: BirthdayInit, 
@@ -37,7 +34,6 @@ export default function DonationProvider ({children} : {children: JSX.Element}) 
     const [userExists, setUserExists] = useState(false);
     const [email, setEmail] = useState<string>('');
 
-    // const donation = useDonation();
     const donationValue = useDonationValue();
     const donationMode = useDonationMode();
     const birthday = useBirthday();
@@ -54,11 +50,6 @@ export default function DonationProvider ({children} : {children: JSX.Element}) 
     </DonationContext.Provider>
 
     function validate() {
-
-        // console.log('birthday', birthday.validate());
-        // console.log('consent', consent.validate());
-        // console.log('donationValue', donationValue.validate());
-        
         return birthday.validate() || consent.validate() || donationValue.validate();
     }
 }
