@@ -20,11 +20,14 @@ type DonationContextValues = {
     email: {value: string, set: (v: string) => void},
     userExists: {value: boolean, set: (v: boolean) => void},
 
-    isMonthly: boolean, selectedAnOption: boolean,
+    isMonthly: boolean, 
     valueOptions: number[],
 
     selectDonateAnotherValue: () => void,
-    unselectDonateAnotherValue: () => void,
+    selectOption: () => void,
+
+    isInputingValue: boolean,
+    setIsInputingValue: (v: boolean)=>void;
 }
 
 const initialValues : DonationContextValues = {
@@ -36,10 +39,10 @@ const initialValues : DonationContextValues = {
     email: {value: '', set: (v)=>{}},
     userExists: {value: false, set: (v)=>{}},
     isMonthly: true,
-    selectedAnOption: false,
     valueOptions: [],
     selectDonateAnotherValue: () => {},
-    unselectDonateAnotherValue: () => {},
+    selectOption: () => {},
+    isInputingValue: false, setIsInputingValue: (v)=>{}
 }
 
 export const DonationContext = createContext<DonationContextValues>(initialValues);
@@ -50,6 +53,7 @@ export default function DonationProvider ({children} : {children: JSX.Element}) 
 
     const [userExists, setUserExists] = useState(false);
     const [email, setEmail] = useState<string>('');
+    const [isInputingValue, setIsInputingValue] = useState<boolean>(false);
 
     const donationValue = useDonationValue();
     const donationMode = useDonationMode();
@@ -64,17 +68,14 @@ export default function DonationProvider ({children} : {children: JSX.Element}) 
         : RoxContainer.suggestedSingleDonationValues 
     ).getValue().split("|", 3).map((x: string) => Number(x));
 
-    const selectedAnOption = !donationValue.value || valueOptions.some(v => {
-        return v === donationValue.value
-    });
-
     const values = {
         value: donationValue, mode: donationMode, birthday, consent, validate,
         userExists: {value: userExists, set: setUserExists},
         email: {value: email, set: setEmail},
-        selectedAnOption, isMonthly, valueOptions,
+        isMonthly, valueOptions,
 
-        selectDonateAnotherValue, unselectDonateAnotherValue
+        selectDonateAnotherValue, selectOption,
+        isInputingValue, setIsInputingValue
     }
 
     return <DonationContext.Provider value={values}> 
@@ -96,7 +97,7 @@ export default function DonationProvider ({children} : {children: JSX.Element}) 
             donationValue.set(value);
         }
     }
-    function unselectDonateAnotherValue () {
+    function selectOption () {
         if (valueOptions.length > 0) {
             if (valueOptions.length > 1) {
                 donationValue.set(valueOptions[valueOptions.length - 2]);

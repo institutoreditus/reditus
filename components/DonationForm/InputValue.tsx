@@ -21,7 +21,7 @@ export const InputValue = (props: any) => {
         <Checkbox
           className={styles.checkbox}
           label={
-            <div>Quero doar outro valor</div>
+            <div>Escolher outro valor</div>
           }
           type="checkbox"
           name="valueCheckbox"
@@ -32,19 +32,18 @@ export const InputValue = (props: any) => {
             );
           }}
           onClick={()=>{
-            if (donation.selectedAnOption) {
-              donation.selectDonateAnotherValue();
-            } else {
-              donation.unselectDonateAnotherValue();
+            if (donation.isInputingValue) {
+              donation.selectOption();
             }
+            donation.setIsInputingValue(!donation.isInputingValue);
           }}
-          checked={!donation.selectedAnOption}
+          checked={donation.isInputingValue}
         />
 
         {
-          !donation.selectedAnOption 
+          donation.isInputingValue 
           ?  <NumberFormat
-            label="Quero doar outro valor..."
+            label="Digite o valor..."
             prefix={"R$"}
             id={styles.customValue__input}
             name="amountInCents"

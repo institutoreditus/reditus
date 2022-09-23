@@ -49,6 +49,7 @@ function NewOption ({value, index, comparison}:{value: number, index: number,
   function update () {
     push(ReditusEvent.click, `Select ${value}`);
     donation.value.set(Number(value));
+    donation.setIsInputingValue(false);
   };
   
   const amount = Math.ceil(value/comparison.price);
