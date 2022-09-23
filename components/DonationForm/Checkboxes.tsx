@@ -13,7 +13,27 @@ export const Checkboxes = (props: any) => {
 
   return (
     <div style={{ display: "inline-block", marginTop: "1.5rem" }}>
-      <FormControl error={donation.consent.error} fullWidth={true}>
+      <FormControl fullWidth={true}>
+
+      <Checkbox
+          className={styles.checkbox}
+          label={
+            <div>Quero doar mensalmente</div>
+          }
+          type="checkbox"
+          name="modeCheckbox"
+          onChange={(e: any) => {
+            push(
+              ReditusEvent.click,
+              `Select donation mode: ${e.target.checked}`
+            );
+          }}
+          onClick={()=>{
+            donation.mode.set(donation.mode.value === 'subscriptions' ? 'contributions' : 'subscriptions')
+          }}
+          checked={donation.mode.value === 'subscriptions'}
+        />
+
 
         <Checkbox
           className={styles.checkbox}

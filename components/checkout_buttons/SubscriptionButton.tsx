@@ -8,7 +8,6 @@ export const SubscriptionButton = ({
   nextStep,
   totalSteps,
   step,
-  update,
 }: any) => {
 
   const donation = useContext(DonationContext);
