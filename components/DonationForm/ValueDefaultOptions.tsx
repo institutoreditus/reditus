@@ -21,18 +21,66 @@ export default function ValueDefaultOptions (props: any) {
   ).getValue().split("|", 3).map((x: string) => Number(x));
 
 
-  return (
-    <div className={styles.defaultValues}>
+  return (<>
+      <p className="title">
+        {`Selecione o valor da sua doação ${donation.mode.value === 'subscriptions' ? 'mensal' : ''}`}
+      </p>
+      <div className={styles.valueOptions}>
 
-      {options.map((op, idx) => {
-        return <Option key={idx} value={op}/>
-      })}
-    </div>
+        {options.map((op, idx) => {
+          return <NewOption key={idx} value={op}/>
+        })}
+        
+        {/* <OtherValue /> */}
+      </div>
+    </>
   );
 };
 
 
-function Option ({value}:{value: number}) {
+function OtherValue () {
+
+  const donation = useContext(DonationContext)
+
+  return <div className={styles.otherValue} onClick={()=>{
+    donation.value.set(200)
+  }}>
+    Outro valor
+  </div>
+}
+
+function NewOption ({value}:{value: number}) {
+
+  const donation = useContext(DonationContext)
+
+  function update () {
+    push(ReditusEvent.click, `Select ${value}`);
+    donation.value.set(Number(value));
+  };
+  
+  return <>
+    <input
+      className={styles.valueOption}
+      type="radio"
+      name="amountInCents"
+      checked={value === donation.value.value}
+      onChange={(e: any) => {}}
+    />
+    <label
+      className={styles.valueOption}
+      htmlFor="firstDefaultValue"
+      onClick={update}
+    >
+      <div className={styles.valueOption__emoji}>🍕</div>
+      <h3>{`R$ ${value}`}</h3>
+      <p>Uma pizza</p>
+    </label>
+  </>
+
+}
+
+
+function PreviousOption ({value}:{value: number}) {
   
   const donation = useContext(DonationContext)
 
