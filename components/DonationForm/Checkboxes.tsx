@@ -1,7 +1,7 @@
 import { Checkbox } from "@rmwc/checkbox";
 import { useContext } from "react";
 import { FormControl, FormHelperText } from "@material-ui/core";
-import styles from "./Form.module.css";
+import styles from "../Form.module.css";
 import Link from "next/link";
 import { ReditusEvent, push } from "../../helpers/gtm";
 
