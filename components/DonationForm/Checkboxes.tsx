@@ -14,7 +14,7 @@ export const Checkboxes = (props: any) => {
   return (
     <div style={{ display: "inline-block", marginTop: "1.5rem" }}>
       <FormControl error={donation.consent.error} fullWidth={true}>
-        
+
         <Checkbox
           className={styles.checkbox}
           label={

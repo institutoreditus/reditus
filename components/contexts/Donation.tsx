@@ -54,6 +54,11 @@ export default function DonationProvider ({children} : {children: JSX.Element}) 
     </DonationContext.Provider>
 
     function validate() {
-        return birthday.validate() && consent.validate() && donationValue.validate();
+
+        // console.log('birthday', birthday.validate());
+        // console.log('consent', consent.validate());
+        // console.log('donationValue', donationValue.validate());
+        
+        return birthday.validate() || consent.validate() || donationValue.validate();
     }
 }

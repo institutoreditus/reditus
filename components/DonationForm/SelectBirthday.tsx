@@ -44,9 +44,6 @@ export const SelectBirthday = (props: any) => {
 
   return (<>
     <FormControl error={donation.birthday.error} fullWidth={true}>
-      
-      <div>{`${donation.birthday.value}`}</div>
-
       <div className="label-class">
         <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ptBR}>
           <Grid container>
