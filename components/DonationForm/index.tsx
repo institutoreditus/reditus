@@ -16,11 +16,11 @@ import { ReditusEvent, push, pushDonation } from "../../helpers/gtm";
 import format from "date-fns/format";
 
 import {DonationContext} from '../contexts/Donation';
-import { DonationMode } from "../hooks/useDonation";
 import ValueDefaultOptions from "./ValueDefaultOptions";
 import InputValue from "./InputValue";
 import SelectBirthday from "./SelectBirthday";
 import Checkboxes from "./Checkboxes";
+import { DonationMode } from "../hooks/useDonationMode";
 
 const theme = createMuiTheme({
   palette: {

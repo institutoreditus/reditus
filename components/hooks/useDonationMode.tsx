@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { DonationMode } from "./useDonation";
 
+export type DonationMode = 'subscriptions' | 'contributions'
 
 export default function useDonationMode () {
 
