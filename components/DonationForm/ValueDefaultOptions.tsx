@@ -21,27 +21,28 @@ export default function ValueDefaultOptions (props: any) {
       <div className={styles.valueOptions}>
 
         {donation.valueOptions.map((op, idx) => {
-          return <NewOption key={idx} value={op}/>
+          
+          const comparison = compareWith(op, idx);
+          return <NewOption key={idx} value={op} index={idx} comparison={comparison}/>
         })}
 
       </div>
     </>
   );
+
+  function compareWith (v: number, idx: number) : {emoji: string, name: string, price: number} {
+    const options = [
+      {emoji: '🍔', name: 'lanche', price: 50},
+      {emoji: '🍕', name: 'pizza', price: 100},
+      {emoji: '🍕', name: 'pizza', price: 100},
+    ]
+    return options[idx % options.length];
+  }
 };
 
 
-function OtherValue () {
-
-  const donation = useContext(DonationContext)
-
-  return <div className={styles.otherValue} onClick={()=>{
-    donation.value.set(200)
-  }}>
-    Outro valor
-  </div>
-}
-
-function NewOption ({value}:{value: number}) {
+function NewOption ({value, index, comparison}:{value: number, index: number, 
+  comparison: {emoji: string, name: string, price: number}}) {
 
   const donation = useContext(DonationContext)
 
@@ -50,6 +51,8 @@ function NewOption ({value}:{value: number}) {
     donation.value.set(Number(value));
   };
   
+  const amount = Math.ceil(value/comparison.price);
+
   return <>
     <input
       className={styles.valueOption}
@@ -63,12 +66,11 @@ function NewOption ({value}:{value: number}) {
       htmlFor="firstDefaultValue"
       onClick={update}
     >
-      <div className={styles.valueOption__emoji}>🍕</div>
+      <div className={styles.valueOption__emoji}>{comparison.emoji}</div>
       <h3>{`R$ ${value}`}</h3>
-      <p>Uma pizza</p>
+      <p>{`menos que ${amount} ${comparison.name + (amount > 1 ? 's' : '')}`}</p>
     </label>
   </>
-
 }
 
 
