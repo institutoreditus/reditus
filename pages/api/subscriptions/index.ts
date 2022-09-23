@@ -89,7 +89,7 @@ async function runCreateSubscription(
       const pagarmeClient: any = await req.scope.resolve("pagarmeClient");
 
       let birthday: Date | undefined = new Date(args.dob);
-      if (!isValidBirthday(birthday)) {
+      if (!isValidBirthday(birthday)[0]) {
         birthday = undefined;
       }
 

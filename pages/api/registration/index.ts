@@ -53,7 +53,7 @@ async function runCreateUser(
 
     try {
       let birthday: Date | undefined = new Date(args.dob);
-      if (!isValidBirthday(birthday)) {
+      if (!isValidBirthday(birthday)[0]) {
         birthday = undefined;
       }
 

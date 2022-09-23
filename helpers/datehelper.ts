@@ -10,11 +10,23 @@ export default function convertQueryParamToDate(dateString: string): Date {
   }
 }
 
-export function isValidBirthday(birthday: Date | null | undefined): boolean {
-  return !(
-    !birthday ||
-    !(birthday instanceof Date && !isNaN(birthday.getTime())) ||
-    birthday.getFullYear() < 1900 ||
-    birthday.getFullYear() >= new Date().getFullYear()
-  );
+export function isValidBirthday(birthday: Date | null | undefined): [boolean, string] {
+
+  let status = true;
+  let message = ''
+
+  if ((!birthday || !(birthday instanceof Date && !isNaN(birthday.getTime())))) {
+    status = false;
+    message = 'Por favor, selecione uma data de nascimento válida.';
+    return [status, message];
+  }
+
+  if ((birthday.getFullYear() < 1900 ||
+    birthday.getFullYear() >= new Date().getFullYear())) {
+    status = false;
+    message = 'Por favor, cheque o ano da data de nascimento.';
+  }
+
+  return [status, message];
+
 }

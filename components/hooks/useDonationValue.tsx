@@ -5,18 +5,21 @@ export default function useDonationValue () {
 
     const [donationValue, setDonationValue] = useState<number>(0);
     const [error, setError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
 
     return {
         value: donationValue, 
-        error,
+        error, errorMessage,
         set,
         validate, clear
     };
 
-    function validate() {
+    function validate(value?: number) {
         let hasError = false;
-        if (donationValue < 5.0) {
+        const test = value ? value : donationValue;
+        if (test < 5.0) {
             hasError = true;
+            setErrorMessage('Por favor, escolha um valor para doação de, no minimo, 5 reais.');
         }
         setError(hasError);
         return hasError;
@@ -24,7 +27,7 @@ export default function useDonationValue () {
 
     function set(value: number) {
         setDonationValue(value);
-        setError(false)
+        validate(value);
     }
 
     function clear() {
@@ -38,4 +41,5 @@ export const DonationValueInit : ReturnType<typeof useDonationValue> = {
     validate: () => true,
     clear: () => {},
     set: (value)=>{},
+    errorMessage: ''
 }

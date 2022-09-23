@@ -5,22 +5,31 @@ import { isValidBirthday } from "../../helpers/datehelper";
 
 export default function useBirthday () {
 
-    const [selectedBirthday, setSelectedBirthday] = useState<Date | null>(null);
+    const [birthday, setBirthday] = useState<Date | null>(null);
     const [error, setError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
 
     return {
-        value: selectedBirthday, 
+        value: birthday, 
         error,
         set,
-        validate, clear
+        validate, clear,
+        errorMessage
     };
 
-    function validate() {
+    function validate(value?: Date | null) {
         let hasError = false;
-        if (!isValidBirthday(selectedBirthday)) {
+        let msg = '';
+
+        const testValue = value ? value : birthday;
+        const [isValid, message] = isValidBirthday(testValue);
+
+        if (!isValid) {
             hasError = true;
+            msg = message;
         }
         setError(hasError);
+        setErrorMessage(msg);
         return hasError;
     }
 
@@ -29,8 +38,8 @@ export default function useBirthday () {
     }
 
     function set(value: Date | null) {
-        setSelectedBirthday(value);
-        validate();
+        setBirthday(value);
+        validate(value);
     }
 }
 
@@ -40,4 +49,5 @@ export const BirthdayInit : ReturnType<typeof useBirthday> = {
     validate: () => true,
     clear: () => {},
     set: (value)=>{},
+    errorMessage: ''
 }

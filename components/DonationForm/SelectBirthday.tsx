@@ -42,8 +42,11 @@ export const SelectBirthday = (props: any) => {
   const classes = useStyles();
   const donation = useContext(DonationContext)
 
-  return (
+  return (<>
     <FormControl error={donation.birthday.error} fullWidth={true}>
+      
+      <div>{`${donation.birthday.value}`}</div>
+
       <div className="label-class">
         <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ptBR}>
           <Grid container>
@@ -79,11 +82,12 @@ export const SelectBirthday = (props: any) => {
             id="input-value-birthday-error-text"
             style={{ margin: 0 }}
           >
-            Por favor, selecione uma data de nascimento válida.
+            {donation.birthday.errorMessage}
           </FormHelperText>
         )}
       </div>
     </FormControl>
+    </>
   );
 };
 

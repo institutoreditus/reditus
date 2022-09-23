@@ -14,25 +14,6 @@ import { ReditusEvent, push,  } from "../../helpers/gtm";
 import {DonationContext} from '../contexts/Donation';
 
 
-const useStyles = makeStyles(() =>
-  createStyles({
-    picker: {
-      width: "100%",
-      marginTop: 5,
-      paddingTop: 0,
-    },
-    datePickerIcon: {
-      color: "rgba(255, 255, 255, 0.692)",
-      "&:hover": {
-        color: "#00d4ff",
-      },
-    },
-    "&.MuiPickersToolbarButton-toolbarBtn": {
-      fontSize: "40px !important",
-    },
-  })
-);
-
 service(RoxContainer);
 
 

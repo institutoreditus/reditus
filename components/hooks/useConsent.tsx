@@ -7,6 +7,7 @@ export default function useConsent () {
     const [privacyTermsAck, setPTA] = useState(false);
     const [consentLicitOrigin, setCLO] = useState(false);
     const [error, setError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
 
     return {
         privacyTermsAck, setPrivacyTermsAck,
@@ -16,7 +17,8 @@ export default function useConsent () {
 
     function validate() {
         let hasError = false;
-        if (!privacyTermsAck || !consentLicitOrigin) {
+        let message = '';
+        if (!privacyTermsAck && !consentLicitOrigin) {
             hasError = true;
         }
         setError(hasError);
@@ -30,11 +32,19 @@ export default function useConsent () {
 
     function setPrivacyTermsAck(value: boolean) {
         setPTA(value);
-        validate()
+        if (!value || !consentLicitOrigin) {
+            setError(true)
+        } else {
+            setError(false)
+        }
     }
     function setConsentLicitOrigin(value: boolean) {
         setCLO(value);
-        validate()
+        if (!value || !privacyTermsAck) {
+            setError(true)
+        } else {
+            setError(false)
+        }
     }
 
 }
