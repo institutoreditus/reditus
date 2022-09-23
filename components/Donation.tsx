@@ -3,6 +3,7 @@ import StepWizard from "react-step-wizard";
 
 // Components
 
+import EnterForm from "./EnterForm";
 import SelectDonationMode from "./SelectDonationMode";
 import DonationForm from "./DonationForm";
 import SuccessDonation from "./SuccessDonation";
@@ -20,7 +21,8 @@ export const Donation = () => {
         isLazyMount={true}
         instance={setInstance}
       >
-        <SelectDonationMode/>
+        <EnterForm/>
+        {/* <SelectDonationMode/> */}
         <DonationForm/>
         <SuccessDonation/>
         <FailedDonation />
