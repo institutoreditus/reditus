@@ -4,11 +4,11 @@ import StepWizard from "react-step-wizard";
 // Components
 
 import SelectDonationMode from "./SelectDonationMode";
-import InputDonationValues from "./InputDonationValues";
+import DonationForm from "./DonationForm";
 import SuccessDonation from "./SuccessDonation";
 import FailedDonation from "./FailedDonation";
 
-export const Form = () => {
+export const Donation = () => {
   const [state, updateState] = useState({
     form: {
       donationMode: "",
@@ -42,7 +42,7 @@ export const Form = () => {
         instance={setInstance}
       >
         <SelectDonationMode form={state.form} update={updateForm} />
-        <InputDonationValues form={state.form} update={updateForm} />
+        <DonationForm form={state.form} update={updateForm} />
         <SuccessDonation form={state.form} />
         <FailedDonation />
       </StepWizard>
@@ -50,4 +50,4 @@ export const Form = () => {
   );
 };
 
-export default Form;
+export default Donation;

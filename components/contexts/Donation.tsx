@@ -11,6 +11,7 @@ type DonationContextValues = {
     donationMode: typeof useDonation,
     birthday: typeof useDonation,
     consent: typeof useDonation,
+    validate: () => void
 }
 
 const DonationContext = createContext({
@@ -18,7 +19,8 @@ const DonationContext = createContext({
     donationValue: DonationValueInit, 
     donationMode: DonationModeInit, 
     birthday: BirthdayInit, 
-    consent: ConsentInit
+    consent: ConsentInit,
+    validate: ()=>{}
 });
 
 
@@ -33,10 +35,16 @@ export default function DonationProvider ({children} : {children: JSX.Element}) 
     const consent = useConsent();
 
     const values = {
-        donation, donationValue, donationMode, birthday, consent
+        donation, donationValue, donationMode, birthday, consent, validate
     }
 
     return <DonationContext.Provider value={values}> 
         {children}
     </DonationContext.Provider>
+
+    function validate() {
+        birthday.validate();
+        consent.validate();
+        donationValue.validate();
+    }
 }

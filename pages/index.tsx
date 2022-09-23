@@ -4,7 +4,7 @@ import { List, SimpleListItem } from "@rmwc/list";
 import styles from "./index.module.css";
 
 // Components
-import { Form } from "../components/Form";
+import { Donation } from "../components/Donation";
 
 export default function Home() {
   return (
@@ -23,13 +23,8 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main class={styles.main}>
-          <div
-            order={0}
-            className={styles.leftSide}
-            desktop={4}
-            align={"middle"}
-          >
+      <main className={styles.main}>
+          <div className={styles.leftSide}>
             <p>Tornando-se parte dessa iniciativa você...</p>
             <List nonInteractive={true}>
               <SimpleListItem
@@ -49,16 +44,9 @@ export default function Home() {
               />
             </List>
           </div>
-          <div
-            order={1}
-            className={styles.rightSide}
-            desktop={8}
-            tablet={12}
-            phone={12}
-            align={"middle"}
-          >
+          <div className={styles.rightSide}>
             <img src="./logoReditusWhite.png" />
-            <Form />
+            <Donation />
           </div>
       </main>
     </div>

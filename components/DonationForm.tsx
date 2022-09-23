@@ -107,7 +107,7 @@ declare let PagarMeCheckout: any;
 const encryptionKey = process.env.PAGARME_ENC_KEY;
 let checkedRadio: any;
 
-export const InputDonationValues = (props: any) => {
+export const DonationForm = (props: any) => {
   const classes = useStyles();
 
   const validate = () => {
@@ -491,4 +491,4 @@ export const InputDonationValues = (props: any) => {
   );
 };
 
-export default InputDonationValues;
+export default DonationForm;
