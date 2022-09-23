@@ -103,7 +103,7 @@ const reditusTheme = () =>
 
 export const SuccessDonation = (props: any) => {
 
-  const {donation} = useContext(DonationContext)
+  const donation = useContext(DonationContext)
 
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -114,7 +114,7 @@ export const SuccessDonation = (props: any) => {
   const [errorUniversity, setErrorUniversity] = useState(false);
   const [errorAdmissionYear, setErrorAdmissionYear] = useState(false);
 
-  const isUserAlreadyRegistered = () => donation.form.userExists;
+  const isUserAlreadyRegistered = () => donation.userExists.value;
   const registrationFlagEnabled = () =>
     JSON.parse(RoxContainer.shouldShowRegistrationForm.getValue());
   const yearsList = createYearList();
@@ -234,8 +234,8 @@ export const SuccessDonation = (props: any) => {
     try {
       await axios.post("/api/registration", {
         ...registerForm,
-        email: donation.form.email,
-        dob: donation.form.birthday,
+        email: donation.email.value,
+        dob: donation.birthday.value,
       });
       setSignupFinish(true);
       setOpen(false);

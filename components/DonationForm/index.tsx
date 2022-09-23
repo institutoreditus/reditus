@@ -123,7 +123,7 @@ export const DonationForm = (props: any) => {
             ? (data["ssr"] = RoxContainer.suggestedMonthlyDonationValues.getValue())
             : (data["ssr"] = RoxContainer.suggestedSingleDonationValues.getValue());
 
-          data["dob"] = donation.birthday.value;
+          data["dob"] = birthday;
           donation.email.set(data.customer.email);
           setLoading(true);
           const response = await axios.post(`/api/${donationMode}`, data);
