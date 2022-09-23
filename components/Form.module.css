@@ -94,8 +94,9 @@
     padding: 15px !important;
     gap: 5px;
 
-    width: 25%;
+    width: 30%;
     min-width: 110px;
+    height: 100%;
 
     font-size: 16px;
     text-align: center;
@@ -105,16 +106,16 @@
     overflow: hidden;
     cursor: pointer;
 
-    /* -webkit-transition: all 150ms linear;
-    transition: all 150ms linear; */
     background-color: transparent;
 
 }
 
 .valueOption__emoji {
-    width: 80px;
-    height: 80px;
-    font-size: 50px;
+
+    width: 50px;
+    height: 50px;
+    font-size: 30px;
+
     border-radius: 100%;
     background-color: rgba(2, 18, 35, 0.193);
     display: flex;
