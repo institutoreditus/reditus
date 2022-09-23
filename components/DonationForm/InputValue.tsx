@@ -1,3 +1,5 @@
+import { Checkbox } from "@rmwc/checkbox";
+
 import NumberFormat from "react-number-format";
 import { TextField } from "@rmwc/textfield";
 import { useContext } from "react";
@@ -14,22 +16,36 @@ import { ReditusEvent, push,  } from "../../helpers/gtm";
 import {DonationContext} from '../contexts/DonationContext';
 
 
-service(RoxContainer);
-
-
-let checkedRadio: any;
 
 export const InputValue = (props: any) => {
 
   const donation = useContext(DonationContext)
 
-  if (donation.selectedAnOption) {
-    return <></>
-  }
-
   return (
     <div id={styles.customValue}>
       <FormControl error={donation.value.error} fullWidth={true}>
+        <Checkbox
+          className={styles.checkbox}
+          label={
+            <div>Quero doar outro valor</div>
+          }
+          type="checkbox"
+          name="valueCheckbox"
+          onChange={(e: any) => {
+            push(
+              ReditusEvent.click,
+              `Select donation value: ${e.target.checked}`
+            );
+          }}
+          onClick={()=>{
+            if (donation.selectedAnOption) {
+              donation.selectDonateAnotherValue();
+            } else {
+              donation.unselectDonateAnotherValue();
+            }
+          }}
+          checked={!donation.selectedAnOption}
+        />
 
         {
           !donation.selectedAnOption 
@@ -43,10 +59,6 @@ export const InputValue = (props: any) => {
             allowNegative={false}
             onValueChange={(values) => {
               const value = values.value;
-              if (!value) return;
-              if (checkedRadio) {
-                checkedRadio.checked = false;
-              }
               push(ReditusEvent.type, `Donate custom value: ${value}`);
               donation.value.set(Number(value));
             }}
