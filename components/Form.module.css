@@ -116,7 +116,7 @@
     height: 80px;
     font-size: 50px;
     border-radius: 100%;
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: rgba(2, 18, 35, 0.193);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -141,13 +141,6 @@
     background-color: #00d4ff;
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
 }
-
-/* checked hover */
-/* .valueOption:not(:checked)+label:hover {
-    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-    background-color: #00d4ff;
-} */
-
 
 
 .checkbox:checked~.section .container .row .col-12 .valueOption:not(:checked)+label {
