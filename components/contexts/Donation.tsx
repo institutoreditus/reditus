@@ -1,0 +1,42 @@
+import { useState, createContext } from "react";
+import useBirthday, { BirthdayInit } from "../hooks/useBirthday";
+import useConsent, { ConsentInit } from "../hooks/useConsent";
+import useDonation, {DonationInit} from "../hooks/useDonation";
+import useDonationMode, { DonationModeInit } from "../hooks/useDonationMode";
+import useDonationValue, { DonationValueInit } from "../hooks/useDonationValue";
+
+type DonationContextValues = {
+    donation: typeof useDonation,
+    donationValue: typeof useDonation,
+    donationMode: typeof useDonation,
+    birthday: typeof useDonation,
+    consent: typeof useDonation,
+}
+
+const DonationContext = createContext({
+    donation: DonationInit,
+    donationValue: DonationValueInit, 
+    donationMode: DonationModeInit, 
+    birthday: BirthdayInit, 
+    consent: ConsentInit
+});
+
+
+
+export default function DonationProvider ({children} : {children: JSX.Element}) {
+
+    const donation = useDonation();
+
+    const donationValue = useDonationValue();
+    const donationMode = useDonationMode();
+    const birthday = useBirthday();
+    const consent = useConsent();
+
+    const values = {
+        donation, donationValue, donationMode, birthday, consent
+    }
+
+    return <DonationContext.Provider value={values}> 
+        {children}
+    </DonationContext.Provider>
+}
