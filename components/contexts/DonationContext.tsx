@@ -64,7 +64,7 @@ export default function DonationProvider ({children} : {children: JSX.Element}) 
         : RoxContainer.suggestedSingleDonationValues 
     ).getValue().split("|", 3).map((x: string) => Number(x));
 
-    const selectedAnOption = valueOptions.some(v => {
+    const selectedAnOption = !donationValue.value || valueOptions.some(v => {
         return v === donationValue.value
     });
 

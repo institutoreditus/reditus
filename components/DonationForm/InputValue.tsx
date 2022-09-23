@@ -30,29 +30,32 @@ export const InputValue = (props: any) => {
   return (
     <div id={styles.customValue}>
       <FormControl error={donation.value.error} fullWidth={true}>
-        <NumberFormat
-          label="Quero doar outro valor..."
-          prefix={"R$"}
-          id={styles.customValue__input}
-          name="amountInCents"
-          customInput={TextField}
-          thousandSeparator={true}
-          allowNegative={false}
-          onValueChange={(values) => {
 
-            const value = values.value;
-            if (!value) return;
+        {
+          !donation.selectedAnOption 
+          ?  <NumberFormat
+            label="Quero doar outro valor..."
+            prefix={"R$"}
+            id={styles.customValue__input}
+            name="amountInCents"
+            customInput={TextField}
+            thousandSeparator={true}
+            allowNegative={false}
+            onValueChange={(values) => {
+              const value = values.value;
+              if (!value) return;
+              if (checkedRadio) {
+                checkedRadio.checked = false;
+              }
+              push(ReditusEvent.type, `Donate custom value: ${value}`);
+              donation.value.set(Number(value));
+            }}
+            value={donation.value.value}
+            fullwidth
+          />
+          : <></>
+        }
 
-            if (checkedRadio) {
-              checkedRadio.checked = false;
-            }
-
-            push(ReditusEvent.type, `Donate custom value: ${value}`);
-            donation.value.set(Number(value));
-          }}
-          value={donation.value.value}
-          fullwidth
-        />
         {donation.value.error && (
           <FormHelperText
             id="input-value-component-error-text"
@@ -62,6 +65,7 @@ export const InputValue = (props: any) => {
             minimo, 5 reais.
           </FormHelperText>
         )}
+
       </FormControl>
     </div>
   );
