@@ -7,36 +7,39 @@ export type Form = {
     amountInCents: number,
     email: string,
     birthday: Date | string,
+    userExists: boolean
 }
 type FormKeys = keyof Form;
 
 
 export default function useDonation () {
 
-    const [state, updateState] = useState<Form>({
+    const [form, setForm] = useState<Form>({
         donationMode: "subscriptions",
         amountInCents: 0,
         email: "",
         birthday: "",
+        userExists: false,
     });
     
-    function update (formKey: FormKeys, value: any) {
-        updateState({
-            ...state,
+    function updateForm (formKey: FormKeys, value: any) {
+        setForm({
+            ...form,
             [formKey]: value
         });
     };
 
-    return {state, update};
+    return {form, updateForm};
 }
 
 
 export const DonationInit : ReturnType<typeof useDonation> = {
-    state: {
+    form: {
         donationMode: "subscriptions",
         amountInCents: 0,
         email: "",
         birthday: "",
+        userExists: false
     },
-    update: (key, value)=>{},
+    updateForm: (key, value)=>{},
 }

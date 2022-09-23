@@ -9,12 +9,22 @@ export default function useDonationValue () {
     return {
         value: donationValue, 
         error,
-        set: setDonationValue,
+        set,
         validate, clear
     };
 
     function validate() {
-        
+        let hasError = false;
+        if (donationValue < 5.0) {
+            hasError = true;
+        }
+        setError(hasError);
+        return hasError;
+    }
+
+    function set(value: number) {
+        setDonationValue(value);
+        setError(false)
     }
 
     function clear() {
@@ -25,7 +35,7 @@ export default function useDonationValue () {
 export const DonationValueInit : ReturnType<typeof useDonationValue> = {
     value: 0,
     error: false,
-    validate: () => {},
+    validate: () => true,
     clear: () => {},
     set: (value)=>{},
 }

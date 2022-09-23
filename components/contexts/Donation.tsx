@@ -6,36 +6,47 @@ import useDonationMode, { DonationModeInit } from "../hooks/useDonationMode";
 import useDonationValue, { DonationValueInit } from "../hooks/useDonationValue";
 
 type DonationContextValues = {
-    donation: typeof useDonation,
-    donationValue: typeof useDonation,
-    donationMode: typeof useDonation,
-    birthday: typeof useDonation,
-    consent: typeof useDonation,
-    validate: () => void
+    // donation: ReturnType<typeof useDonation>,
+    value: ReturnType<typeof useDonationValue>,
+    mode: ReturnType<typeof useDonationMode>,
+    birthday: ReturnType<typeof useBirthday>,
+    consent: ReturnType<typeof useConsent>,
+    validate: () => boolean,
+
+    email: {value: string, set: (v: string) => void}
+    userExists: {value: boolean, set: (v: boolean) => void}
 }
 
-const DonationContext = createContext({
-    donation: DonationInit,
-    donationValue: DonationValueInit, 
-    donationMode: DonationModeInit, 
+const initialValues : DonationContextValues = {
+    // donation: DonationInit,
+    value: DonationValueInit, 
+    mode: DonationModeInit, 
     birthday: BirthdayInit, 
     consent: ConsentInit,
-    validate: ()=>{}
-});
+    validate: ()=>true,
+    email: {value: '', set: (v)=>{}},
+    userExists: {value: false, set: (v)=>{}}
+}
+
+export const DonationContext = createContext<DonationContextValues>(initialValues);
 
 
 
 export default function DonationProvider ({children} : {children: JSX.Element}) {
 
-    const donation = useDonation();
+    const [userExists, setUserExists] = useState(false);
+    const [email, setEmail] = useState<string>('');
 
+    // const donation = useDonation();
     const donationValue = useDonationValue();
     const donationMode = useDonationMode();
     const birthday = useBirthday();
     const consent = useConsent();
 
     const values = {
-        donation, donationValue, donationMode, birthday, consent, validate
+        value: donationValue, mode: donationMode, birthday, consent, validate,
+        userExists: {value: userExists, set: setUserExists},
+        email: {value: email, set: setEmail},
     }
 
     return <DonationContext.Provider value={values}> 
@@ -43,8 +54,6 @@ export default function DonationProvider ({children} : {children: JSX.Element}) 
     </DonationContext.Provider>
 
     function validate() {
-        birthday.validate();
-        consent.validate();
-        donationValue.validate();
+        return birthday.validate() && consent.validate() && donationValue.validate();
     }
 }

@@ -11,25 +11,33 @@ export default function useBirthday () {
     return {
         value: selectedBirthday, 
         error,
-        set: setSelectedBirthday,
+        set,
         validate, clear
     };
 
     function validate() {
+        let hasError = false;
         if (!isValidBirthday(selectedBirthday)) {
-            setError(true);
+            hasError = true;
         }
+        setError(hasError);
+        return hasError;
     }
 
     function clear() {
         setError(false);
+    }
+
+    function set(value: Date | null) {
+        setSelectedBirthday(value);
+        validate();
     }
 }
 
 export const BirthdayInit : ReturnType<typeof useBirthday> = {
     value: null,
     error: false,
-    validate: () => {},
+    validate: () => true,
     clear: () => {},
     set: (value)=>{},
 }
