@@ -2,7 +2,7 @@ import { Button } from "@rmwc/button";
 import styles from "../Form.module.css";
 import { ReditusEvent, push } from "../../helpers/gtm";
 import { useContext } from "react";
-import { DonationContext } from "../contexts/Donation";
+import { DonationContext } from "../contexts/DonationContext";
 
 export const ContributionButton = ({
   nextStep,

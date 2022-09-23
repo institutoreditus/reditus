@@ -7,7 +7,7 @@ import SelectDonationMode from "./SelectDonationMode";
 import DonationForm from "./DonationForm";
 import SuccessDonation from "./SuccessDonation";
 import FailedDonation from "./FailedDonation";
-import DonationProvider from "./contexts/Donation";
+import DonationProvider from "./contexts/DonationContext";
 
 export const Donation = () => {
 

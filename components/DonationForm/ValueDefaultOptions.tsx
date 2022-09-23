@@ -4,7 +4,7 @@ import styles from "../Form.module.css";
 import RoxContainer from "../../services/rox/RoxContainer";
 import service from "../../services/rox/RoxService";
 import { ReditusEvent, push } from "../../helpers/gtm";
-import {DonationContext} from '../contexts/Donation';
+import {DonationContext} from '../contexts/DonationContext';
 
 
 service(RoxContainer);
@@ -14,24 +14,16 @@ export default function ValueDefaultOptions (props: any) {
 
   const donation = useContext(DonationContext)
 
-  const options : number[] = (
-    donation.mode.value === 'subscriptions'
-      ? RoxContainer.suggestedMonthlyDonationValues
-      : RoxContainer.suggestedSingleDonationValues 
-  ).getValue().split("|", 3).map((x: string) => Number(x));
-
-
   return (<>
       <p className="title">
-        {`Selecione o valor da sua doação ${donation.mode.value === 'subscriptions' ? 'mensal' : ''}`}
+        {`Selecione o valor da sua doação ${donation.isMonthly ? 'mensal' : ''}`}
       </p>
       <div className={styles.valueOptions}>
 
-        {options.map((op, idx) => {
+        {donation.valueOptions.map((op, idx) => {
           return <NewOption key={idx} value={op}/>
         })}
-        
-        {/* <OtherValue /> */}
+
       </div>
     </>
   );

@@ -11,7 +11,7 @@ import styles from "../Form.module.css";
 import RoxContainer from "../../services/rox/RoxContainer";
 import service from "../../services/rox/RoxService";
 import { ReditusEvent, push,  } from "../../helpers/gtm";
-import {DonationContext} from '../contexts/Donation';
+import {DonationContext} from '../contexts/DonationContext';
 
 
 service(RoxContainer);
@@ -22,6 +22,10 @@ let checkedRadio: any;
 export const InputValue = (props: any) => {
 
   const donation = useContext(DonationContext)
+
+  if (donation.selectedAnOption) {
+    return <></>
+  }
 
   return (
     <div id={styles.customValue}>

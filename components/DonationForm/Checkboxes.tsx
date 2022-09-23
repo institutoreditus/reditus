@@ -5,7 +5,7 @@ import styles from "../Form.module.css";
 import Link from "next/link";
 import { ReditusEvent, push } from "../../helpers/gtm";
 
-import {DonationContext} from '../contexts/Donation';
+import {DonationContext} from '../contexts/DonationContext';
 
 export const Checkboxes = (props: any) => {
 
@@ -14,27 +14,49 @@ export const Checkboxes = (props: any) => {
   return (
     <div style={{ display: "inline-block", marginTop: "1.5rem" }}>
       
+      <FormControl error={donation.consent.error} fullWidth={true}>
 
       <Checkbox
-          className={styles.checkbox}
-          label={
-            <div>Quero doar mensalmente</div>
+        className={styles.checkbox}
+        label={
+          <div>Quero doar outro valor</div>
+        }
+        type="checkbox"
+        name="valueCheckbox"
+        onChange={(e: any) => {
+          push(
+            ReditusEvent.click,
+            `Select donation value: ${e.target.checked}`
+          );
+        }}
+        onClick={()=>{
+          if (donation.selectedAnOption) {
+            donation.selectDonateAnotherValue();
+          } else {
+            donation.unselectDonateAnotherValue();
           }
-          type="checkbox"
-          name="modeCheckbox"
-          onChange={(e: any) => {
-            push(
-              ReditusEvent.click,
-              `Select donation mode: ${e.target.checked}`
-            );
-          }}
-          onClick={()=>{
-            donation.mode.set(donation.mode.value === 'subscriptions' ? 'contributions' : 'subscriptions')
-          }}
-          checked={donation.mode.value === 'subscriptions'}
-        />
-      
-      <FormControl error={donation.consent.error} fullWidth={true}>
+        }}
+        checked={!donation.selectedAnOption}
+      />
+
+      <Checkbox
+        className={styles.checkbox}
+        label={
+          <div>Quero doar mensalmente</div>
+        }
+        type="checkbox"
+        name="modeCheckbox"
+        onChange={(e: any) => {
+          push(
+            ReditusEvent.click,
+            `Select donation mode: ${e.target.checked}`
+          );
+        }}
+        onClick={()=>{
+          donation.mode.set(donation.isMonthly ? 'contributions' : 'subscriptions')
+        }}
+        checked={donation.isMonthly}
+      />
 
         <Checkbox
           className={styles.checkbox}

@@ -15,7 +15,7 @@ import { ReditusEvent, push, pushDonation } from "../../helpers/gtm";
 
 import format from "date-fns/format";
 
-import {DonationContext} from '../contexts/Donation';
+import {DonationContext} from '../contexts/DonationContext';
 import ValueDefaultOptions from "./ValueDefaultOptions";
 import InputValue from "./InputValue";
 import SelectBirthday from "./SelectBirthday";
