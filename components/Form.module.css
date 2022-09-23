@@ -172,3 +172,58 @@
 .checkbox {
     margin-bottom: -10px;
 }
+
+
+.reasons {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 10px;
+}
+
+
+.reason {
+    width: 100%;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 20px;
+    cursor: pointer;
+    background-color: white;
+    padding: 20px 10px;
+    border-radius: 5px;
+    border: 2px solid white;
+    transition: linear all 150ms;
+}
+
+.reason:hover {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.084);
+}
+
+.reason:hover .reason__emoji {
+    background-color: #d2eff383;
+}
+
+.reason p {
+    padding: 0 !important;
+}
+
+.reason__emoji {
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color:rgba(227, 227, 227, 0.368);
+    flex: 0 0 auto;
+}
+
+.reason__text {
+    flex: 1 1 auto;
+    margin: 0 !important;
+    padding: 0 !important;
+}

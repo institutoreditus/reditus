@@ -1,7 +1,6 @@
 import ContributionButton from "./checkout_buttons/ContributionButton";
 import { SubscriptionButton } from "./checkout_buttons/SubscriptionButton";
 import styles from "./Form.module.css";
-import {StepWizardChildProps} from "./reactStepWizardTypes";
 
 
 const SelectDonationMode = (props : any) => {
