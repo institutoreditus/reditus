@@ -4,14 +4,8 @@ import NumberFormat from "react-number-format";
 import { TextField } from "@rmwc/textfield";
 import { useContext } from "react";
 import { FormControl, FormHelperText } from "@material-ui/core";
-import {
-  createStyles,
-  makeStyles,
-} from "@material-ui/core/styles";
 
 import styles from "../Form.module.css";
-import RoxContainer from "../../services/rox/RoxContainer";
-import service from "../../services/rox/RoxService";
 import { ReditusEvent, push,  } from "../../helpers/gtm";
 import {DonationContext} from '../contexts/DonationContext';
 
