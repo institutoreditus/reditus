@@ -36,7 +36,7 @@ export default function ValueDefaultOptions (props: any) {
       {emoji: '🍕', name: 'uma pizza', price: 75},
       {emoji: '🍲', name: 'um jantar chique', price: 100},
       {emoji: '💇‍♀️', name: 'uma ida ao salão', price: 150},
-      {emoji: '👞', name: 'novos sapatos', price: 250},
+      {emoji: '👞', name: 'um par de sapatos', price: 250},
       {emoji: '⛽', name: 'um tanque cheio', price: 500},
     ]
 
@@ -80,7 +80,7 @@ function NewOption ({value, index, comparison}:{value: number, index: number,
     >
       <div className={styles.valueOption__emoji}>{comparison.emoji}</div>
       <h3>{`R$ ${value}`}</h3>
-      <p>{`Equivale a ${comparison.name + (amount > 1 ? 's' : '')}`}</p>
+      <p>{`≈ ${comparison.name + (amount > 1 ? 's' : '')}`}</p>
     </label>
   </>
 }
