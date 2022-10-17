@@ -62,11 +62,13 @@ export default function DonationProvider ({children} : {children: JSX.Element}) 
 
     const isMonthly = donationMode.value === 'subscriptions';
 
-    const valueOptions : number[] = (
-        isMonthly
-        ? RoxContainer.suggestedMonthlyDonationValues
-        : RoxContainer.suggestedSingleDonationValues 
-    ).getValue().split("|", 3).map((x: string) => Number(x));
+    const valueOptions = [50, 75, 150, 250, 500];
+
+    // const valueOptions : number[] = (
+    //     isMonthly
+    //     ? RoxContainer.suggestedMonthlyDonationValues
+    //     : RoxContainer.suggestedSingleDonationValues 
+    // ).getValue().split("|", 3).map((x: string) => Number(x));
 
     const values = {
         value: donationValue, mode: donationMode, birthday, consent, validate,

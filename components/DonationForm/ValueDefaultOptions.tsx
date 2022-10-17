@@ -32,11 +32,22 @@ export default function ValueDefaultOptions (props: any) {
 
   function compareWith (v: number, idx: number) : {emoji: string, name: string, price: number} {
     const options = [
-      {emoji: '🍔', name: 'lanche', price: 50},
-      {emoji: '🍕', name: 'pizza', price: 100},
-      {emoji: '🍕', name: 'pizza', price: 100},
+      {emoji: '🍔', name: 'um lanche', price: 50},
+      {emoji: '🍕', name: 'uma pizza', price: 75},
+      {emoji: '🍲', name: 'um jantar chique', price: 100},
+      {emoji: '💇‍♀️', name: 'uma ida ao salão', price: 150},
+      {emoji: '👞', name: 'novos sapatos', price: 250},
+      {emoji: '⛽', name: 'um tanque cheio', price: 500},
     ]
-    return options[idx % options.length];
+
+    let opt = options[0];
+    for (let i=0; i < options.length; i++) {
+      if (options[i].price >= v) {
+        return options[i];
+      }
+    }
+
+    return options[0];
   }
 };
 
@@ -69,7 +80,7 @@ function NewOption ({value, index, comparison}:{value: number, index: number,
     >
       <div className={styles.valueOption__emoji}>{comparison.emoji}</div>
       <h3>{`R$ ${value}`}</h3>
-      <p>{`Menos que ${amount} ${comparison.name + (amount > 1 ? 's' : '')}`}</p>
+      <p>{`Equivale a ${comparison.name + (amount > 1 ? 's' : '')}`}</p>
     </label>
   </>
 }
