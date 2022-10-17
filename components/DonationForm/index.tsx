@@ -162,7 +162,7 @@ export const DonationForm = (props: any) => {
   return (
     <ThemeProvider theme={theme}>
       <div>
-        <NavigationButtons step={2} {...props} previousStep={() => {props.previousStep()}} />
+        {/* <NavigationButtons step={2} {...props} previousStep={() => {props.previousStep()}} /> */}
         <div className={styles.donationInputs}>
           <ValueDefaultOptions/>
           <SelectBirthday/>

@@ -21,7 +21,7 @@ export const Donation = () => {
         isLazyMount={true}
         instance={setInstance}
       >
-        <EnterForm/>
+        {/* <EnterForm/> */}
         {/* <SelectDonationMode/> */}
         <DonationForm/>
         <SuccessDonation/>
