@@ -5,9 +5,9 @@ import styles from "./Form.module.css";
 export default function Reasons() {
 
   const reasons = [
-    {emoji: '🌱', text: 'Fortalece a cultura de retribuição da UFRJ'},
-    {emoji: '🧑‍🎓', text: 'Contribui para uma estrutura perene de auxílio a alunos'},
-    {emoji: '💡', text: 'Viabiliza projetos de inovação da comunidade da UFRJ'},
+    {emoji: '🌱', text: 'Fortalece a cultura de retribuição da UFRJ', link: 'https://www.reditus.org.br/quemsomos-1'},
+    {emoji: '🧑‍🎓', text: 'Contribui para uma estrutura perene de auxílio a alunos', link: 'https://www.reditus.org.br/programa-de-mentoria'},
+    {emoji: '💡', text: 'Viabiliza projetos de inovação da comunidade da UFRJ', link: 'https://www.reditus.org.br/editaldeinovacao'},
   ]
 
   return (
@@ -23,11 +23,15 @@ export default function Reasons() {
 }
 
 
-function Reason ({emoji, text} : {emoji: string, text: string}) {
-  return <div className={styles.reason}>
-    <div className={styles.reason__emoji}>{emoji}</div>
-    <p className={styles.reason__text}>{text}</p>
-  </div>
+function Reason ({emoji, text, link} : {emoji: string, text: string, link: string}) {
+  return <a href={link} rel="noopener noreferrer" target="_blank" 
+    style={{textDecoration: 'none'}}
+  >
+    <div className={styles.reason}>
+      <div className={styles.reason__emoji}>{emoji}</div>
+      <p className={styles.reason__text}>{text}</p>
+    </div>
+  </a>
 }
 
 
