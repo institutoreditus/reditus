@@ -18,10 +18,12 @@ export const Checkboxes = (props: any) => {
       
       <FormControl error={donation.consent.error} fullWidth={true}>
 
+        <InputValue/>
+
         <Checkbox
           className={styles.checkbox}
           label={
-            <div>Quero doar mensalmente</div>
+            <div>Quero doar esse valor mensalmente</div>
           }
           type="checkbox"
           name="modeCheckbox"
@@ -36,8 +38,6 @@ export const Checkboxes = (props: any) => {
           }}
           checked={donation.isMonthly}
         />
-
-        <InputValue/>
 
         <Checkbox
           className={styles.checkbox}
