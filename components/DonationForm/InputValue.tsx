@@ -18,7 +18,7 @@ export const InputValue = (props: any) => {
   return (
     <div id={styles.customValue}>
       <FormControl error={donation.value.error} fullWidth={true}>
-        <Checkbox
+        {/* <Checkbox
           className={styles.checkbox}
           label={
             <div>Escolher outro valor</div>
@@ -38,7 +38,7 @@ export const InputValue = (props: any) => {
             donation.setIsInputingValue(!donation.isInputingValue);
           }}
           checked={donation.isInputingValue}
-        />
+        /> */}
 
         {
           donation.isInputingValue 
@@ -66,7 +66,7 @@ export const InputValue = (props: any) => {
             id="input-value-component-error-text"
             style={{ margin: 0 }}
           >
-            Por favor, selecione ou forneça um valor para doação de, no
+            O valor da doação deve ser, no
             minimo, 5 reais.
           </FormHelperText>
         )}

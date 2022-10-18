@@ -19,8 +19,9 @@ import {DonationContext} from '../contexts/DonationContext';
 import ValueDefaultOptions from "./ValueDefaultOptions";
 import InputValue from "./InputValue";
 import SelectBirthday from "./SelectBirthday";
-import Checkboxes from "./Checkboxes";
+import DonationModeSwitch from "./DonationMode";
 import { DonationMode } from "../hooks/useDonationMode";
+import { ConsentCheckboxes } from "./ConsentCheckboxes";
 
 const theme = createMuiTheme({
   palette: {
@@ -164,9 +165,16 @@ export const DonationForm = (props: any) => {
       <div>
         {/* <NavigationButtons step={2} {...props} previousStep={() => {props.previousStep()}} /> */}
         <div className={styles.donationInputs}>
+
+          <div className={styles.donationInputsTitle}>
+            <h3 className="title">Selecione o valor da sua doação</h3>
+          </div>
+
+          <DonationModeSwitch/>
+          
           <ValueDefaultOptions/>
           <SelectBirthday/>
-          <Checkboxes/>
+          <ConsentCheckboxes/>
         </div>
         <Button
           label="Doar agora"

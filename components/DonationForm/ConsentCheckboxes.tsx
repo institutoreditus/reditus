@@ -9,7 +9,7 @@ import { ReditusEvent, push } from "../../helpers/gtm";
 import {DonationContext} from '../contexts/DonationContext';
 import InputValue from './InputValue';
 
-export const Checkboxes = (props: any) => {
+export const ConsentCheckboxes = (props: any) => {
 
   const donation = useContext(DonationContext)
 
@@ -17,27 +17,6 @@ export const Checkboxes = (props: any) => {
     <div style={{ display: "inline-block", marginTop: "1.5rem" }}>
       
       <FormControl error={donation.consent.error} fullWidth={true}>
-
-        <InputValue/>
-
-        <Checkbox
-          className={styles.checkbox}
-          label={
-            <div>Quero doar esse valor mensalmente</div>
-          }
-          type="checkbox"
-          name="modeCheckbox"
-          onChange={(e: any) => {
-            push(
-              ReditusEvent.click,
-              `Select donation mode: ${e.target.checked}`
-            );
-          }}
-          onClick={()=>{
-            donation.mode.set(donation.isMonthly ? 'contributions' : 'subscriptions')
-          }}
-          checked={donation.isMonthly}
-        />
 
         <Checkbox
           className={styles.checkbox}
@@ -110,4 +89,4 @@ export const Checkboxes = (props: any) => {
   );
 };
 
-export default Checkboxes;
+export default ConsentCheckboxes;
