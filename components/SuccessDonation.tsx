@@ -101,9 +101,8 @@ const reditusTheme = () =>
     },
   });
 
-export const SuccessDonation = (props: any) => {
-
-  const donation = useContext(DonationContext)
+export const SuccessDonation = () => {
+  const donation = useContext(DonationContext);
 
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);

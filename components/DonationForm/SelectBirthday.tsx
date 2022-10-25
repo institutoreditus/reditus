@@ -1,9 +1,6 @@
-import {  useContext } from "react";
+import { useContext } from "react";
 import { FormControl, FormHelperText } from "@material-ui/core";
-import {
-  createStyles,
-  makeStyles,
-} from "@material-ui/core/styles";
+import { createStyles, makeStyles } from "@material-ui/core/styles";
 
 import Grid from "@material-ui/core/Grid";
 import DateFnsUtils from "@date-io/date-fns";
@@ -14,8 +11,7 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
-import {DonationContext} from '../contexts/Donation';
-
+import { DonationContext } from "../contexts/Donation";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -36,54 +32,51 @@ const useStyles = makeStyles(() =>
   })
 );
 
-
-export const SelectBirthday = (props: any) => {
-
+export const SelectBirthday = () => {
   const classes = useStyles();
-  const donation = useContext(DonationContext)
+  const donation = useContext(DonationContext);
 
-  return (<>
-    <FormControl error={donation.birthday.error} fullWidth={true}>
-      <div className="label-class">
-        <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ptBR}>
-          <Grid container>
-            <KeyboardDatePicker
-              name="birthday"
-              margin="normal"
-              id="date-picker-dialog"
-              label="Data de nascimento"
-              format="dd/MM/yyyy"
-              color="primary"
-              className={classes.picker}
-              value={donation.birthday.value}
-              onChange={(date: Date | null) => {
-                donation.birthday.set(date)
-              }}
-              KeyboardButtonProps={{
-                "aria-label": "change date",
-              }}
-              keyboardIcon={
-                <EventIcon className={classes.datePickerIcon} />
-              }
-              invalidDateMessage={null}
-              maxDateMessage={null}
-              minDateMessage={null}
-              autoOk
-              disableFuture
-              views={["year", "month", "date"]}
-            />
-          </Grid>
-        </MuiPickersUtilsProvider>
-        {donation.birthday.error && (
-          <FormHelperText
-            id="input-value-birthday-error-text"
-            style={{ margin: 0 }}
-          >
-            {donation.birthday.errorMessage}
-          </FormHelperText>
-        )}
-      </div>
-    </FormControl>
+  return (
+    <>
+      <FormControl error={donation.birthday.error} fullWidth={true}>
+        <div className="label-class">
+          <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ptBR}>
+            <Grid container>
+              <KeyboardDatePicker
+                name="birthday"
+                margin="normal"
+                id="date-picker-dialog"
+                label="Data de nascimento"
+                format="dd/MM/yyyy"
+                color="primary"
+                className={classes.picker}
+                value={donation.birthday.value}
+                onChange={(date: Date | null) => {
+                  donation.birthday.set(date);
+                }}
+                KeyboardButtonProps={{
+                  "aria-label": "change date",
+                }}
+                keyboardIcon={<EventIcon className={classes.datePickerIcon} />}
+                invalidDateMessage={null}
+                maxDateMessage={null}
+                minDateMessage={null}
+                autoOk
+                disableFuture
+                views={["year", "month", "date"]}
+              />
+            </Grid>
+          </MuiPickersUtilsProvider>
+          {donation.birthday.error && (
+            <FormHelperText
+              id="input-value-birthday-error-text"
+              style={{ margin: 0 }}
+            >
+              {donation.birthday.errorMessage}
+            </FormHelperText>
+          )}
+        </div>
+      </FormControl>
     </>
   );
 };

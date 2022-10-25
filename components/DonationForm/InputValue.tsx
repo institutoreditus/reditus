@@ -2,26 +2,19 @@ import NumberFormat from "react-number-format";
 import { TextField } from "@rmwc/textfield";
 import { useContext } from "react";
 import { FormControl, FormHelperText } from "@material-ui/core";
-import {
-  createStyles,
-  makeStyles,
-} from "@material-ui/core/styles";
 
 import styles from "../Form.module.css";
 import RoxContainer from "../../services/rox/RoxContainer";
 import service from "../../services/rox/RoxService";
-import { ReditusEvent, push,  } from "../../helpers/gtm";
-import {DonationContext} from '../contexts/Donation';
-
+import { ReditusEvent, push } from "../../helpers/gtm";
+import { DonationContext } from "../contexts/Donation";
 
 service(RoxContainer);
 
-
 let checkedRadio: any;
 
-export const InputValue = (props: any) => {
-
-  const donation = useContext(DonationContext)
+export const InputValue = () => {
+  const donation = useContext(DonationContext);
 
   return (
     <div id={styles.customValue}>
@@ -35,7 +28,6 @@ export const InputValue = (props: any) => {
           thousandSeparator={true}
           allowNegative={false}
           onValueChange={(values) => {
-
             const value = values.value;
             if (!value) return;
 
@@ -54,8 +46,8 @@ export const InputValue = (props: any) => {
             id="input-value-component-error-text"
             style={{ margin: 0 }}
           >
-            Por favor, selecione ou forneça um valor para doação de, no
-            minimo, 5 reais.
+            Por favor, selecione ou forneça um valor para doação de, no minimo,
+            5 reais.
           </FormHelperText>
         )}
       </FormControl>

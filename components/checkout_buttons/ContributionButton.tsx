@@ -4,17 +4,12 @@ import { ReditusEvent, push } from "../../helpers/gtm";
 import { useContext } from "react";
 import { DonationContext } from "../contexts/Donation";
 
-export const ContributionButton = ({
-  nextStep,
-  totalSteps,
-  step,
-}: any) => {
-
+export const ContributionButton = ({ nextStep, totalSteps, step }: any) => {
   const donation = useContext(DonationContext);
 
   const setDonationModeAndGoToNextStep = (e: any) => {
     push(ReditusEvent.click, "Donate once");
-    donation.mode.set('contributions');
+    donation.mode.set("contributions");
     nextStep(e);
   };
 

@@ -5,16 +5,14 @@ import styles from "../Form.module.css";
 import Link from "next/link";
 import { ReditusEvent, push } from "../../helpers/gtm";
 
-import {DonationContext} from '../contexts/Donation';
+import { DonationContext } from "../contexts/Donation";
 
-export const Checkboxes = (props: any) => {
-
-  const donation = useContext(DonationContext)
+export const Checkboxes = () => {
+  const donation = useContext(DonationContext);
 
   return (
     <div style={{ display: "inline-block", marginTop: "1.5rem" }}>
       <FormControl error={donation.consent.error} fullWidth={true}>
-
         <Checkbox
           className={styles.checkbox}
           label={
@@ -36,11 +34,8 @@ export const Checkboxes = (props: any) => {
           type="checkbox"
           name="consentCheckbox"
           onChange={(e: any) => {
-            push(
-              ReditusEvent.click,
-              `Mark T&C checkbox: ${e.target.checked}`
-            );
-            donation.consent.setPrivacyTermsAck(e.target.checked)
+            push(ReditusEvent.click, `Mark T&C checkbox: ${e.target.checked}`);
+            donation.consent.setPrivacyTermsAck(e.target.checked);
           }}
         />
 
@@ -55,11 +50,8 @@ export const Checkboxes = (props: any) => {
           type="checkbox"
           name="consentLicitOriginCheckbox"
           onChange={(e: any) => {
-            push(
-              ReditusEvent.click,
-              `Mark T&C checkbox: ${e.target.checked}`
-            );
-            donation.consent.setConsentLicitOrigin(e.target.checked)
+            push(ReditusEvent.click, `Mark T&C checkbox: ${e.target.checked}`);
+            donation.consent.setConsentLicitOrigin(e.target.checked);
           }}
         />
 
@@ -77,8 +69,8 @@ export const Checkboxes = (props: any) => {
             id="consent-licit-prigin-component-error-text"
             style={{ margin: 0 }}
           >
-            Para prosseguir também precisamos que você confirme que a
-            origem da doação é lícita.
+            Para prosseguir também precisamos que você confirme que a origem da
+            doação é lícita.
           </FormHelperText>
         )}
       </FormControl>

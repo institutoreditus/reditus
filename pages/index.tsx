@@ -1,5 +1,4 @@
 import Head from "next/head";
-import { GridRow, GridCell } from "@rmwc/grid";
 import { List, SimpleListItem } from "@rmwc/list";
 import styles from "./index.module.css";
 
@@ -24,30 +23,30 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-          <div className={styles.leftSide}>
-            <p>Tornando-se parte dessa iniciativa você...</p>
-            <List nonInteractive={true}>
-              <SimpleListItem
-                ripple={false}
-                graphic="radio_button_checked"
-                text="retorna um bem à comunidade de alunos e ex-alunos da UFRJ"
-              />
-              <SimpleListItem
-                ripple={false}
-                graphic="radio_button_checked"
-                text="ajuda a fomentar uma estrutura de auxílio a alunos e equipes de competição"
-              />
-              <SimpleListItem
-                ripple={false}
-                graphic="radio_button_checked"
-                text="perpetua uma cultura de retribuição"
-              />
-            </List>
-          </div>
-          <div className={styles.rightSide}>
-            <img src="./logoReditusWhite.png" />
-            <Donation />
-          </div>
+        <div className={styles.leftSide}>
+          <p>Tornando-se parte dessa iniciativa você...</p>
+          <List nonInteractive={true}>
+            <SimpleListItem
+              ripple={false}
+              graphic="radio_button_checked"
+              text="retorna um bem à comunidade de alunos e ex-alunos da UFRJ"
+            />
+            <SimpleListItem
+              ripple={false}
+              graphic="radio_button_checked"
+              text="ajuda a fomentar uma estrutura de auxílio a alunos e equipes de competição"
+            />
+            <SimpleListItem
+              ripple={false}
+              graphic="radio_button_checked"
+              text="perpetua uma cultura de retribuição"
+            />
+          </List>
+        </div>
+        <div className={styles.rightSide}>
+          <img src="./logoReditusWhite.png" />
+          <Donation />
+        </div>
       </main>
     </div>
   );
