@@ -167,11 +167,13 @@ export const DonationForm = (props: any) => {
         <div className={styles.donationInputs}>
 
           <div className={styles.donationInputsTitle}>
+            <h3 className="title">Escolha a frequência da sua doação</h3>
+          </div>
+          <DonationModeSwitch/>
+
+          <div className={styles.donationInputsTitle}>
             <h3 className="title">Selecione o valor da sua doação</h3>
           </div>
-
-          <DonationModeSwitch/>
-          
           <ValueDefaultOptions/>
           <SelectBirthday/>
           <ConsentCheckboxes/>

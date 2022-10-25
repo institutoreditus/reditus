@@ -84,7 +84,8 @@
 
 
 .valueOption {
-    border: 2px solid #00d4ff;
+    /* border: 2px solid #00d4ff; */
+    border: 2px solid #ffffff27;
     font-weight: 600;
     
     display: flex;
@@ -106,7 +107,10 @@
     overflow: hidden;
     cursor: pointer;
 
-    background-color: transparent;
+    /* background-color: transparent; */
+
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
 
 }
 
@@ -227,4 +231,32 @@
     flex: 1 1 auto;
     margin: 0 !important;
     padding: 0 !important;
+}
+
+.donationModeWrapper {
+    display: flex;
+    width: 100%;
+    gap: 10px;
+}
+
+.donationModeButton {
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(5px);
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 20px !important;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    font-size: 14px;
+}
+
+.donationModeButton:hover {
+    background-color: #00d4ff;
+}
+
+.donationModeButton:checked+label {
+    background-color: #00d4ff;
 }

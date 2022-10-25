@@ -18,27 +18,6 @@ export const InputValue = (props: any) => {
   return (
     <div id={styles.customValue}>
       <FormControl error={donation.value.error} fullWidth={true}>
-        {/* <Checkbox
-          className={styles.checkbox}
-          label={
-            <div>Escolher outro valor</div>
-          }
-          type="checkbox"
-          name="valueCheckbox"
-          onChange={(e: any) => {
-            push(
-              ReditusEvent.click,
-              `Select donation value: ${e.target.checked}`
-            );
-          }}
-          onClick={()=>{
-            if (donation.isInputingValue) {
-              donation.selectOption();
-            }
-            donation.setIsInputingValue(!donation.isInputingValue);
-          }}
-          checked={donation.isInputingValue}
-        /> */}
 
         {
           donation.isInputingValue 

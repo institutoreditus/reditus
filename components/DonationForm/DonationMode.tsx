@@ -13,44 +13,35 @@ export const DonationMode = (props: any) => {
   const donation = useContext(DonationContext)
 
   return (
-    <div style={{ display: "inline-block", marginTop: "1.5rem" }}>
-        <Switch 
-          onChange={(e: any) => {
-            donation.mode.set(donation.isMonthly ? 'contributions' : 'subscriptions');
-            push(ReditusEvent.click, `Select donation mode: ${donation.isMonthly ? true : false}`);
-          }}
-          checked={donation.isMonthly}
-          height={24}
-          handleDiameter={20}
-          borderRadius={24}
-          onColor='#75d4fe'
-        />
-        <label>Doar mensalmente</label>
-{/* 
-      <FormControl fullWidth={true}>
+    <div className={styles.donationModeWrapper}>
 
-        <Checkbox
-          className={styles.checkbox}
-          label={
-            <div>Quero doar esse valor mensalmente</div>
-          }
-          type="checkbox"
-          name="modeCheckbox"
-          onChange={(e: any) => {
-            push(
-              ReditusEvent.click,
-              `Select donation mode: ${e.target.checked}`
-            );
-          }}
-          onClick={()=>{
-            donation.mode.set(donation.isMonthly ? 'contributions' : 'subscriptions')
-          }}
-          checked={donation.isMonthly}
-        />
+      <input type="radio" 
+        checked={donation.mode.value === 'contributions'}
+        className={styles.donationModeButton}
+      />
+      <label className={styles.donationModeButton} onClick={onChange}>
+        Doar uma única vez
+      </label>
 
-      </FormControl> */}
+      <input type="radio" 
+        checked={donation.mode.value === 'subscriptions'} 
+        className={styles.donationModeButton}
+      />
+      <label className={styles.donationModeButton} onClick={onChange}>
+        Doar mensalmente
+      </label>
+      
     </div>
   );
+
+
+  function onChange() {
+    console.log('aqui');
+    donation.mode.set(donation.isMonthly ? 'contributions' : 'subscriptions')
+    push(ReditusEvent.click, `Select donation mode: ${donation.isMonthly ? 'contributions' : 'subscriptions'}`);
+  }
+
 };
 
 export default DonationMode;
+
