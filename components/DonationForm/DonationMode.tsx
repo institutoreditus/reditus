@@ -6,42 +6,43 @@ import { FormControl } from "@material-ui/core";
 import styles from "../Form.module.css";
 import { ReditusEvent, push } from "../../helpers/gtm";
 
-import {DonationContext} from '../contexts/DonationContext';
+import { DonationContext } from "../contexts/DonationContext";
 
 export const DonationMode = (props: any) => {
-
-  const donation = useContext(DonationContext)
+  const donation = useContext(DonationContext);
 
   return (
     <div className={styles.donationModeWrapper}>
-
-      <input type="radio" 
-        checked={donation.mode.value === 'contributions'}
+      <input
+        type="radio"
+        checked={donation.mode.value === "contributions"}
         className={styles.donationModeButton}
       />
       <label className={styles.donationModeButton} onClick={onChange}>
         Doar uma única vez
       </label>
 
-      <input type="radio" 
-        checked={donation.mode.value === 'subscriptions'} 
+      <input
+        type="radio"
+        checked={donation.mode.value === "subscriptions"}
         className={styles.donationModeButton}
       />
       <label className={styles.donationModeButton} onClick={onChange}>
         Doar mensalmente
       </label>
-      
     </div>
   );
 
-
   function onChange() {
-    console.log('aqui');
-    donation.mode.set(donation.isMonthly ? 'contributions' : 'subscriptions')
-    push(ReditusEvent.click, `Select donation mode: ${donation.isMonthly ? 'contributions' : 'subscriptions'}`);
+    console.log("aqui");
+    donation.mode.set(donation.isMonthly ? "contributions" : "subscriptions");
+    push(
+      ReditusEvent.click,
+      `Select donation mode: ${
+        donation.isMonthly ? "contributions" : "subscriptions"
+      }`
+    );
   }
-
 };
 
 export default DonationMode;
-

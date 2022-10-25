@@ -4,18 +4,13 @@ import { ReditusEvent, push } from "../../helpers/gtm";
 import { useContext } from "react";
 import { DonationContext } from "../contexts/DonationContext";
 
-export const SubscriptionButton = ({
-  nextStep,
-  totalSteps,
-  step,
-}: any) => {
-
+export const SubscriptionButton = ({ nextStep, totalSteps, step }: any) => {
   const donation = useContext(DonationContext);
-  
+
   const setDonationModeAndGoToNextStep = (e: any) => {
     // Pushing to data layer is used by the GTM.
     push(ReditusEvent.click, "Donate monthly");
-    donation.mode.set('subscriptions');
+    donation.mode.set("subscriptions");
     nextStep(e);
   };
 

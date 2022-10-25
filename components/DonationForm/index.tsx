@@ -3,10 +3,7 @@ import { Button } from "@rmwc/button";
 import axios from "axios";
 import { useState, useContext } from "react";
 import { LinearProgress } from "@material-ui/core";
-import {
-  createMuiTheme,
-  ThemeProvider,
-} from "@material-ui/core/styles";
+import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 
 import styles from "../Form.module.css";
 import RoxContainer from "../../services/rox/RoxContainer";
@@ -15,7 +12,7 @@ import { ReditusEvent, push, pushDonation } from "../../helpers/gtm";
 
 import format from "date-fns/format";
 
-import {DonationContext} from '../contexts/DonationContext';
+import { DonationContext } from "../contexts/DonationContext";
 import ValueDefaultOptions from "./ValueDefaultOptions";
 import InputValue from "./InputValue";
 import SelectBirthday from "./SelectBirthday";
@@ -80,37 +77,40 @@ declare let PagarMeCheckout: any;
 const encryptionKey = process.env.PAGARME_ENC_KEY;
 
 export const DonationForm = (props: any) => {
-
   const [loading, setLoading] = useState(false);
-  const donation = useContext(DonationContext)
+  const donation = useContext(DonationContext);
 
-
-  function successDonation (userExists: boolean, value: number, mode: DonationMode) {
+  function successDonation(
+    userExists: boolean,
+    value: number,
+    mode: DonationMode
+  ) {
     pushDonation(ReditusEvent.info, "Donation concluded", value, mode);
     push(ReditusEvent.info, "Donation concluded");
-    if (userExists) {push(ReditusEvent.info, "Donation done by a recurring user");}
+    if (userExists) {
+      push(ReditusEvent.info, "Donation done by a recurring user");
+    }
     donation.userExists.set(userExists);
     props.goToStep(3);
-  };
+  }
 
-  function failedDonation () {
+  function failedDonation() {
     props.goToStep(4);
-  };
+  }
 
   async function onCheckout(e: any) {
-    
     e.preventDefault();
-    
-    const error = donation.validate()
+
+    const error = donation.validate();
     if (error) return;
 
     // At this point, we are guaranteed to have a valid date obj.
-    const birthday: string = format(donation.birthday.value as Date, "yyyy-MM-dd");
-
-    push(
-      ReditusEvent.click,
-      `Open modal to donate: ${donation.value.value}`
+    const birthday: string = format(
+      donation.birthday.value as Date,
+      "yyyy-MM-dd"
     );
+
+    push(ReditusEvent.click, `Open modal to donate: ${donation.value.value}`);
 
     const amountInCents = donation.value.value * 100;
     const donationMode = donation.mode.value;
@@ -121,8 +121,12 @@ export const DonationForm = (props: any) => {
       success: async function (data: any) {
         try {
           donationMode == "subscriptions"
-            ? (data["ssr"] = RoxContainer.suggestedMonthlyDonationValues.getValue())
-            : (data["ssr"] = RoxContainer.suggestedSingleDonationValues.getValue());
+            ? (data[
+                "ssr"
+              ] = RoxContainer.suggestedMonthlyDonationValues.getValue())
+            : (data[
+                "ssr"
+              ] = RoxContainer.suggestedSingleDonationValues.getValue());
 
           data["dob"] = birthday;
           donation.email.set(data.customer.email);
@@ -165,18 +169,17 @@ export const DonationForm = (props: any) => {
       <div>
         {/* <NavigationButtons step={2} {...props} previousStep={() => {props.previousStep()}} /> */}
         <div className={styles.donationInputs}>
-
           <div className={styles.donationInputsTitle}>
             <h3 className="title">Escolha a frequência da sua doação</h3>
           </div>
-          <DonationModeSwitch/>
+          <DonationModeSwitch />
 
           <div className={styles.donationInputsTitle}>
             <h3 className="title">Selecione o valor da sua doação</h3>
           </div>
-          <ValueDefaultOptions/>
-          <SelectBirthday/>
-          <ConsentCheckboxes/>
+          <ValueDefaultOptions />
+          <SelectBirthday />
+          <ConsentCheckboxes />
         </div>
         <Button
           label="Doar agora"
@@ -187,21 +190,28 @@ export const DonationForm = (props: any) => {
           id={styles.defaultButton}
         />
         {loading && <LinearProgress color="primary" />}
-        
-        <FooterMessage/>
+
+        <FooterMessage />
       </div>
     </ThemeProvider>
   );
 };
 
-
-function FooterMessage () {
-  return <a href="mailto:contato@reditus.org.br" className={styles.footerMessageLink} target="_blank">
-    <div className={styles.footerMessage}>
-      Quer doar ainda mais? Envie um email para <span color="#00d4ff">contato@reditus.org.br</span> e conversamos em mais detalhes!
-    </div>
-  </a>
+function FooterMessage() {
+  return (
+    <a
+      href="mailto:contato@reditus.org.br"
+      className={styles.footerMessageLink}
+      target="_blank"
+      rel="noreferrer"
+    >
+      <div className={styles.footerMessage}>
+        Quer doar ainda mais? Envie um email para{" "}
+        <span color="#00d4ff">contato@reditus.org.br</span> e conversamos em
+        mais detalhes!
+      </div>
+    </a>
+  );
 }
-
 
 export default DonationForm;

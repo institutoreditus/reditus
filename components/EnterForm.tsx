@@ -1,9 +1,8 @@
 import LetsGoButton from "./checkout_buttons/LetsGoButton";
 import styles from "./Form.module.css";
-import {StepWizardChildProps} from "./reactStepWizardTypes";
+import { StepWizardChildProps } from "./reactStepWizardTypes";
 
-
-const EnterForm = (props : any) => {
+const EnterForm = (props: any) => {
   return (
     <div className={styles.donationModeWrapper}>
       <p className="title">

@@ -23,13 +23,13 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-          <div className={styles.leftSide}>
-            <Reasons/>
-          </div>
-          <div className={styles.rightSide}>
-            <img src="./logoReditusWhite.png" />
-            <Donation />
-          </div>
+        <div className={styles.leftSide}>
+          <Reasons />
+        </div>
+        <div className={styles.rightSide}>
+          <img src="./logoReditusWhite.png" />
+          <Donation />
+        </div>
       </main>
     </div>
   );

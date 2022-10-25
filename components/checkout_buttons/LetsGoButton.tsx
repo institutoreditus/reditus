@@ -1,12 +1,7 @@
 import { Button } from "@rmwc/button";
 import styles from "../Form.module.css";
 
-export const LetsGoButton = ({
-  nextStep,
-  totalSteps,
-  step,
-}: any) => {
-
+export const LetsGoButton = ({ nextStep, totalSteps, step }: any) => {
   const goToNextStep = (e: any) => {
     nextStep(e);
   };

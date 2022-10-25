@@ -2,8 +2,7 @@ import ContributionButton from "./checkout_buttons/ContributionButton";
 import { SubscriptionButton } from "./checkout_buttons/SubscriptionButton";
 import styles from "./Form.module.css";
 
-
-const SelectDonationMode = (props : any) => {
+const SelectDonationMode = (props: any) => {
   return (
     <div className={styles.donationModeWrapper}>
       <p className="title">
