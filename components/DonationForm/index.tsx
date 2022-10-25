@@ -1,4 +1,3 @@
-import { NavigationButtons } from "../action_navigate/NavigationButtons";
 import { Button } from "@rmwc/button";
 import axios from "axios";
 import { useState, useContext } from "react";
@@ -14,7 +13,6 @@ import format from "date-fns/format";
 
 import { DonationContext } from "../contexts/DonationContext";
 import ValueDefaultOptions from "./ValueDefaultOptions";
-import InputValue from "./InputValue";
 import SelectBirthday from "./SelectBirthday";
 import DonationModeSwitch from "./DonationMode";
 import { DonationMode } from "../hooks/useDonationMode";

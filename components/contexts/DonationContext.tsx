@@ -34,14 +34,14 @@ const initialValues: DonationContextValues = {
   birthday: BirthdayInit,
   consent: ConsentInit,
   validate: () => true,
-  email: { value: "", set: (v) => {} },
-  userExists: { value: false, set: (v) => {} },
+  email: { value: "", set: () => {} },
+  userExists: { value: false, set: () => {} },
   isMonthly: true,
   valueOptions: [],
   selectDonateAnotherValue: () => {},
   selectOption: () => {},
   isInputingValue: false,
-  setIsInputingValue: (v) => {},
+  setIsInputingValue: () => {},
 };
 
 export const DonationContext = createContext<DonationContextValues>(

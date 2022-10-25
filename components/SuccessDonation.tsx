@@ -101,7 +101,7 @@ const reditusTheme = () =>
     },
   });
 
-export const SuccessDonation = (props: any) => {
+export const SuccessDonation = () => {
   const donation = useContext(DonationContext);
 
   const [open, setOpen] = useState(false);
@@ -278,7 +278,6 @@ export const SuccessDonation = (props: any) => {
 
         {signupFinish ? (
           <>
-            {/* <NavigationButtons step={4} {...props} /> */}
             <h1>
               Obrigado! Agora você também faz parte dessa corrente do bem!
             </h1>

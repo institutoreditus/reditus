@@ -1,26 +1,23 @@
-import { useContext, useRef, useState } from "react";
+import { useContext, useRef } from "react";
 
 import styles from "../Form.module.css";
 import RoxContainer from "../../services/rox/RoxContainer";
 import service from "../../services/rox/RoxService";
 import { ReditusEvent, push } from "../../helpers/gtm";
 import { DonationContext } from "../contexts/DonationContext";
-import InputValue from "./InputValue";
 import { FormHelperText } from "@material-ui/core";
 
 service(RoxContainer);
 
-export default function ValueDefaultOptions(props: any) {
+export default function ValueDefaultOptions() {
   const donation = useContext(DonationContext);
 
   return (
     <>
       <div className={styles.valueOptions}>
         {donation.valueOptions.map((op, idx) => {
-          const comparison = compareWith(op, idx);
-          return (
-            <Option key={idx} value={op} index={idx} comparison={comparison} />
-          );
+          const comparison = compareWith(op);
+          return <Option key={idx} value={op} comparison={comparison} />;
         })}
 
         <InputValueBox />
@@ -29,8 +26,7 @@ export default function ValueDefaultOptions(props: any) {
   );
 
   function compareWith(
-    v: number,
-    idx: number
+    v: number
   ): { emoji: string; name: string; price: number } {
     const options = [
       { emoji: "🍔", name: "um lanche", price: 30 },
@@ -41,24 +37,20 @@ export default function ValueDefaultOptions(props: any) {
       { emoji: "⛽", name: "um tanque cheio", price: 500 },
     ];
 
-    const opt = options[0];
     for (let i = 0; i < options.length - 1; i++) {
       if (options[i + 1].price > v) {
         return options[i];
       }
     }
-
     return options[options.length - 1];
   }
 }
 
 function Option({
   value,
-  index,
   comparison,
 }: {
   value: number;
-  index: number;
   comparison: { emoji: string; name: string; price: number };
 }) {
   const donation = useContext(DonationContext);
@@ -76,7 +68,7 @@ function Option({
         type="radio"
         name="amountInCents"
         checked={value === donation.value.value}
-        onChange={(e: any) => {}}
+        onChange={() => {}}
       />
       <label
         className={styles.valueOption}
@@ -94,7 +86,6 @@ function Option({
 export function InputValueBox() {
   const donation = useContext(DonationContext);
   const ref = useRef<HTMLInputElement | null>(null);
-  const [showError, setShowError] = useState(false);
 
   return (
     <>
@@ -103,7 +94,7 @@ export function InputValueBox() {
         type="radio"
         name="amountInCents"
         checked={donation.isInputingValue}
-        onChange={(e: any) => {}}
+        onChange={() => {}}
       />
       <label
         className={styles.valueOption}

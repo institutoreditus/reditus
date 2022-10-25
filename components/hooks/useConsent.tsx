@@ -17,7 +17,6 @@ export default function useConsent() {
 
   function validate() {
     let hasError = false;
-    const message = "";
     if (!privacyTermsAck && !consentLicitOrigin) {
       hasError = true;
     }

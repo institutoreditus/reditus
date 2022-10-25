@@ -24,5 +24,5 @@ export const DonationModeInit: ReturnType<typeof useDonationMode> = {
   value: "subscriptions",
   error: false,
   clear: () => {},
-  set: (value) => {},
+  set: () => {},
 };

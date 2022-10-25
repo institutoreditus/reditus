@@ -1,5 +1,3 @@
-import { Checkbox } from "@rmwc/checkbox";
-
 import NumberFormat from "react-number-format";
 import { TextField } from "@rmwc/textfield";
 import { useContext } from "react";
@@ -9,7 +7,7 @@ import styles from "../Form.module.css";
 import { ReditusEvent, push } from "../../helpers/gtm";
 import { DonationContext } from "../contexts/DonationContext";
 
-export const InputValue = (props: any) => {
+export const InputValue = () => {
   const donation = useContext(DonationContext);
 
   return (

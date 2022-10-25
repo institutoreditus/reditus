@@ -33,7 +33,7 @@ const useStyles = makeStyles(() =>
   })
 );
 
-export const SelectBirthday = (props: any) => {
+export const SelectBirthday = () => {
   const classes = useStyles();
   const donation = useContext(DonationContext);
 

@@ -1,4 +1,3 @@
-import { List, SimpleListItem } from "@rmwc/list";
 import styles from "./Form.module.css";
 
 export default function Reasons() {
@@ -24,12 +23,10 @@ export default function Reasons() {
     <>
       <p>Tornando-se parte dessa iniciativa você...</p>
       <div className={styles.reasons}>
-        {reasons.map((r) => (
-          <Reason {...r} />
+        {reasons.map((r, idx) => (
+          <Reason {...r} key={idx} />
         ))}
       </div>
-
-      {/* <PreviousList/> */}
     </>
   );
 }
@@ -55,27 +52,5 @@ function Reason({
         <p className={styles.reason__text}>{text}</p>
       </div>
     </a>
-  );
-}
-
-function PreviousList() {
-  return (
-    <List nonInteractive={true}>
-      <SimpleListItem
-        ripple={false}
-        graphic="radio_button_checked"
-        text="retorna um bem à comunidade de alunos e ex-alunos da UFRJ"
-      />
-      <SimpleListItem
-        ripple={false}
-        graphic="radio_button_checked"
-        text="ajuda a fomentar uma estrutura de auxílio a alunos e equipes de competição"
-      />
-      <SimpleListItem
-        ripple={false}
-        graphic="radio_button_checked"
-        text="perpetua uma cultura de retribuição"
-      />
-    </List>
   );
 }

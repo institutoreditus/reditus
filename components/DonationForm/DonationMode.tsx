@@ -1,14 +1,10 @@
-import { Checkbox } from "@rmwc/checkbox";
-import Switch from "react-switch";
-
 import { useContext } from "react";
-import { FormControl } from "@material-ui/core";
 import styles from "../Form.module.css";
 import { ReditusEvent, push } from "../../helpers/gtm";
 
 import { DonationContext } from "../contexts/DonationContext";
 
-export const DonationMode = (props: any) => {
+export const DonationMode = () => {
   const donation = useContext(DonationContext);
 
   return (

@@ -7,9 +7,8 @@ import Link from "next/link";
 import { ReditusEvent, push } from "../../helpers/gtm";
 
 import { DonationContext } from "../contexts/DonationContext";
-import InputValue from "./InputValue";
 
-export const ConsentCheckboxes = (props: any) => {
+export const ConsentCheckboxes = () => {
   const donation = useContext(DonationContext);
 
   return (

@@ -1,4 +1,4 @@
-import { SetStateAction, useState } from "react";
+import { useState } from "react";
 import { isValidBirthday } from "../../helpers/datehelper";
 
 export default function useBirthday() {
@@ -46,6 +46,6 @@ export const BirthdayInit: ReturnType<typeof useBirthday> = {
   error: false,
   validate: () => true,
   clear: () => {},
-  set: (value) => {},
+  set: () => {},
   errorMessage: "",
 };

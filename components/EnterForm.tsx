@@ -1,6 +1,5 @@
 import LetsGoButton from "./checkout_buttons/LetsGoButton";
 import styles from "./Form.module.css";
-import { StepWizardChildProps } from "./reactStepWizardTypes";
 
 const EnterForm = (props: any) => {
   return (
