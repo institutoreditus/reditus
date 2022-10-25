@@ -1,5 +1,4 @@
 import Head from "next/head";
-import { GridRow, GridCell } from "@rmwc/grid";
 import { List, SimpleListItem } from "@rmwc/list";
 import styles from "./index.module.css";
 
@@ -23,43 +22,38 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main class={styles.main}>
-          <div
-            order={0}
-            className={styles.leftSide}
-            desktop={4}
-            align={"middle"}
-          >
-            <p>Tornando-se parte dessa iniciativa você...</p>
-            <List nonInteractive={true}>
-              <SimpleListItem
-                ripple={false}
-                graphic="radio_button_checked"
-                text="retorna um bem à comunidade de alunos e ex-alunos da UFRJ"
-              />
-              <SimpleListItem
-                ripple={false}
-                graphic="radio_button_checked"
-                text="ajuda a fomentar uma estrutura de auxílio a alunos e equipes de competição"
-              />
-              <SimpleListItem
-                ripple={false}
-                graphic="radio_button_checked"
-                text="perpetua uma cultura de retribuição"
-              />
-            </List>
-          </div>
-          <div
-            order={1}
-            className={styles.rightSide}
-            desktop={8}
-            tablet={12}
-            phone={12}
-            align={"middle"}
-          >
-            <img src="./logoReditusWhite.png" />
-            <Form />
-          </div>
+      <main className={styles.main}>
+        <div order={0} className={styles.leftSide} desktop={4} align={"middle"}>
+          <p>Tornando-se parte dessa iniciativa você...</p>
+          <List nonInteractive={true}>
+            <SimpleListItem
+              ripple={false}
+              graphic="radio_button_checked"
+              text="retorna um bem à comunidade de alunos e ex-alunos da UFRJ"
+            />
+            <SimpleListItem
+              ripple={false}
+              graphic="radio_button_checked"
+              text="ajuda a fomentar uma estrutura de auxílio a alunos e equipes de competição"
+            />
+            <SimpleListItem
+              ripple={false}
+              graphic="radio_button_checked"
+              text="perpetua uma cultura de retribuição"
+            />
+          </List>
+        </div>
+        <div
+          order={1}
+          className={styles.rightSide}
+          desktop={8}
+          tablet={12}
+          phone={12}
+          align={"middle"}
+        >
+          <img src="./logoReditusWhite.png" />
+          <Form />
+        </div>
       </main>
     </div>
   );
