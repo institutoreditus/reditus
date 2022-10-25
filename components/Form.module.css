@@ -1,7 +1,49 @@
 /* Custom input fields */
+
+.birthdayWrapper {
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(5px);
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 1.0rem;
+    margin-top: 2rem;
+}
+
 #customValue__input {
     color: var(--mdc-theme--on-secondary);
 }
+
+.valueOptionInput {
+    border: none;
+    font-size: 18px;
+    font-weight: 700;
+    width: 100%;
+    color: white;
+    text-align: center;
+    background-color: transparent;
+}
+
+.valueOptionInput::-webkit-outer-spin-button,
+.valueOptionInput::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.valueOptionInput:focus {
+    outline: none;
+    color: white !important;
+}
+
+.valueInputWrapper {
+    display: flex;
+    gap: 5px;
+    background-color: rgba(0, 0, 0, 0.15);
+    border-radius: 5px;
+    width: 100%;
+    padding: 5px;
+}
+
 
 /* Custom buttons */
 #defaultButton {
@@ -13,6 +55,10 @@
     font-size: 15px;
 }
 
+.donationInputs p {
+    margin: 30px auto 15px auto;
+}
+
 .donationModeWrapper .outlinedButton {
     width: 100%;
     height: 100%;
@@ -21,6 +67,10 @@
     border-radius: 2px;
     text-transform: none;   
     font-size: 15px;
+}
+
+.donationModeWrapper {
+    position: relative;
 }
 
 .navigationSteps {
@@ -41,31 +91,112 @@
 
 }
 
+
+
+/*Custom checkbox code styles*/
+
+.checkbox {
+    margin-bottom: -10px;
+}
+
+.checkbox:checked~.section .container .row .col-12 .valueOption:not(:checked)+label {
+    background-color: var(--light);
+    color: var(--dark-blue);
+    box-shadow: 0 1x 4px 0 rgba(0, 0, 0, 0.05);
+}
+
+.checkboxGroup {
+    margin-top: 0px;
+    display: flex;
+    flex-direction: column;
+}
+
+
+
 .donationModeWrapper {
-    position: relative;
-}
-
-.donationInputs p {
-    margin: 30px auto 15px auto;
-}
-
-.title {
-    margin: 35px 0 15px 0;
-}
-
-
-
-/*Checkbox code styles*/
-
-.valueOptions {
+    display: flex;
     width: 100%;
-    margin-bottom: 20px;
+    gap: 10px;
+}
+
+.donationModeButton {
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(5px);
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 20px !important;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    font-size: 14px;
+}
+
+.donationModeButton:hover {
+    background-color: #00d4ff;
+}
+
+.donationModeButton:checked+label {
+    background-color: #00d4ff;
+}
+
+
+
+.reason {
+    width: 100%;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 20px;
+    cursor: pointer;
+    background-color: white;
+    padding: 20px 10px;
+    border-radius: 5px;
+    border: 2px solid white;
+    transition: linear all 150ms;
+}
+
+.reason:hover {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.142);
+}
+
+.reason:hover .reason__emoji {
+    background-color: #d2eff383;
+}
+
+.reason p {
+    padding: 0 !important;
+}
+
+.reason__emoji {
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+    border-radius: 100%;
     display: flex;
     justify-content: center;
-    flex-wrap: wrap;
-    gap:10px;
     align-items: center;
+    background-color:rgba(227, 227, 227, 0.368);
+    flex: 0 0 auto;
 }
+
+.reason__text {
+    flex: 1 1 auto;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+
+.reasons {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 10px;
+}
+
 
 
 .valueOption {
@@ -114,177 +245,39 @@
 .valueOption h3 {
     margin: 0 !important;
 }
+
 .valueOption p {
     margin: 0 !important;
     font-size: small;
     font-weight: 400;
 }
 
-
-/* hover */
 .valueOption:hover {
     background-color: #00d4ff;
 }
 
-/* checked */
 .valueOption:checked+label {
     background-color: #00d4ff;
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
 }
 
-
-.checkbox:checked~.section .container .row .col-12 .valueOption:not(:checked)+label {
-    background-color: var(--light);
-    color: var(--dark-blue);
-    box-shadow: 0 1x 4px 0 rgba(0, 0, 0, 0.05);
+.valueOptions {
+    width: 100%;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap:10px;
+    align-items: center;
 }
 
-.modalUserRegistration {
-    z-index: 2;
-    margin-left: -20px;
-    padding-left: 20px;
-}
 
-.selectBox {
-    margin-top: 10px;
-}
+
+
+/* Others */
 
 .textLabel {
     margin-top: 20px !important;
-}
-
-.checkboxGroup {
-    margin-top: 0px;
-    display: flex;
-    flex-direction: column;
-}
-
-.checkbox {
-    margin-bottom: -10px;
-}
-
-
-.reasons {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    gap: 10px;
-}
-
-
-.reason {
-    width: 100%;
-    min-height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: start;
-    gap: 20px;
-    cursor: pointer;
-    background-color: white;
-    padding: 20px 10px;
-    border-radius: 5px;
-    border: 2px solid white;
-    transition: linear all 150ms;
-}
-
-.reason:hover {
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.142);
-}
-
-.reason:hover .reason__emoji {
-    background-color: #d2eff383;
-}
-
-.reason p {
-    padding: 0 !important;
-}
-
-.reason__emoji {
-    width: 50px;
-    height: 50px;
-    font-size: 24px;
-    border-radius: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color:rgba(227, 227, 227, 0.368);
-    flex: 0 0 auto;
-}
-
-.reason__text {
-    flex: 1 1 auto;
-    margin: 0 !important;
-    padding: 0 !important;
-}
-
-.donationModeWrapper {
-    display: flex;
-    width: 100%;
-    gap: 10px;
-}
-
-.donationModeButton {
-    width: 100%;
-    background-color: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(5px);
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    padding: 20px !important;
-    border-radius: 5px;
-    cursor: pointer;
-    text-align: center;
-    font-size: 14px;
-}
-
-.donationModeButton:hover {
-    background-color: #00d4ff;
-}
-
-.donationModeButton:checked+label {
-    background-color: #00d4ff;
-}
-
-.valueOptionInput {
-    border: none;
-    font-size: 18px;
-    font-weight: 700;
-    width: 100%;
-    color: white;
-    text-align: center;
-    background-color: transparent;
-}
-
-/* Chrome, Safari, Edge, Opera */
-.valueOptionInput::-webkit-outer-spin-button,
-.valueOptionInput::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-.valueOptionInput:focus {
-    outline: none;
-    color: white !important;
-}
-
-.valueInputWrapper {
-    display: flex;
-    gap: 5px;
-    background-color: rgba(0, 0, 0, 0.15);
-    border-radius: 5px;
-    width: 100%;
-    padding: 5px;
-}
-
-.birthdayWrapper {
-    width: 100%;
-    background-color: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(5px);
-    padding: 10px;
-    border-radius: 5px;
-    margin-bottom: 1.0rem;
-    margin-top: 2rem;
 }
 
 .consentWrapper {
@@ -309,7 +302,20 @@
     background-color: rgba(255, 255, 255, 0.1);
 }
 
-
 .footerMessageLink{
     text-decoration: none;
+}
+
+.modalUserRegistration {
+    z-index: 2;
+    margin-left: -20px;
+    padding-left: 20px;
+}
+
+.selectBox {
+    margin-top: 10px;
+}
+
+.title {
+    margin: 35px 0 15px 0;
 }
