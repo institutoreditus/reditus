@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useRef, useState } from "react";
 
 import styles from "../Form.module.css";
 import RoxContainer from "../../services/rox/RoxContainer";
@@ -6,6 +6,7 @@ import service from "../../services/rox/RoxService";
 import { ReditusEvent, push } from "../../helpers/gtm";
 import {DonationContext} from '../contexts/DonationContext';
 import InputValue from './InputValue';
+import { FormHelperText } from "@material-ui/core";
 
 service(RoxContainer);
 
@@ -27,7 +28,6 @@ export default function ValueDefaultOptions (props: any) {
 
       </div>
 
-      <InputValue/>
     </>
   );
 
@@ -48,7 +48,7 @@ export default function ValueDefaultOptions (props: any) {
       }
     }
 
-    return options[0];
+    return options[options.length-1];
   }
 };
 
@@ -87,6 +87,8 @@ function Option ({value, index, comparison}:{value: number, index: number,
 export function InputValueBox () {
 
   const donation = useContext(DonationContext)
+  const ref = useRef<HTMLInputElement | null>(null)
+  const [showError, setShowError] = useState(false);
 
   return <>
     <input
@@ -102,10 +104,43 @@ export function InputValueBox () {
       onClick={onClick}
     >
       <p>Doar outro valor</p>
+
+      {
+        donation.isInputingValue ? 
+          <>
+            <div className={styles.valueInputWrapper}>
+              <h3>R$</h3>
+              <input name="price" id="price" required ref={ref}
+                className={styles.valueOptionInput}
+                type="number"
+                onInput={onInput}
+                value={donation.value.value}
+              />
+            </div>
+            {donation.value.error && (
+              <FormHelperText
+                id="input-value-component-error-text"
+                style={{ margin: 0 }}
+              >No mínimo, 5 reais.
+              </FormHelperText>
+            )}
+          </>
+          : <></>
+      }
+
     </label>
   </>
 
+  function onInput() {
+    if (ref.current) {
+      const value = Number(ref.current.value);
+      push(ReditusEvent.type, `Donate custom value: ${value}`);
+      donation.value.set(value);
+    }
+  }
+
   function onClick() {
     donation.setIsInputingValue(true);
+
   }
 };

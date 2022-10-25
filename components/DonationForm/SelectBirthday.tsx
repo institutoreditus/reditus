@@ -15,6 +15,7 @@ import {
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 import {DonationContext} from '../contexts/DonationContext';
+import styles from "../Form.module.css";
 
 
 const useStyles = makeStyles(() =>
@@ -44,7 +45,7 @@ export const SelectBirthday = (props: any) => {
 
   return (<>
     <FormControl error={donation.birthday.error} fullWidth={true}>
-      <div className="label-class">
+      <div className={styles.birthdayWrapper}>
         <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ptBR}>
           <Grid container>
             <KeyboardDatePicker

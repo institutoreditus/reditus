@@ -14,7 +14,7 @@ export const ConsentCheckboxes = (props: any) => {
   const donation = useContext(DonationContext)
 
   return (
-    <div style={{ display: "inline-block", marginTop: "1.5rem" }}>
+    <div className={styles.consentWrapper}>
       
       <FormControl error={donation.consent.error} fullWidth={true}>
 

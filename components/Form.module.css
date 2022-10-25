@@ -67,47 +67,30 @@
     align-items: center;
 }
 
-.otherValue {
-    height: 80%;
-    width: 70px;
-    background-color: rgba(0, 0, 0, 0.05);
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    cursor: pointer;
-    padding: 10px;
-    border-radius: 10px;
-}
-.otherValue:hover {
-    background-color: #00d4ff;
-}
-
 
 .valueOption {
-    /* border: 2px solid #00d4ff; */
     border: 2px solid #ffffff27;
     font-weight: 600;
     
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
 
-    padding: 15px !important;
+    padding: 10px !important;
     gap: 5px;
 
-    width: 30%;
-    min-width: 110px;
-    height: 100%;
+    height: 170px;
+    width: 31%;
+    max-width: 170px;;
 
     font-size: 16px;
     text-align: center;
     letter-spacing: 1px;
-    margin: 0 5px 10px 0;
+    margin: 0 !important;
     border-radius: 10px;
     overflow: hidden;
     cursor: pointer;
-
-    /* background-color: transparent; */
 
     background-color: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(5px);
@@ -119,6 +102,7 @@
     width: 50px;
     height: 50px;
     font-size: 30px;
+    flex: 0 0 auto;
 
     border-radius: 100%;
     background-color: rgba(2, 18, 35, 0.193);
@@ -133,6 +117,7 @@
 .valueOption p {
     margin: 0 !important;
     font-size: small;
+    font-weight: 400;
 }
 
 
@@ -259,4 +244,72 @@
 
 .donationModeButton:checked+label {
     background-color: #00d4ff;
+}
+
+.valueOptionInput {
+    border: none;
+    font-size: 18px;
+    font-weight: 700;
+    width: 100%;
+    color: white;
+    text-align: center;
+    background-color: transparent;
+}
+
+/* Chrome, Safari, Edge, Opera */
+.valueOptionInput::-webkit-outer-spin-button,
+.valueOptionInput::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.valueOptionInput:focus {
+    outline: none;
+    color: white !important;
+}
+
+.valueInputWrapper {
+    display: flex;
+    gap: 5px;
+    background-color: rgba(0, 0, 0, 0.15);
+    border-radius: 5px;
+    width: 100%;
+    padding: 5px;
+}
+
+.birthdayWrapper {
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(5px);
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 1.0rem;
+    margin-top: 2rem;
+}
+
+.consentWrapper {
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(5px);
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.footerMessage {
+    width: 100%;
+    font-size: medium;
+    margin-top: 1rem;
+    text-align: center;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.footerMessage:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+
+.footerMessageLink{
+    text-decoration: none;
 }

@@ -187,16 +187,21 @@ export const DonationForm = (props: any) => {
           id={styles.defaultButton}
         />
         {loading && <LinearProgress color="primary" />}
-        <br />
-        <br />
-        Quer nos ajudar doando ainda mais? Envie um email para{" "}
-        <a href="mailto:contato@reditus.org.br" style={{ color: "#00d4ff" }}>
-          <span color="#00d4ff">contato@reditus.org.br</span>
-        </a>{" "}
-        e conversamos em mais detalhes!
+        
+        <FooterMessage/>
       </div>
     </ThemeProvider>
   );
 };
+
+
+function FooterMessage () {
+  return <a href="mailto:contato@reditus.org.br" className={styles.footerMessageLink} target="_blank">
+    <div className={styles.footerMessage}>
+      Quer doar ainda mais? Envie um email para <span color="#00d4ff">contato@reditus.org.br</span> e conversamos em mais detalhes!
+    </div>
+  </a>
+}
+
 
 export default DonationForm;
