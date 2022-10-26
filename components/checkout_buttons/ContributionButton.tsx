@@ -1,16 +1,15 @@
 import { Button } from "@rmwc/button";
 import styles from "../Form.module.css";
 import { ReditusEvent, push } from "../../helpers/gtm";
+import { useContext } from "react";
+import { DonationContext } from "../contexts/DonationContext";
 
-export const ContributionButton = ({
-  nextStep,
-  totalSteps,
-  step,
-  update,
-}: any) => {
+export const ContributionButton = ({ nextStep, totalSteps, step }: any) => {
+  const donation = useContext(DonationContext);
+
   const setDonationModeAndGoToNextStep = (e: any) => {
     push(ReditusEvent.click, "Donate once");
-    update("donationMode", "contributions");
+    donation.mode.set("contributions");
     nextStep(e);
   };
 

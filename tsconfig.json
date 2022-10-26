@@ -28,5 +28,5 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx", "pages/_app.tsx", "services/rox/RoxService.js", "services/rox/RoxInstance.js", "services/rox/RoxContainer.js"
-  ]
+, "components/ReactStepWizardTypes.d ts"  ]
 }

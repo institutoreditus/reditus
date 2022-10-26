@@ -1,10 +1,9 @@
 import Head from "next/head";
-import { GridRow, GridCell } from "@rmwc/grid";
-import { List, SimpleListItem } from "@rmwc/list";
 import styles from "./index.module.css";
 
 // Components
-import { Form } from "../components/Form";
+import { Donation } from "../components/Donation";
+import Reasons from "../components/Reasons";
 
 export default function Home() {
   return (
@@ -23,45 +22,14 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main>
-        <GridRow>
-          <GridCell
-            order={0}
-            className={styles.leftSide}
-            desktop={4}
-            align={"middle"}
-          >
-            <p>Tornando-se parte dessa iniciativa você...</p>
-            <List nonInteractive={true}>
-              <SimpleListItem
-                ripple={false}
-                graphic="radio_button_checked"
-                text="retorna um bem à comunidade de alunos e ex-alunos da UFRJ"
-              />
-              <SimpleListItem
-                ripple={false}
-                graphic="radio_button_checked"
-                text="ajuda a fomentar uma estrutura de auxílio a alunos e equipes de competição"
-              />
-              <SimpleListItem
-                ripple={false}
-                graphic="radio_button_checked"
-                text="perpetua uma cultura de retribuição"
-              />
-            </List>
-          </GridCell>
-          <GridCell
-            order={1}
-            className={styles.rightSide}
-            desktop={8}
-            tablet={12}
-            phone={12}
-            align={"middle"}
-          >
-            <img src="./logoReditusWhite.png" />
-            <Form />
-          </GridCell>
-        </GridRow>
+      <main className={styles.main}>
+        <div className={styles.leftSide}>
+          <Reasons />
+        </div>
+        <div className={styles.rightSide}>
+          <img src="./logoReditusWhite.png" />
+          <Donation />
+        </div>
       </main>
     </div>
   );

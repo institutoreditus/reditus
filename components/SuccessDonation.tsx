@@ -2,7 +2,7 @@ import { Typography } from "@rmwc/typography";
 import { Button } from "@rmwc/button";
 import { Grid, GridCell } from "@rmwc/grid";
 import { Checkbox } from "@rmwc/checkbox";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useContext, useState } from "react";
 
 import { collegeData } from "./datasets/collegeData";
 import { graduationCourseData } from "./datasets/graduationCourseData";
@@ -23,6 +23,7 @@ import styles from "./Form.module.css";
 
 import RoxContainer from "../services/rox/RoxContainer";
 import service from "../services/rox/RoxService";
+import { DonationContext } from "./contexts/DonationContext";
 
 service(RoxContainer);
 
@@ -100,7 +101,9 @@ const reditusTheme = () =>
     },
   });
 
-export const SuccessDonation = (props: any) => {
+export const SuccessDonation = () => {
+  const donation = useContext(DonationContext);
+
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [signupFinish, setSignupFinish] = useState(false);
@@ -110,7 +113,7 @@ export const SuccessDonation = (props: any) => {
   const [errorUniversity, setErrorUniversity] = useState(false);
   const [errorAdmissionYear, setErrorAdmissionYear] = useState(false);
 
-  const isUserAlreadyRegistered = () => props.form.userExists;
+  const isUserAlreadyRegistered = () => donation.userExists.value;
   const registrationFlagEnabled = () =>
     JSON.parse(RoxContainer.shouldShowRegistrationForm.getValue());
   const yearsList = createYearList();
@@ -230,8 +233,8 @@ export const SuccessDonation = (props: any) => {
     try {
       await axios.post("/api/registration", {
         ...registerForm,
-        email: props.form.email,
-        dob: props.form.birthday,
+        email: donation.email.value,
+        dob: donation.birthday.value,
       });
       setSignupFinish(true);
       setOpen(false);
@@ -275,7 +278,6 @@ export const SuccessDonation = (props: any) => {
 
         {signupFinish ? (
           <>
-            {/* <NavigationButtons step={4} {...props} /> */}
             <h1>
               Obrigado! Agora você também faz parte dessa corrente do bem!
             </h1>

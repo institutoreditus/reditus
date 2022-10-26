@@ -8,7 +8,7 @@ services:
   postgres:
     image: postgres:11-alpine
     ports:
-      - 5432:5432
+      - 5431:5431
     volumes:
       - postgres_data:/var/lib/postgresql/data
     environment:
@@ -29,4 +29,4 @@ services:
     image: dadarek/wait-for-dependencies
     depends_on:
       - postgres
-    command: postgres:5432
+    command: postgres:5431

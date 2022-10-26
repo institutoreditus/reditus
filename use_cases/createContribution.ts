@@ -36,7 +36,7 @@ const createContribution = async (
     }
   }
 
-  let dob = isValidBirthday(args.birthday) ? args.birthday : undefined;
+  let dob = isValidBirthday(args.birthday)[0] ? args.birthday : undefined;
 
   // for subscriptions postbacks, it is possible that we actually create the contribution in the database but we don't respond Pagarme successfully (maybe some sort of network error or any other unexpected error)
   // in those cases, Pagarme will try to contact us again

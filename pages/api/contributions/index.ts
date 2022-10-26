@@ -72,7 +72,7 @@ async function runCreateContribution(
   const [err, args] = validator(req.body);
   if (!err && args) {
     let birthday: Date | undefined = new Date(args.dob);
-    if (!isValidBirthday(birthday)) {
+    if (!isValidBirthday(birthday)[0]) {
       birthday = undefined;
     }
 
