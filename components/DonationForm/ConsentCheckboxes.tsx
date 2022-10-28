@@ -26,7 +26,7 @@ export default function ConsentCheckboxes () {
   const errorLicitOrigin = "Por favor, confirme que a origem da doação é lícita."
 
   return <div 
-      className={styles.consentWrapper}>
+      className={styles.donationInputsSection_wrapped}>
       <FormControl
         required
         error={donation.consent.error}

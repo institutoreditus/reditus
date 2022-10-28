@@ -13,16 +13,16 @@ export default function ValueDefaultOptions() {
   const donation = useContext(DonationContext);
 
   return (
-    <>
+    <div className={styles.donationInputsSection}>
+      <h3 className={styles.donationInputsTitle}>Selecione o valor da sua doação</h3>
       <div className={styles.valueOptions}>
         {donation.valueOptions.map((op, idx) => {
           const comparison = compareWith(op);
           return <Option key={idx} value={op} comparison={comparison} />;
         })}
-
         <InputValueBox />
       </div>
-    </>
+    </div>
   );
 
   function compareWith(

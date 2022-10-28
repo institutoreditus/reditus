@@ -166,14 +166,7 @@ export const DonationForm = (props: any) => {
     <ThemeProvider theme={theme}>
       <div className={styles.donationForm}>
         <div className={styles.donationInputs}>
-          <div className={styles.donationInputsTitle}>
-            <h3 className="title">Escolha a frequência da sua doação</h3>
-          </div>
           <DonationModeSwitch />
-
-          <div className={styles.donationInputsTitle}>
-            <h3 className="title">Selecione o valor da sua doação</h3>
-          </div>
           <ValueDefaultOptions />
           <SelectBirthday />
           <ConsentCheckboxes />
