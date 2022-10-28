@@ -12,7 +12,7 @@ import { ReditusEvent, push, pushDonation } from "../../helpers/gtm";
 import format from "date-fns/format";
 
 import { DonationContext } from "../contexts/DonationContext";
-import ValueDefaultOptions from "./ValueDefaultOptions";
+import ValueSelect from "./ValueSelect";
 import SelectBirthday from "./SelectBirthday";
 import DonationModeSwitch from "./DonationMode";
 import { DonationMode } from "../hooks/useDonationMode";
@@ -162,17 +162,19 @@ export const DonationForm = (props: any) => {
     });
   }
 
+  const buttonLabel = `Doar R$ ${donation.value.value}${donation.mode.value == 'subscriptions' ? ' mensalmente' : ''}`
+
   return (
     <ThemeProvider theme={theme}>
       <div className={styles.donationForm}>
         <div className={styles.donationInputs}>
           <DonationModeSwitch />
-          <ValueDefaultOptions />
+          <ValueSelect />
           <SelectBirthday />
           <ConsentCheckboxes />
         </div>
         <Button
-          label="Doar agora"
+          label={buttonLabel}
           raised
           unelevated
           disabled={loading}

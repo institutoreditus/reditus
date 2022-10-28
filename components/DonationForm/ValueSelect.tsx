@@ -115,10 +115,10 @@ export function InputValueBox() {
                 className={styles.valueOptionInput}
                 type="number"
                 onInput={onInput}
-                value={donation.value.value}
+                value={`${donation.value.value}`}
               />
             </div>
-            {donation.value.error && (
+            {donation.value.value < 5 && (
               <FormHelperText
                 id="input-value-component-error-text"
                 style={{ margin: 0 }}
@@ -136,7 +136,8 @@ export function InputValueBox() {
 
   function onInput() {
     if (ref.current) {
-      const value = Number(ref.current.value);
+      const num = Number(ref.current.value);
+      const value = Math.round(num * 100)/100
       push(ReditusEvent.type, `Donate custom value: ${value}`);
       donation.value.set(value);
     }
