@@ -164,8 +164,7 @@ export const DonationForm = (props: any) => {
 
   return (
     <ThemeProvider theme={theme}>
-      <div>
-        {/* <NavigationButtons step={2} {...props} previousStep={() => {props.previousStep()}} /> */}
+      <div className={styles.donationForm}>
         <div className={styles.donationInputs}>
           <div className={styles.donationInputsTitle}>
             <h3 className="title">Escolha a frequência da sua doação</h3>

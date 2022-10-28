@@ -111,7 +111,9 @@
     flex-direction: column;
 }
 
-
+.donationForm {
+    width: 100%;
+}
 
 .donationModeWrapper {
     display: flex;

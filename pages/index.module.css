@@ -11,18 +11,18 @@
 
 
 .rightSide {
+
   color: white;
   background-image: url("/loginBkg.png");
   background-size: cover;
   background-repeat: no-repeat;
   height: 100%;
   width: 100%;
-  padding: 50px 32%;
+  padding: 50px 20%;
   display: flex !important;
   flex-direction: column;
   justify-content: start;
   align-items: start;
-  /* vertical-align: middle; */
   overflow-y: auto;
   text-align: start;
   overflow-x: none;
@@ -58,6 +58,7 @@
 
 
 .leftSide {
+
   width: 50%;
   padding: 10px 20px;
   display: flex;
@@ -85,7 +86,6 @@
 
 .leftSide ul li {
   font-family: 'Open sans' sans-serif;
-  /* height: 2.5rem; */
   margin-bottom: 2rem;
 }
 
@@ -100,10 +100,8 @@
 
 
 @media not all and (min-resolution:.001dpcm) {
-  @media {
-    .rightSide label span {
-      margin: 1px auto 6px -.8rem;
-    }
+  .rightSide label span {
+    margin: 1px auto 6px -.8rem;
   }
 }
 
@@ -133,7 +131,6 @@
   }
 
   .leftSide ul li {
-    /* height: 5.5rem; */
     margin-bottom: 2rem;
   }
 }

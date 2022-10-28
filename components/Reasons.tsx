@@ -45,7 +45,7 @@ function Reason({
       href={link}
       rel="noopener noreferrer"
       target="_blank"
-      style={{ textDecoration: "none" }}
+      style={{ textDecoration: "none", width: "100%" }}
     >
       <div className={styles.reason}>
         <div className={styles.reason__emoji}>{emoji}</div>

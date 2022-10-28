@@ -1,0 +1,55 @@
+{
+  "payment_method": "credit_card",
+  "installments": null,
+  "amount": 500,
+  "customer": {
+    "name": "ESTEVAM FURTADO",
+    "email": "estevamfurtado@gmail.com",
+    "document_number": "12696000794",
+    "phone": {
+      "ddd": "21",
+      "number": "984554820"
+    },
+    "address": {
+      "zipcode": "20550160",
+      "street": "Rua Dona Zulmira",
+      "street_number": "88",
+      "complementary": "APT 206",
+      "neighborhood": "Maracanã",
+      "city": "Rio de Janeiro",
+      "state": "RJ"
+    }
+  },
+  "card_hash": "234418630_MLssUnfLCwoYyLQ5vE03Vh1LfX+cinVMYeaz5XUBgkXNDsIg7rL/AhjNyvASNB4aH8AbMQ6NhbGVa1A38If2DaLw2uuKRJW2S/9FWCahaWmctsIvkz491hZu7sn0UfXXKaYtYh/lbnm5K4Fx5nlcgrdT+fMdwwyepjrlPUhXbA3NqAWP9EJ+WpWgDw+vmEq9thRB1ruQuFx7IcbJQDF5qKMI+lO+Syg4N+qhe2LgCLe/DtSsg7zwy/riPzEEfoOKO3Aua0Lf5MkpZgXzVxhfaMqnw1BoPkrA/XqKPR/Y/LOwWX7/MQnkl070RHYCezGlIkvc+yRb56QZvE6FA4Jz0A==",
+  "ssr": "100|150|200",
+  "dob": "1996-02-03"
+}
+
+
+
+
+{
+    "payment_method": "credit_card", //ok
+    "installments": null, //ok
+    "amount": 500, //ok
+    "customer": {
+        "name": "Estevam de Oliveira Furtado", //ok
+        "email": "estevamfurtado@gmail.com", //ok
+        "document_number": "12696000794", //ok
+        "phone": {
+            "ddd": "21", //ok
+            "number": "984554820" //ok
+        },
+        "address": {
+            "zipcode": "20550160", //ok
+            "street": "Rua Dona Zulmira", //ok
+            "street_number": "88", //ok
+            "complementary": "APT 206", //ok
+            "neighborhood": "Maracanã", //ok
+            "city": "Rio de Janeiro", //ok
+            "state": "RJ" //ok
+        }
+    },
+    "card_hash": "5576926_O7hti5pK1RQPxCPb74Bz/RIrNuuvLcbV39cx+8NKprJsMzeD6R0TerHiBnWfTOVLVytZC7FGjPt9KfraVlelkFPupvSYnCMDlIoFTceUpLHxcDXYfLWYolJAM6RIIYVQhgc7L7TE5zJr29coCEgTy40xDASc7atlR9MGeorR4OpsZPBo0baFTs7/sKGxhCFdEkQBC0dxANUsPrJYnqPLE/rz5NbEspaMCABECasNMzdCP3VOfhzCI0MgG7uU/N/7pPlnsM0uKww4GGimM+J02+cewQ3jO9WAi5ULsPRmw+jyQAWzlSDHJPC4bLoRS73EKVcn4krf4HQOujX+ldlrHA==",
+    "dob": "2000-10-12"
+}
