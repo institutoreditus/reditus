@@ -34,27 +34,12 @@
   color: var(--mdc-theme-primary) !important;
 }
 
-.rightSide label {
-  margin-bottom: 1rem;
-  padding-top: 0.7rem;
-  padding-bottom: -1rem;
-}
-
-.rightSide label span {
-  margin: 1px auto 6px -1rem;
-}
-
 
 .rightSide img {
   width: 100px;
   height: auto;
   margin-bottom: 20px;
 }
-
-.rightSide button {
-  margin-top: 1rem;
-}
-
 
 
 .leftSide {
@@ -99,11 +84,6 @@
 
 
 
-@media not all and (min-resolution:.001dpcm) {
-  .rightSide label span {
-    margin: 1px auto 6px -.8rem;
-  }
-}
 
 @media not all and (min-resolution:.001dpcm) { 
   @supports (-webkit-appearance:none) {

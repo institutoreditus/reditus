@@ -16,7 +16,7 @@ import ValueDefaultOptions from "./ValueDefaultOptions";
 import SelectBirthday from "./SelectBirthday";
 import DonationModeSwitch from "./DonationMode";
 import { DonationMode } from "../hooks/useDonationMode";
-import { ConsentCheckboxes } from "./ConsentCheckboxes";
+import ConsentCheckboxes from "./ConsentCheckboxes";
 
 const theme = createMuiTheme({
   palette: {

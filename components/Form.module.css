@@ -55,9 +55,6 @@
     font-size: 15px;
 }
 
-.donationInputs p {
-    margin: 30px auto 15px auto;
-}
 
 .donationModeWrapper .outlinedButton {
     width: 100%;
@@ -95,8 +92,9 @@
 
 /*Custom checkbox code styles*/
 
-.checkbox {
-    margin-bottom: -10px;
+.checkbox span {
+    font-size: 14px;
+    font-weight: 400;
 }
 
 .checkbox:checked~.section .container .row .col-12 .valueOption:not(:checked)+label {
@@ -106,9 +104,9 @@
 }
 
 .checkboxGroup {
-    margin-top: 0px;
     display: flex;
     flex-direction: column;
+    gap: 10px;
 }
 
 .donationForm {
