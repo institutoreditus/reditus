@@ -13,8 +13,9 @@ export const DonationMode = () => {
         type="radio"
         checked={donation.mode.value === "contributions"}
         className={styles.donationModeButton}
+        onChange={()=>{}}
       />
-      <label className={styles.donationModeButton} onClick={onChange}>
+      <label className={styles.donationModeButton} onClick={selectContribution}>
         Doar uma única vez
       </label>
 
@@ -22,22 +23,26 @@ export const DonationMode = () => {
         type="radio"
         checked={donation.mode.value === "subscriptions"}
         className={styles.donationModeButton}
+        onChange={()=>{}}
       />
-      <label className={styles.donationModeButton} onClick={onChange}>
+      <label className={styles.donationModeButton} onClick={selectSubscription}>
         Doar mensalmente
       </label>
     </div>
   );
 
-  function onChange() {
-    console.log("aqui");
-    donation.mode.set(donation.isMonthly ? "contributions" : "subscriptions");
-    push(
-      ReditusEvent.click,
-      `Select donation mode: ${
-        donation.isMonthly ? "contributions" : "subscriptions"
-      }`
-    );
+  function selectContribution() {
+    if (donation.mode.value !== "contributions") {
+      donation.mode.set("contributions");
+      push(ReditusEvent.click, `Select donation mode: contributions`);
+    }
+  }
+
+  function selectSubscription() {
+    if (donation.mode.value !== "subscriptions") {
+      donation.mode.set("subscriptions");
+      push(ReditusEvent.click, `Select donation mode: subscriptions`);
+    }
   }
 };
 
