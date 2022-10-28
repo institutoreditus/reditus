@@ -89,11 +89,11 @@ export const DonationForm = (props: any) => {
       push(ReditusEvent.info, "Donation done by a recurring user");
     }
     donation.userExists.set(userExists);
-    props.goToStep(3);
+    props.goToStep(2);
   }
 
   function failedDonation() {
-    props.goToStep(4);
+    props.goToStep(3);
   }
 
   async function onCheckout(e: any) {
