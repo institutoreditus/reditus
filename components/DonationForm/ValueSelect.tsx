@@ -14,7 +14,9 @@ export default function ValueDefaultOptions() {
 
   return (
     <div className={styles.donationInputsSection}>
-      <h3 className={styles.donationInputsTitle}>Selecione o valor da sua doação</h3>
+      <h3 className={styles.donationInputsTitle}>
+        Selecione o valor da sua doação
+      </h3>
       <div className={styles.valueOptions}>
         {donation.valueOptions.map((op, idx) => {
           const comparison = compareWith(op);
@@ -137,7 +139,7 @@ export function InputValueBox() {
   function onInput() {
     if (ref.current) {
       const num = Number(ref.current.value);
-      const value = Math.round(num * 100)/100
+      const value = Math.round(num * 100) / 100;
       push(ReditusEvent.type, `Donate custom value: ${value}`);
       donation.value.set(value);
     }

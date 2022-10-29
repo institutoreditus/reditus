@@ -162,7 +162,9 @@ export const DonationForm = (props: any) => {
     });
   }
 
-  const buttonLabel = `Doar R$ ${donation.value.value}${donation.mode.value == 'subscriptions' ? ' mensalmente' : ''}`
+  const buttonLabel = `Doar R$ ${donation.value.value}${
+    donation.mode.value == "subscriptions" ? " mensalmente" : ""
+  }`;
 
   return (
     <ThemeProvider theme={theme}>

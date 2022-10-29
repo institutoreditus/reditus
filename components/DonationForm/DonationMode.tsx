@@ -17,9 +17,12 @@ export const DonationMode = () => {
           type="radio"
           checked={donation.mode.value === "contributions"}
           className={styles.donationModeButton}
-          onChange={()=>{}}
+          onChange={() => {}}
         />
-        <label className={styles.donationModeButton} onClick={selectContribution}>
+        <label
+          className={styles.donationModeButton}
+          onClick={selectContribution}
+        >
           Doar uma única vez
         </label>
 
@@ -27,9 +30,12 @@ export const DonationMode = () => {
           type="radio"
           checked={donation.mode.value === "subscriptions"}
           className={styles.donationModeButton}
-          onChange={()=>{}}
+          onChange={() => {}}
         />
-        <label className={styles.donationModeButton} onClick={selectSubscription}>
+        <label
+          className={styles.donationModeButton}
+          onClick={selectSubscription}
+        >
           Doar mensalmente
         </label>
       </div>
