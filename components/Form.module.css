@@ -1,14 +1,6 @@
 /* Custom input fields */
 
-.birthdayWrapper {
-    width: 100%;
-    background-color: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(5px);
-    padding: 10px;
-    border-radius: 5px;
-    margin-bottom: 1.0rem;
-    margin-top: 2rem;
-}
+
 
 #customValue__input {
     color: var(--mdc-theme--on-secondary);
@@ -55,9 +47,6 @@
     font-size: 15px;
 }
 
-.donationInputs p {
-    margin: 30px auto 15px auto;
-}
 
 .donationModeWrapper .outlinedButton {
     width: 100%;
@@ -95,8 +84,9 @@
 
 /*Custom checkbox code styles*/
 
-.checkbox {
-    margin-bottom: -10px;
+.checkbox span {
+    font-size: 14px;
+    font-weight: 400;
 }
 
 .checkbox:checked~.section .container .row .col-12 .valueOption:not(:checked)+label {
@@ -106,12 +96,50 @@
 }
 
 .checkboxGroup {
-    margin-top: 0px;
     display: flex;
     flex-direction: column;
+    gap: 10px;
 }
 
+.donationForm {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
 
+.donationInputs {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin: 10px 0;
+}
+
+.donationInputsSection {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.donationInputsSection_wrapped {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    
+    padding: 10px;
+    border-radius: 5px;
+    
+    background-color: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(5px);
+}
+
+.donationInputsTitle {
+    padding: 0px;
+    margin: 0px;
+}
 
 .donationModeWrapper {
     display: flex;
@@ -291,7 +319,6 @@
 .footerMessage {
     width: 100%;
     font-size: medium;
-    margin-top: 1rem;
     text-align: center;
     color: white;
     padding: 10px;
@@ -314,8 +341,4 @@
 
 .selectBox {
     margin-top: 10px;
-}
-
-.title {
-    margin: 35px 0 15px 0;
 }

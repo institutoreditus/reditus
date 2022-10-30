@@ -12,11 +12,11 @@ import { ReditusEvent, push, pushDonation } from "../../helpers/gtm";
 import format from "date-fns/format";
 
 import { DonationContext } from "../contexts/DonationContext";
-import ValueDefaultOptions from "./ValueDefaultOptions";
+import ValueSelect from "./ValueSelect";
 import SelectBirthday from "./SelectBirthday";
 import DonationModeSwitch from "./DonationMode";
 import { DonationMode } from "../hooks/useDonationMode";
-import { ConsentCheckboxes } from "./ConsentCheckboxes";
+import ConsentCheckboxes from "./ConsentCheckboxes";
 
 const theme = createMuiTheme({
   palette: {
@@ -162,25 +162,21 @@ export const DonationForm = (props: any) => {
     });
   }
 
+  const buttonLabel = `Doar R$ ${donation.value.value}${
+    donation.mode.value == "subscriptions" ? " mensalmente" : ""
+  }`;
+
   return (
     <ThemeProvider theme={theme}>
-      <div>
-        {/* <NavigationButtons step={2} {...props} previousStep={() => {props.previousStep()}} /> */}
+      <div className={styles.donationForm}>
         <div className={styles.donationInputs}>
-          <div className={styles.donationInputsTitle}>
-            <h3 className="title">Escolha a frequência da sua doação</h3>
-          </div>
           <DonationModeSwitch />
-
-          <div className={styles.donationInputsTitle}>
-            <h3 className="title">Selecione o valor da sua doação</h3>
-          </div>
-          <ValueDefaultOptions />
+          <ValueSelect />
           <SelectBirthday />
           <ConsentCheckboxes />
         </div>
         <Button
-          label="Doar agora"
+          label={buttonLabel}
           raised
           unelevated
           disabled={loading}

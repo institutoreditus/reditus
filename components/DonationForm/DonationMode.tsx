@@ -8,36 +8,52 @@ export const DonationMode = () => {
   const donation = useContext(DonationContext);
 
   return (
-    <div className={styles.donationModeWrapper}>
-      <input
-        type="radio"
-        checked={donation.mode.value === "contributions"}
-        className={styles.donationModeButton}
-      />
-      <label className={styles.donationModeButton} onClick={onChange}>
-        Doar uma única vez
-      </label>
+    <div className={styles.donationInputsSection}>
+      <h3 className={styles.donationInputsTitle}>
+        Escolha a frequência da sua doação
+      </h3>
+      <div className={styles.donationModeWrapper}>
+        <input
+          type="radio"
+          checked={donation.mode.value === "contributions"}
+          className={styles.donationModeButton}
+          onChange={() => {}}
+        />
+        <label
+          className={styles.donationModeButton}
+          onClick={selectContribution}
+        >
+          Doar uma única vez
+        </label>
 
-      <input
-        type="radio"
-        checked={donation.mode.value === "subscriptions"}
-        className={styles.donationModeButton}
-      />
-      <label className={styles.donationModeButton} onClick={onChange}>
-        Doar mensalmente
-      </label>
+        <input
+          type="radio"
+          checked={donation.mode.value === "subscriptions"}
+          className={styles.donationModeButton}
+          onChange={() => {}}
+        />
+        <label
+          className={styles.donationModeButton}
+          onClick={selectSubscription}
+        >
+          Doar mensalmente
+        </label>
+      </div>
     </div>
   );
 
-  function onChange() {
-    console.log("aqui");
-    donation.mode.set(donation.isMonthly ? "contributions" : "subscriptions");
-    push(
-      ReditusEvent.click,
-      `Select donation mode: ${
-        donation.isMonthly ? "contributions" : "subscriptions"
-      }`
-    );
+  function selectContribution() {
+    if (donation.mode.value !== "contributions") {
+      donation.mode.set("contributions");
+      push(ReditusEvent.click, `Select donation mode: contributions`);
+    }
+  }
+
+  function selectSubscription() {
+    if (donation.mode.value !== "subscriptions") {
+      donation.mode.set("subscriptions");
+      push(ReditusEvent.click, `Select donation mode: subscriptions`);
+    }
   }
 };
 

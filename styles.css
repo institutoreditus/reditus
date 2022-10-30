@@ -78,13 +78,6 @@ body {
   border-color: var(--mdc-theme-secondary) !important;
 }
 
-.mdc-checkbox.mdc-ripple-upgraded {
-  margin-left: -10px;
-}
-
-.mdc-select .mdc-floating-label {
-  left: 0;
-}
 
 .mdc-select__selected-text {
   text-indent: -16px;
