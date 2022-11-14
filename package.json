@@ -30,7 +30,7 @@
     "@types/rox-browser": "^4.8.3",
     "@types/rox-node": "^4.8.2",
     "awilix": "^4.2.6",
-    "axios": "^0.21.1",
+    "axios": "^0.21.2",
     "computed-types": "^1.1.0",
     "date-fns": "^2.22.1",
     "ejs": "^3.1.5",
