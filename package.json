@@ -43,6 +43,7 @@
     "qs": "^6.9.4",
     "react": "^16.13.1",
     "react-dom": "16.13.1",
+    "react-facebook-pixel": "^1.0.4",
     "react-number-format": "^4.4.1",
     "react-step-wizard": "^5.3.11",
     "react-switch": "^7.0.0",
