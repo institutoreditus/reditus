@@ -72,6 +72,18 @@ export default class MyDocument extends Document {
             </>
           )}
           {/* End Facebook Pixel */}
+          {/* Enable Facebook Pixel 2.0 only in production. */}
+          {isProduction && (
+            <>
+              <script
+                dangerouslySetInnerHTML={{
+                  __html: `
+                  <meta name="facebook-domain-verification" content="vf4ad1m6a1m5w98ttfp3j2ilt557on" />`,
+                }}
+              />
+            </>
+          )}
+          {/* End Facebook Pixel */}
         </Head>
         <body>
           {/* Google Tag Manager (noscript) */}
