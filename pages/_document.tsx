@@ -1,4 +1,6 @@
 import Document, { Html, Head, Main, NextScript } from "next/document";
+import Image from 'next/image'
+
 
 import { GA_TRACKING_ID } from "../helpers/gtag";
 import { GTM_TRACKING_ID } from "../helpers/gtm";
@@ -52,7 +54,6 @@ export default class MyDocument extends Document {
               <script
                 dangerouslySetInnerHTML={{
                   __html: `
-                  <script>
                   !function(f,b,e,v,n,t,s)
                   {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
                   n.callMethod.apply(n,arguments):n.queue.push(arguments)};
@@ -62,25 +63,19 @@ export default class MyDocument extends Document {
                   s.parentNode.insertBefore(t,s)}(window, document,'script',
                   'https://connect.facebook.net/en_US/fbevents.js');
                   fbq('init', '3225839960976651');
-                  fbq('track', 'PageView');
-                  </script>
-                  <noscript><img height="1" width="1" style="display:none"
-                  src="https://www.facebook.com/tr?id=3225839960976651&ev=PageView&noscript=1"
-                  /></noscript>`,
+                  fbq('track', 'PageView');`,
                 }}
               />
+              <noscript><Image height={1} width={1}
+                             src="https://www.facebook.com/tr?id=3225839960976651&ev=PageView&noscript=1"/>
+              </noscript>
             </>
           )}
           {/* End Facebook Pixel */}
           {/* Enable Facebook Pixel 2.0 only in production. */}
           {isProduction && (
             <>
-              <script
-                dangerouslySetInnerHTML={{
-                  __html: `
-                  <meta name="facebook-domain-verification" content="vf4ad1m6a1m5w98ttfp3j2ilt557on" />`,
-                }}
-              />
+              <meta name="facebook-domain-verification" content="vf4ad1m6a1m5w98ttfp3j2ilt557on" />
             </>
           )}
           {/* End Facebook Pixel */}
