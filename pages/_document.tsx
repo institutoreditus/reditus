@@ -64,13 +64,16 @@ export default class MyDocument extends Document {
                   fbq('track', 'PageView');`,
                 }}
               />
-              <noscript>
-                <img
+              <noscript
+                dangerouslySetInnerHTML={{
+                  __html: `
+                  <img
                   height="1"
                   width="1"
                   src="https://www.facebook.com/tr?id=3225839960976651&ev=PageView&noscript=1"
-                />
-              </noscript>
+                />`,
+                }}
+              ></noscript>
             </>
           )}
           {/* End Facebook Pixel */}
