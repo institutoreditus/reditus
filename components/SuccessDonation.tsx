@@ -238,7 +238,7 @@ export const SuccessDonation = () => {
       });
       setSignupFinish(true);
       setOpen(false);
-    } catch (e) {
+    } catch (e:any) {
       const message = e.response?.data?.message;
       if (message) {
         alert(message);

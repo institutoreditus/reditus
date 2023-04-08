@@ -1,4 +1,4 @@
-import { ContributionState, PrismaClient } from "@prisma/client";
+import { ContributionState, PrismaClient, Prisma } from "@prisma/client";
 
 export enum BalanceGrouping {
   week = "week",
@@ -56,7 +56,7 @@ async function getBalanceWithoutGrouping(
   dbClient: PrismaClient
 ) {
   const sum = await dbClient.contribution.aggregate({
-    sum: {
+    _sum: {
       amountInCents: true,
     },
     where: {
@@ -74,11 +74,11 @@ async function getBalanceWithoutGrouping(
       ],
     },
   });
-  const response = [
+  const response: Balance[] = [
     {
       referenceDate:
         originalToDate ?? new Date(new Date().setUTCHours(0, 0, 0, 0)),
-      balance: sum["sum"]["amountInCents"],
+      balance: sum["_sum"]["amountInCents"] ?? 0,
     },
   ];
 
@@ -92,8 +92,7 @@ async function getBalanceWithGrouping(
   dbClient: PrismaClient
 ) {
   // TODO(rrozendo): I couldn't find how to do a "sum over" with prisma, and I wouldn't like to do the aggregation in memory. That's why I am using a raw query
-  const query: string =
-    'select * from (select distinct date_trunc($1,"createdAt") as "referenceDate",  sum(amount_in_cents) over(order by date_trunc($2,"createdAt")) as "balance" from contributions where state = $3 and "createdAt" < $4 ) t where "referenceDate" >= $5 order by 1;';
+  const query: Prisma.Sql = Prisma.sql`select * from (select distinct date_trunc($1,"createdAt") as "referenceDate",  sum(amount_in_cents) over(order by date_trunc($2,"createdAt")) as "balance" from contributions where state = $3 and "createdAt" < $4 ) t where "referenceDate" >= $5 order by 1;`;
   const result: Array<any> = await dbClient.$queryRaw(
     query,
     BalanceGrouping[groupBy],

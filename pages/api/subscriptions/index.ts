@@ -127,14 +127,14 @@ async function runCreateSubscription(
         },
       });
 
-      if (isCompletableStatus(pagarmeSubscription.status)) {
+      if (await isCompletableStatus(pagarmeSubscription.status)) {
         subscription = await completeSubscription({
           dbClient: prismaClient,
           subscriptionId: subscription.id,
           externalId: `pagarme:${pagarmeSubscription.id}`,
           externalContributionId: `pagarme:${pagarmeSubscription.current_transaction.id}`,
         });
-      } else if (isCancelableStatus(pagarmeSubscription.status)) {
+      } else if (await isCancelableStatus(pagarmeSubscription.status)) {
         subscription = await cancelSubscription({
           dbClient: prismaClient,
           subscriptionId: subscription.id,
@@ -146,7 +146,7 @@ async function runCreateSubscription(
         userExists: await userExists(args.customer.email, prismaClient),
       });
       mail(args.customer.email, args.customer.name);
-    } catch (err) {
+    } catch (err:any) {
       mailError(args.customer.email, err);
       console.log(err);
       console.log("###########################");

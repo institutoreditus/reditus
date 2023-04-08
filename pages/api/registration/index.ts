@@ -75,7 +75,7 @@ async function runCreateUser(
       }
       res.statusCode = 201;
       res.json(user);
-    } catch (err) {
+    } catch (err:any) {
       console.log(err);
       if (err instanceof ValidationError) {
         res.statusCode = 400;
