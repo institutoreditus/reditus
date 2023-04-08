@@ -143,7 +143,8 @@ async function runCreateContribution(
         userExists: await userExists(args.customer.email, prismaClient),
       });
       mail(args.customer.email, args.customer.name);
-    } catch (err) {
+    } catch (e) {
+      const err = e as any;
       mailError(args.customer.email, err);
       if (err.response.status === 400) {
         res.statusCode = 400;

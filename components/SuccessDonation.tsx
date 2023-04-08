@@ -239,7 +239,8 @@ export const SuccessDonation = () => {
       setSignupFinish(true);
       setOpen(false);
     } catch (e) {
-      const message = e.response?.data?.message;
+      const err = e as any;
+      const message = err.response?.data?.message;
       if (message) {
         alert(message);
       } else {
