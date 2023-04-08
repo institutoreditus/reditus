@@ -238,8 +238,9 @@ export const SuccessDonation = () => {
       });
       setSignupFinish(true);
       setOpen(false);
-    } catch (e:any) {
-      const message = e.response?.data?.message;
+    } catch (e) {
+      const err = e as any;
+      const message = err.response?.data?.message;
       if (message) {
         alert(message);
       } else {

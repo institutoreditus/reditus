@@ -146,7 +146,8 @@ async function runCreateSubscription(
         userExists: await userExists(args.customer.email, prismaClient),
       });
       mail(args.customer.email, args.customer.name);
-    } catch (err:any) {
+    } catch (e) {
+      const err = e as any;
       mailError(args.customer.email, err);
       console.log(err);
       console.log("###########################");
