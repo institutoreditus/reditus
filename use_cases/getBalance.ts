@@ -92,15 +92,8 @@ async function getBalanceWithGrouping(
   dbClient: PrismaClient
 ) {
   // TODO(rrozendo): I couldn't find how to do a "sum over" with prisma, and I wouldn't like to do the aggregation in memory. That's why I am using a raw query
-  const query: Prisma.Sql = Prisma.sql`select * from (select distinct date_trunc($1,"createdAt") as "referenceDate",  sum(amount_in_cents) over(order by date_trunc($2,"createdAt")) as "balance" from contributions where state = $3 and "createdAt" < $4 ) t where "referenceDate" >= $5 order by 1;`;
-  const result: Array<any> = await dbClient.$queryRaw(
-    query,
-    BalanceGrouping[groupBy],
-    BalanceGrouping[groupBy],
-    ContributionState.completed,
-    toDate,
-    fromDate
-  );
+  const query: Prisma.Sql = Prisma.sql`select * from (select distinct date_trunc(${BalanceGrouping[groupBy]},"createdAt") as "referenceDate",  sum(amount_in_cents) over(order by date_trunc(${BalanceGrouping[groupBy]},"createdAt")) as "balance" from contributions where state = ${ContributionState.completed} and "createdAt" < ${toDate} ) t where "referenceDate" >= ${fromDate} order by 1;`;
+  const result: Array<any> = await dbClient.$queryRaw(query);
 
   // convert to date to keep the same format as the getBalanceWithoutGrouping method
   result.forEach((element: any) => {
