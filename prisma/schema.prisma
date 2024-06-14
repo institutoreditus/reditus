@@ -46,6 +46,7 @@ model ContributionSubscription {
 
   User   User? @relation(fields: [userId], references: [id])
   userId Int?
+
   @@map("contribution_subscriptions")
 }
 
@@ -64,7 +65,22 @@ model Contribution {
 
   User   User? @relation(fields: [userId], references: [id])
   userId Int?
+
+  group   Group? @relation(fields: [groupId], references: [id])
+  groupId Int?
+
   @@map("contributions")
+}
+
+model Group {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String?
+  createdAt   DateTime @default(now())
+
+  contributions Contribution[]
+
+  @@map("groups")
 }
 
 model User {

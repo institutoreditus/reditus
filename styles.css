@@ -7,17 +7,17 @@
 
 html,
 body {
-  overflow: hidden;
+  /* overflow: hidden; */
   padding: 0;
   margin: 0;
   font-family: "Open Sans", sans-serif;
 }
 
-@media (min-resolution: 2dppx) {
+/* @media (min-resolution: 2dppx) {
   body {
     zoom: 80% !important;
   }
-}
+} */
 
 * {
   box-sizing: border-box;
