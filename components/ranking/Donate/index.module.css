@@ -1,0 +1,35 @@
+.donationCallout {
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+gap: 20px;
+background-color: #90f2ff;
+width: 100%;
+padding: 10px 40px;
+border-bottom: 1px solid #ffffff;
+}
+
+.donationCallout p {
+margin: 0;
+font-weight: 600;
+color: rgb(29, 118, 145);
+}
+
+.donationButton {
+display: flex;
+align-items: center;
+justify-content: center;
+background-color: rgb(29, 118, 145);
+color: rgb(255, 255, 255);
+border: none;
+border-radius: 100px;
+cursor: pointer;
+padding: 10px 30px;
+font-weight: 700;
+font-size: 16px;
+}
+
+.donationButton:hover {
+background-color: rgb(14, 88, 111);
+}

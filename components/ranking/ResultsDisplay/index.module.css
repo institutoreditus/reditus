@@ -1,0 +1,26 @@
+/* Results Pannel */
+
+.resultsPannel {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 20px;
+    background-color: #306a71;
+    padding: 40px 0px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 600px;
+    margin-top: 50px;
+    color: rgb(255, 255, 255);
+}
+
+.resultsPannel h3 {
+    font-size: xx-large;
+    margin: 0;
+    font-weight: 700;
+}
+
+.resultsPannel p {
+    margin: 0;
+}
