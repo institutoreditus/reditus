@@ -48,7 +48,11 @@ export default function RankingPage() {
               window.open("https://www.reditus.org.br/", "_blank");
             }}
             title="Ranking de Turmas"
-            description="Você pode visualizar as turmas que mais contribuíram e verificar se a sua está entre elas! Uma visão geral do impacto nas receitas só está disponível mediante a realização de uma doação."
+            description="
+            O Instituto Reditus é uma associação privada, sem fins lucrativos, formada por alunos e ex-alunos da UFRJ.
+            Nosso objetivo é fortalecer a comunidade da UFRJ e fomentanar a cultura de retribuição para aprimorando a experiência educacional.
+            Convide sua turma para participar! :)
+            "
           />
           <ResultsDisplay
             amount={rankingData.amount}
@@ -64,7 +68,7 @@ export default function RankingPage() {
 
 const Table = (props: { ranking: GetRankingData["ranking"] }) => {
   const goToClass = (degree: string, year: number) => {
-    window.location.href = `/ranking/degrees/${degree}/${year}`;
+    window.open(`/ranking/degrees/${degree}/${year}`, "_self");
   };
 
   return (

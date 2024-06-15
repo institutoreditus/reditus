@@ -3,7 +3,7 @@ import styles from "./index.module.css";
 const DonationCallout = () => {
   return (
     <div className={styles.donationCallout}>
-      <p>Doe para que possamos continuar ajudando!</p>
+      <p>Participe dessa corrente do bem</p>
       <DonateButton />
     </div>
   );
@@ -17,7 +17,7 @@ export const DonateButton = () => {
         window.location.href = "/";
       }}
     >
-      Doar agora!
+      Doar agora
     </button>
   );
 };

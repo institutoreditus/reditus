@@ -46,14 +46,10 @@ export default function ClassPage() {
               window.open("/ranking/degrees/" + degree, "_self");
             }}
             title={year + "-" + String(Number(year) + 4)}
-            description={"Any"}
+            description=""
           />
           <ResultsDisplay amount={data.amount} count={data.numberOfDonors} />
           <Donors userDonated={donated} donors={data.donors} />
-
-          {!donated && (
-            <p>Você precisa doar para poder visualizar aos doadores</p>
-          )}
 
           <ShareCallout donate whatsApp linkedIn copy />
         </div>

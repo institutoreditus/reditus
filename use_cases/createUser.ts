@@ -66,6 +66,7 @@ const createUser = async (args: CreateUserArgs): Promise<User> => {
       tutorshipInterest: args.tutorshipInterest,
       mentorshipInterest: args.mentorshipInterest,
       volunteeringInterest: args.volunteeringInterest,
+      url: args.url,
       contributions: {
         connect: existingContributionsForUser.map((c) => ({ id: c.id })),
       },
