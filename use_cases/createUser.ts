@@ -14,6 +14,7 @@ interface CreateUserArgs {
   tutorshipInterest: boolean;
   mentorshipInterest: boolean;
   volunteeringInterest: boolean;
+  url?: string;
 }
 
 const createUser = async (args: CreateUserArgs): Promise<User> => {
