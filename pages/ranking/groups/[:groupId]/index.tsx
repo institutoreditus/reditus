@@ -48,7 +48,9 @@ export default function RankingPage() {
           <ResultsDisplay amount={group.total} count={group.donors.length} />
           <Donors userDonated={donated} donors={group.donors} />
 
-          <p>Você precisa doar para poder visualizar aos doadores</p>
+          {!donated && (
+            <p>Você precisa doar para poder visualizar aos doadores</p>
+          )}
 
           <ShareCallout donate whatsApp linkedIn copy />
         </div>
