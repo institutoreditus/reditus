@@ -70,20 +70,23 @@ model Contribution {
 }
 
 model User {
-  id                   Int                        @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  id        Int      @id @default(autoincrement())
+
   email                String                     @unique
   firstName            String                     @map("first_name")
   lastName             String                     @map("last_name")
   university           String
   degree               String
   admissionYear        Int                        @map("admission_year")
-  tutorshipInterest    Boolean                    @map("tutorship_interest")
-  mentorshipInterest   Boolean                    @map("mentorship_interest")
-  volunteeringInterest Boolean                    @map("volunteering_interest")
+  tutorshipInterest    Boolean?                   @map("tutorship_interest")
+  mentorshipInterest   Boolean?                   @map("mentorship_interest")
+  volunteeringInterest Boolean?                   @map("volunteering_interest")
   contributions        Contribution[]
   subscriptions        ContributionSubscription[]
   birthday             DateTime?
-  createdAt            DateTime                   @default(now())
+
+  url String?
 
   @@map("users")
 }
