@@ -85,8 +85,7 @@ model User {
   contributions        Contribution[]
   subscriptions        ContributionSubscription[]
   birthday             DateTime?
-
-  url String?
+  url                  String?
 
   @@map("users")
 }

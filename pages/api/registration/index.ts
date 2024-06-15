@@ -17,6 +17,7 @@ const CreateUserSchema = schema({
   degree: string,
   admissionYear: string,
   dob: string,
+  url: string.optional(),
   tutorshipInterest: Boolean,
   mentorshipInterest: Boolean,
   volunteeringInterest: Boolean,
@@ -69,6 +70,7 @@ async function runCreateUser(
         tutorshipInterest: args.tutorshipInterest,
         mentorshipInterest: args.mentorshipInterest,
         volunteeringInterest: args.volunteeringInterest,
+        url: args.url,
       });
       if (!user) {
         throw new Error(messages.USER_REGISTRATION_FAILED);

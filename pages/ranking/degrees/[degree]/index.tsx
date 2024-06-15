@@ -1,28 +1,30 @@
 import Head from "next/head";
 import styles from "./index.module.css";
-import ShareCallout from "../../components/ranking/Share/ShareCallout";
-import DonationCallout from "../../components/ranking/Donate/DonateBanner";
-import ResultsDisplay from "../../components/ranking/ResultsDisplay/ResultsDisplay";
-import Header from "../../components/ranking/Header/Header";
+import ShareCallout from "../../../../components/ranking/Share/ShareCallout";
+import DonationCallout from "../../../../components/ranking/Donate/DonateBanner";
+import ResultsDisplay from "../../../../components/ranking/ResultsDisplay/ResultsDisplay";
+import Header from "../../../../components/ranking/Header/Header";
 import { useEffect, useState } from "react";
-import { GetRankingData } from "../api/ranking/types";
+import { useRouter } from "next/router";
+import { GetRankingData } from "../../../api/ranking/types";
 
-export default function RankingPage() {
-  const [rankingData, setRankingData] = useState<GetRankingData>({
+const getRankingData = async (degree: string) => {
+  const response = await fetch(`/api/ranking/degrees/${degree}`);
+  return (await response.json()) as GetRankingData;
+};
+
+export default function DegreeRankingPage() {
+  const router = useRouter();
+  const degree = router.query.degree as string;
+  const [data, setData] = useState<GetRankingData>({
     amount: 0,
     numberOfDonors: 0,
     ranking: [],
   });
 
-  const fetchRankingData = async () => {
-    const response = await fetch("/api/ranking");
-    const data = await response.json();
-    setRankingData(data);
-  };
-
   useEffect(() => {
-    fetchRankingData();
-  }, []);
+    getRankingData(degree).then(setData);
+  }, [router.query.degree]);
 
   return (
     <div className={styles.html}>
@@ -43,18 +45,15 @@ export default function RankingPage() {
         <DonationCallout />
         <div className={styles.content}>
           <Header
-            tag="Instituto Reditus"
+            tag="UFRJ"
             tagOnClick={() => {
-              window.open("https://www.reditus.org.br/", "_blank");
+              window.open("/ranking", "_self");
             }}
-            title="Ranking de Turmas"
+            title={degree}
             description="Você pode visualizar as turmas que mais contribuíram e verificar se a sua está entre elas! Uma visão geral do impacto nas receitas só está disponível mediante a realização de uma doação."
           />
-          <ResultsDisplay
-            amount={rankingData.amount}
-            count={rankingData.numberOfDonors}
-          />
-          <Table ranking={rankingData.ranking} />
+          <ResultsDisplay amount={data.amount} count={data.numberOfDonors} />
+          <Table ranking={data.ranking} />
           <ShareCallout donate whatsApp linkedIn copy />
         </div>
       </main>
@@ -63,28 +62,27 @@ export default function RankingPage() {
 }
 
 const Table = (props: { ranking: GetRankingData["ranking"] }) => {
-  const goToClass = (degree: string, year: number) => {
-    window.location.href = `/ranking/degrees/${degree}/${year}`;
-  };
-
   return (
     <div className={styles.groupsTable}>
       <table>
         <thead>
           <th>Rank</th>
           <th>Turma</th>
-          <th>Curso</th>
           <th>Valor de doação (R$)</th>
         </thead>
         <tbody>
           {props.ranking.map((row, index) => (
             <tr
               key={index}
-              onClick={goToClass.bind(null, row.degree, row.initialYear)}
+              onClick={() => {
+                window.open(
+                  `/ranking/degrees/${row.degree}/${row.initialYear}`,
+                  "_self"
+                );
+              }}
             >
               <td style={{ fontWeight: "bold" }}>#{row.position}</td>
-              <td>{`${row.initialYear}-${row.finalYear}`}</td>
-              <td style={{ textAlign: "left" }}>{row.degree}</td>
+              <td>{`${row.initialYear} - ${row.finalYear}`}</td>
               <td>{new Intl.NumberFormat("pt-BR", {}).format(row.amount)}</td>
             </tr>
           ))}
