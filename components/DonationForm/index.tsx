@@ -1,6 +1,6 @@
 import { Button } from "@rmwc/button";
 import axios from "axios";
-import { useState, useContext } from "react";
+import { useState, useContext, MouseEventHandler } from "react";
 import { LinearProgress } from "@material-ui/core";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 
@@ -71,7 +71,41 @@ const theme = createMuiTheme({
 
 service(RoxContainer);
 
-declare let PagarMeCheckout: any;
+type CheckoutSuccessData = {
+  amount: number;
+  card_hash: string;
+  customer: {
+    document_number: string;
+    name: string;
+    email: string;
+    address: {
+      city: string;
+      complementary: string;
+      neighborhood: string;
+      state: string;
+      street: string;
+      street_number: string;
+      zipcode: string;
+    };
+    phone: {
+      ddd: string;
+      number: string;
+    };
+  };
+  installments: number | null;
+  payment_method: string; // 'credit_card'
+};
+
+declare let PagarMeCheckout: {
+  Checkout: {
+    new (args: {
+      encryption_key: string;
+      success: (data: CheckoutSuccessData) => void;
+      error: () => void;
+      close: () => void;
+    }): any;
+  };
+};
 const encryptionKey = process.env.PAGARME_ENC_KEY;
 
 export const DonationForm = (props: any) => {
@@ -85,9 +119,8 @@ export const DonationForm = (props: any) => {
   ) {
     pushDonation(ReditusEvent.info, "Donation concluded", value, mode);
     push(ReditusEvent.info, "Donation concluded");
-    if (userExists) {
+    if (userExists)
       push(ReditusEvent.info, "Donation done by a recurring user");
-    }
     donation.userExists.set(userExists);
     props.goToStep(2);
   }
@@ -96,44 +129,40 @@ export const DonationForm = (props: any) => {
     props.goToStep(3);
   }
 
-  async function onCheckout(e: any) {
-    e.preventDefault();
+  const initCheckout: MouseEventHandler<HTMLButtonElement> = (element) => {
+    element.preventDefault();
 
     const error = donation.validate();
     if (error) return;
-
-    // At this point, we are guaranteed to have a valid date obj.
-    const birthday: string = format(
-      donation.birthday.value as Date,
-      "yyyy-MM-dd"
-    );
+    if (!encryptionKey || !donation.birthday.value) return;
 
     push(ReditusEvent.click, `Open modal to donate: ${donation.value.value}`);
 
+    const birthday: string = format(donation.birthday.value, "yyyy-MM-dd");
     const amountInCents = donation.value.value * 100;
     const donationMode = donation.mode.value;
-
-    // Create checkout instance
     const checkout = new PagarMeCheckout.Checkout({
       encryption_key: encryptionKey,
-      success: async function (data: any) {
+      success: async function (data) {
         try {
-          donationMode == "subscriptions"
-            ? (data[
-                "ssr"
-              ] = RoxContainer.suggestedMonthlyDonationValues.getValue())
-            : (data[
-                "ssr"
-              ] = RoxContainer.suggestedSingleDonationValues.getValue());
+          const ssr: string =
+            donationMode == "subscriptions"
+              ? RoxContainer.suggestedMonthlyDonationValues.getValue()
+              : RoxContainer.suggestedSingleDonationValues.getValue();
 
-          data["dob"] = birthday;
+          const postData = {
+            ...data,
+            ssr,
+            dob: birthday,
+          };
+
           donation.email.set(data.customer.email);
           setLoading(true);
-          const response = await axios.post(`/api/${donationMode}`, data);
 
-          let userExists = false;
-          if (response && response.data)
-            userExists = !!response.data.userExists;
+          const response = await axios.post(`/api/${donationMode}`, postData);
+          const userExists = response?.data
+            ? !!response.data.userExists
+            : false;
 
           setLoading(false);
           return successDonation(userExists, amountInCents, donationMode);
@@ -149,7 +178,6 @@ export const DonationForm = (props: any) => {
       },
     });
 
-    // Checkout API require booleans to be passed as strings
     checkout.open({
       amount: amountInCents,
       buttonText: "Contribuir",
@@ -160,7 +188,7 @@ export const DonationForm = (props: any) => {
       uiColor: "#00d4ff",
       headerText: "Vou contribuir com {price_info}",
     });
-  }
+  };
 
   const buttonLabel = `Doar R$ ${donation.value.value}${
     donation.mode.value == "subscriptions" ? " mensalmente" : ""
@@ -180,7 +208,7 @@ export const DonationForm = (props: any) => {
           raised
           unelevated
           disabled={loading}
-          onClick={onCheckout}
+          onClick={initCheckout}
           id={styles.defaultButton}
         />
         {loading && <LinearProgress color="primary" />}
