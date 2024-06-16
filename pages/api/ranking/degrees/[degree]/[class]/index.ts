@@ -41,16 +41,16 @@ async function getData(
 
   const result: {
     id: number;
-    first_name: string;
-    last_name: number;
+    firstName: string;
+    lastName: number;
     url: string;
     amount: number;
     year: number;
   }[] = await prisma.$queryRaw`
     SELECT 
         u."id",
-        u."first_name",
-        u."last_name",
+        u."first_name" AS "firstName",
+        u."last_name" AS "lastName",
         u."url",
         SUM(c."amount_in_cents")/100 AS "amount",
         u."admission_year" AS "year"
@@ -67,9 +67,9 @@ async function getData(
 
   const amount = result.reduce((acc, row) => acc + row.amount, 0);
   const numberOfDonors = result.length;
-  const donors: GetClassData["donors"] = result.map((row, index) => {
+  const donors: GetClassData["donors"] = result.map((row) => {
     return {
-      name: `${row.first_name} ${row.last_name}`,
+      name: `${row.firstName} ${row.lastName}`,
       url: row.url,
       year: row.year,
     };

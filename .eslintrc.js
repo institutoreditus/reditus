@@ -33,6 +33,7 @@ module.exports = {
     "no-unused-vars": "off",
     "@typescript-eslint/no-unused-vars": "error",
     "prettier/prettier": "error",
-    "jest/no-export": "off"
+    "jest/no-export": "off",
+    "camelcase": "off",
   },
 };

@@ -242,7 +242,9 @@ export const SuccessDonation = () => {
           <h1>Muito obrigado!</h1>
           <p>Agradecemos por escolher fazer parte dessa iniciativa.</p>
           <p>Enviaremos também um email de confirmando sua doação.</p>
-          {registrationFlagEnabled() && !isUserAlreadyRegistered() ? (
+          {registrationFlagEnabled() &&
+          !isUserAlreadyRegistered() &&
+          !signupFinish ? (
             <>
               <p>
                 Conclua o seu cadastro para somar pontos à sua turma no Ranking

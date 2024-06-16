@@ -28,12 +28,6 @@ async function run(req: DIContainerNextApiRequest, res: NextApiResponse) {
   }
 }
 
-const MOCK: GetRankingData = {
-  amount: 100000,
-  numberOfDonors: 100,
-  ranking: [],
-};
-
 async function getRankingData(prisma: PrismaClient): Promise<GetRankingData> {
   const result: {
     period: number;

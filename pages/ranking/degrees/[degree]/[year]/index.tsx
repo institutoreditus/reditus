@@ -14,8 +14,6 @@ const getClassData = async (degree: string, year: string) => {
 };
 
 export default function ClassPage() {
-  const donated = true;
-
   const router = useRouter();
   const degree = router.query.degree as string;
   const year = router.query.year as string;
@@ -49,7 +47,7 @@ export default function ClassPage() {
             description=""
           />
           <ResultsDisplay amount={data.amount} count={data.numberOfDonors} />
-          <Donors userDonated={donated} donors={data.donors} />
+          <Donors donors={data.donors} />
 
           <ShareCallout donate whatsApp linkedIn copy />
         </div>
@@ -59,16 +57,14 @@ export default function ClassPage() {
 }
 
 const Donors = ({
-  userDonated,
   donors,
 }: {
-  userDonated: boolean;
   donors: { name: string; url?: string; year: number }[];
 }) => {
   return (
-    <div className={userDonated ? styles.donors : styles.hideDonors}>
+    <div className={styles.donors}>
       {donors.map((donor, i) => (
-        <Donor userDonated={userDonated} donor={donor} key={i} />
+        <Donor donor={donor} key={i} />
       ))}
     </div>
   );
@@ -76,15 +72,13 @@ const Donors = ({
 
 const Donor = ({
   donor,
-  userDonated,
 }: {
-  userDonated: boolean;
   donor: { name: string; url?: string; year: number };
 }) => {
   return (
     <div className={styles.donor}>
       <h3>
-        <a href={donor.url} target="_blank">
+        <a href={donor.url} target="_blank" rel="noopener noreferrer">
           {donor.name}
         </a>
       </h3>
