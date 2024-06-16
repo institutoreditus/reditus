@@ -40,20 +40,20 @@ async function getData(
   const maxYear = minYear + 5;
 
   const result: {
-    period: number;
-    degree: string;
-    amount: number;
-    donors: number;
+    id: number;
     first_name: string;
-    last_name: string;
+    last_name: number;
     url: string;
+    amount: number;
+    year: number;
   }[] = await prisma.$queryRaw`
     SELECT 
         u."id",
         u."first_name",
         u."last_name",
         u."url",
-        SUM(c."amount_in_cents")/100 AS "amount"
+        SUM(c."amount_in_cents")/100 AS "amount",
+        u."admission_year" AS "year"
     FROM "users" u
     LEFT JOIN "contributions" c ON u."id" = c."userId"
     WHERE 
@@ -71,6 +71,7 @@ async function getData(
     return {
       name: `${row.first_name} ${row.last_name}`,
       url: row.url,
+      year: row.year,
     };
   });
 

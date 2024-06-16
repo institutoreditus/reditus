@@ -17,19 +17,20 @@ color: rgb(29, 118, 145);
 }
 
 .donationButton {
-display: flex;
-align-items: center;
-justify-content: center;
-background-color: rgb(29, 118, 145);
-color: rgb(255, 255, 255);
-border: none;
-border-radius: 100px;
-cursor: pointer;
-padding: 10px 30px;
-font-weight: 700;
-font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(29, 118, 145);
+    color: rgb(255, 255, 255);
+    border: none;
+    border-radius: 100px;
+    cursor: pointer;
+    padding: 10px 30px;
+    font-weight: 700;
+    font-size: 16px;
 }
 
 .donationButton:hover {
-background-color: rgb(14, 88, 111);
+    background-color: rgb(14, 88, 111);
+    transform: scale(1.02);
 }

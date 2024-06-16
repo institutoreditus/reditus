@@ -17,5 +17,6 @@ export type GetClassData = {
   donors: {
     name: string;
     url?: string;
+    year: number;
   }[];
 };

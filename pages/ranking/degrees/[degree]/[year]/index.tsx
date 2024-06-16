@@ -14,17 +14,17 @@ const getClassData = async (degree: string, year: string) => {
 };
 
 export default function ClassPage() {
-  const [data, setData] = useState<GetClassData>({
-    amount: 0,
-    numberOfDonors: 0,
-    donors: [],
-  });
-
   const donated = true;
 
   const router = useRouter();
   const degree = router.query.degree as string;
   const year = router.query.year as string;
+
+  const [data, setData] = useState<GetClassData>({
+    amount: 0,
+    numberOfDonors: 0,
+    donors: [],
+  });
 
   useEffect(() => {
     getClassData(degree, year).then(setData);
@@ -63,20 +63,32 @@ const Donors = ({
   donors,
 }: {
   userDonated: boolean;
-  donors: { name: string; url?: string }[];
+  donors: { name: string; url?: string; year: number }[];
 }) => {
   return (
     <div className={userDonated ? styles.donors : styles.hideDonors}>
-      {donors.map((donor) => (
-        <button
-          className={styles.donor}
-          onClick={() => {
-            if (userDonated && donor.url) window.open(donor.url, "_blank");
-          }}
-        >
-          <p>{donor.name}</p>
-        </button>
+      {donors.map((donor, i) => (
+        <Donor userDonated={userDonated} donor={donor} key={i} />
       ))}
+    </div>
+  );
+};
+
+const Donor = ({
+  donor,
+  userDonated,
+}: {
+  userDonated: boolean;
+  donor: { name: string; url?: string; year: number };
+}) => {
+  return (
+    <div className={styles.donor}>
+      <h3>
+        <a href={donor.url} target="_blank">
+          {donor.name}
+        </a>
+      </h3>
+      <p>{donor.year}</p>
     </div>
   );
 };

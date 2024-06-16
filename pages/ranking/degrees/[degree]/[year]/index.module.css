@@ -40,7 +40,7 @@
   width: 100%;
   background-color: #f8f8f8;
   padding: 20px;
-  border-radius: 10px;
+  border-radius: 5px;
 }
 
 .hideDonors {
@@ -54,23 +54,29 @@
   width: 100%;
   background-color: #f8f8f8;
   padding: 20px;
-  border-radius: 10px;
+  border-radius: 5px;
   filter: blur(3px);
 }
 
 
 .donor {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column; 
   gap: 10px;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  width: 200px; 
+  height: 100px;
   background-color: #ffffff;
-  padding: 20px 40px;
-  border-radius: 10px;
+  border-radius: 3px;
   border: 1px solid #d8d8d8;
   box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.05);
-  cursor: pointer;
+}
+
+.donor h3, .donor p {
+  margin: 0;
+  padding: 0;
 }
 
 .donor:hover {
