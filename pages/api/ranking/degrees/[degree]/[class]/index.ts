@@ -62,7 +62,7 @@ async function getData(
         AND u."admission_year" < ${maxYear}
         AND c."state" = 'completed'
         AND c."createdAt" > ${RANKING_INITIAL_DATA}
-    GROUP BY u."id"
+    GROUP BY u."id", u."first_name", u."last_name", u."url", u."admission_year"
     `;
 
   const amount = result.reduce((acc, row) => acc + row.amount, 0);
