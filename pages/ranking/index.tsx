@@ -50,7 +50,7 @@ export default function RankingPage() {
             title="Ranking de Turmas"
             description="
             O Instituto Reditus é uma associação privada, sem fins lucrativos, formada por alunos e ex-alunos da UFRJ.
-            Nosso objetivo é fortalecer a comunidade da UFRJ e fomentanar a cultura de retribuição para aprimorando a experiência educacional.
+            Nosso objetivo é fortalecer a comunidade da UFRJ e fomentar a cultura de retribuição para aprimorar a experiência educacional.
             Convide sua turma para participar! :)
             "
           />
