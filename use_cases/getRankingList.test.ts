@@ -14,10 +14,30 @@ beforeAll(async () => {
 
   // Create users and contributions
   const users = [
-    { email: "user0@example.com", degree: "Computer Science", admissionYear: 2020, amount: 0 },
-    { email: "user1@example.com", degree: "Computer Science", admissionYear: 2020, amount: 200_00 },
-    { email: "user2@example.com", degree: "Computer Science", admissionYear: 2021, amount: 300_00 },
-    { email: "user3@example.com", degree: "Industrial Engineering", admissionYear: 2020, amount: 500_00 },
+    {
+      email: "user0@example.com",
+      degree: "Computer Science",
+      admissionYear: 2020,
+      amount: 0,
+    },
+    {
+      email: "user1@example.com",
+      degree: "Computer Science",
+      admissionYear: 2020,
+      amount: 200_00,
+    },
+    {
+      email: "user2@example.com",
+      degree: "Computer Science",
+      admissionYear: 2021,
+      amount: 300_00,
+    },
+    {
+      email: "user3@example.com",
+      degree: "Industrial Engineering",
+      admissionYear: 2020,
+      amount: 500_00,
+    },
   ];
 
   for (const user of users) {
@@ -33,7 +53,7 @@ beforeAll(async () => {
       birthday: new Date("1990-01-01"),
       tutorshipInterest: false,
       mentorshipInterest: false,
-      volunteeringInterest: false
+      volunteeringInterest: false,
     });
 
     if (user.amount > 0) {

@@ -17,14 +17,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 async function run(req: DIContainerNextApiRequest, res: NextApiResponse) {
   const prismaClient: PrismaClient = req.scope.resolve("dbClient");
   try {
-    const rankingData = await getDegreeClassData(
-      {
-        dbClient: prismaClient,
-        degree: req.query.degree as string,
-        year: req.query.class as string,
-        initialDate: RANKING_INITIAL_DATA
-      }
-    );
+    const rankingData = await getDegreeClassData({
+      dbClient: prismaClient,
+      degree: req.query.degree as string,
+      year: req.query.class as string,
+      initialDate: RANKING_INITIAL_DATA,
+    });
     res.statusCode = 200;
     res.json(rankingData);
   } catch (error) {

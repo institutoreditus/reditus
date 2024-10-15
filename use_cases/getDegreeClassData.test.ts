@@ -24,7 +24,7 @@ beforeAll(async () => {
     birthday: new Date("1990-01-01"),
     tutorshipInterest: false,
     mentorshipInterest: false,
-    volunteeringInterest: false
+    volunteeringInterest: false,
   });
 
   const contribution1 = await createContribution({
@@ -51,7 +51,7 @@ beforeAll(async () => {
     birthday: new Date("1990-01-01"),
     tutorshipInterest: false,
     mentorshipInterest: false,
-    volunteeringInterest: false
+    volunteeringInterest: false,
   });
 
   const contribution2 = await createContribution({
@@ -78,9 +78,8 @@ beforeAll(async () => {
     birthday: new Date("1955-02-24"),
     tutorshipInterest: false,
     mentorshipInterest: false,
-    volunteeringInterest: false
+    volunteeringInterest: false,
   });
-
 
   const contribution3 = await createContribution({
     dbClient: prisma,

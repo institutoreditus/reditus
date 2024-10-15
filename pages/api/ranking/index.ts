@@ -19,7 +19,7 @@ async function run(req: DIContainerNextApiRequest, res: NextApiResponse) {
   try {
     const rankingData = await getRankingList({
       dbClient: prismaClient,
-      initialDate: RANKING_INITIAL_DATA
+      initialDate: RANKING_INITIAL_DATA,
     });
     res.statusCode = 200;
     res.json(rankingData);
