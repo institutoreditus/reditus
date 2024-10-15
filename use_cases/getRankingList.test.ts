@@ -14,9 +14,10 @@ beforeAll(async () => {
 
   // Create users and contributions
   const users = [
-    { email: "user1@example.com", degree: "Computer Science", admissionYear: 2020 },
-    { email: "user2@example.com", degree: "Computer Science", admissionYear: 2021 },
-    { email: "user3@example.com", degree: "Industrial Engineering", admissionYear: 2020 },
+    { email: "user0@example.com", degree: "Computer Science", admissionYear: 2020, amount: 0 },
+    { email: "user1@example.com", degree: "Computer Science", admissionYear: 2020, amount: 200_00 },
+    { email: "user2@example.com", degree: "Computer Science", admissionYear: 2021, amount: 300_00 },
+    { email: "user3@example.com", degree: "Industrial Engineering", admissionYear: 2020, amount: 500_00 },
   ];
 
   for (const user of users) {
@@ -35,17 +36,19 @@ beforeAll(async () => {
       volunteeringInterest: false
     });
 
-    const contribution = await createContribution({
-      dbClient: prisma,
-      amountInCents: 100_00,
-      email: user.email,
-    });
+    if (user.amount > 0) {
+      const contribution = await createContribution({
+        dbClient: prisma,
+        amountInCents: user.amount,
+        email: user.email,
+      });
 
-    await completeContribution({
-      dbClient: prisma,
-      contributionId: contribution.id,
-      externalId: "test123",
-    });
+      await completeContribution({
+        dbClient: prisma,
+        contributionId: contribution.id,
+        externalId: "test123",
+      });
+    }
   }
 });
 
@@ -63,7 +66,7 @@ describe("getRankingList", () => {
     });
 
     expect(result).toEqual({
-      amount: 300,
+      amount: 1000,
       numberOfDonors: 3,
       ranking: [
         {
@@ -71,7 +74,7 @@ describe("getRankingList", () => {
           degree: "Computer Science",
           initialYear: 2020,
           finalYear: 2024,
-          amount: 200,
+          amount: 500,
           numberOfDonors: 2,
         },
         {
@@ -79,7 +82,7 @@ describe("getRankingList", () => {
           degree: "Industrial Engineering",
           initialYear: 2020,
           finalYear: 2024,
-          amount: 100,
+          amount: 500,
           numberOfDonors: 1,
         },
       ],
@@ -94,7 +97,7 @@ describe("getRankingList", () => {
     });
 
     expect(result).toEqual({
-      amount: 200,
+      amount: 500,
       numberOfDonors: 2,
       ranking: [
         {
@@ -102,7 +105,7 @@ describe("getRankingList", () => {
           degree: "Computer Science",
           initialYear: 2020,
           finalYear: 2024,
-          amount: 200,
+          amount: 500,
           numberOfDonors: 2,
         },
       ],
