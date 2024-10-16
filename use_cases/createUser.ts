@@ -14,6 +14,7 @@ interface CreateUserArgs {
   tutorshipInterest: boolean;
   mentorshipInterest: boolean;
   volunteeringInterest: boolean;
+  url?: string;
 }
 
 const createUser = async (args: CreateUserArgs): Promise<User> => {
@@ -65,6 +66,7 @@ const createUser = async (args: CreateUserArgs): Promise<User> => {
       tutorshipInterest: args.tutorshipInterest,
       mentorshipInterest: args.mentorshipInterest,
       volunteeringInterest: args.volunteeringInterest,
+      url: args.url,
       contributions: {
         connect: existingContributionsForUser.map((c) => ({ id: c.id })),
       },

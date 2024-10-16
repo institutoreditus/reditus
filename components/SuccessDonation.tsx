@@ -1,10 +1,6 @@
-import { Typography } from "@rmwc/typography";
 import { Button } from "@rmwc/button";
-import { Grid, GridCell } from "@rmwc/grid";
-import { Checkbox } from "@rmwc/checkbox";
 import { Dispatch, SetStateAction, useContext, useState } from "react";
 
-import { collegeData } from "./datasets/collegeData";
 import { graduationCourseData } from "./datasets/graduationCourseData";
 
 import { Autocomplete } from "@material-ui/lab";
@@ -104,26 +100,26 @@ const reditusTheme = () =>
 export const SuccessDonation = () => {
   const donation = useContext(DonationContext);
 
-  const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [signupFinish, setSignupFinish] = useState(false);
   const [errorFirstName, setErrorFirstName] = useState(false);
   const [errorLastName, setErrorLastName] = useState(false);
   const [errorDegree, setErrorDegree] = useState(false);
-  const [errorUniversity, setErrorUniversity] = useState(false);
   const [errorAdmissionYear, setErrorAdmissionYear] = useState(false);
+  const [errorUrl, setErrorUrl] = useState(false);
 
   const isUserAlreadyRegistered = () => donation.userExists.value;
   const registrationFlagEnabled = () =>
     JSON.parse(RoxContainer.shouldShowRegistrationForm.getValue());
+
   const yearsList = createYearList();
 
   const stateFuncs: { [Key: string]: Dispatch<SetStateAction<boolean>> } = {
     firstName: setErrorFirstName,
     lastName: setErrorLastName,
-    university: setErrorUniversity,
     admissionYear: setErrorAdmissionYear,
     degree: setErrorDegree,
+    url: setErrorUrl,
   };
 
   /**
@@ -133,9 +129,11 @@ export const SuccessDonation = () => {
   const [registerForm, setField] = useState({
     firstName: "",
     lastName: "",
-    university: "",
     admissionYear: "",
     degree: "",
+    url: "",
+    // disabled fields
+    university: "UFRJ",
     tutorship: false,
     mentorship: false,
     volunteering: false,
@@ -152,10 +150,6 @@ export const SuccessDonation = () => {
       setErrorLastName(true);
       valid = false;
     }
-    if (isNullOrWhitespace(registerForm.university)) {
-      setErrorUniversity(true);
-      valid = false;
-    }
     if (isNullOrWhitespace(registerForm.admissionYear)) {
       setErrorAdmissionYear(true);
       valid = false;
@@ -165,16 +159,6 @@ export const SuccessDonation = () => {
       valid = false;
     }
     return valid;
-  }
-
-  /**
-   * Handles changes in fields in the form.
-   *
-   * This function will update the state of the fields.
-   * @param {any} e the change event.
-   */
-  function handleCheckboxChange(e: any) {
-    setField({ ...registerForm, [e.target.name]: e.target.checked });
   }
 
   /**
@@ -237,7 +221,6 @@ export const SuccessDonation = () => {
         dob: donation.birthday.value,
       });
       setSignupFinish(true);
-      setOpen(false);
     } catch (e) {
       const err = e as any;
       const message = err.response?.data?.message;
@@ -255,211 +238,159 @@ export const SuccessDonation = () => {
   return (
     <ThemeProvider theme={reditusTheme()}>
       <div>
-        {!open && !signupFinish ? (
-          <>
-            <h1>Doação concluída com sucesso!</h1>
-            <p>
-              Agradecemos por escolher fazer parte dessa iniciativa. Enviaremos
-              também um email de confirmação da sua doação.
-            </p>
-            {registrationFlagEnabled() && !isUserAlreadyRegistered() && (
-              <>
-                <h4>Finalize seu cadastro no site!</h4>
+        <>
+          <h1>Muito obrigado!</h1>
+          <p>Agradecemos por escolher fazer parte dessa iniciativa.</p>
+          <p>Enviaremos também um email de confirmando sua doação.</p>
+          {registrationFlagEnabled() &&
+          !isUserAlreadyRegistered() &&
+          !signupFinish ? (
+            <>
+              <p>
+                Conclua o seu cadastro para somar pontos à sua turma no Ranking
+                de Turmas!
+              </p>
+
+              <form
+                dir="ltr"
+                action="registration"
+                method="post"
+                onSubmit={handleSubmit}
+                style={{
+                  backgroundColor: "rgba(0, 0, 0, 0.30)",
+                  padding: "20px",
+                  borderRadius: "10px",
+                  marginTop: "20px",
+                  gap: "40px",
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                <FormControl error={errorFirstName} fullWidth={true}>
+                  <TextField
+                    id="first-name"
+                    dir="ltr"
+                    fullWidth={true}
+                    style={{ paddingTop: "6px" }}
+                    label="Nome"
+                    name="firstName"
+                    type="text"
+                    onChange={handleTextInputChange}
+                  />
+                  {errorFirstName && (
+                    <FormHelperText id="first-name-component-error-text">
+                      Nome inválido
+                    </FormHelperText>
+                  )}
+                </FormControl>
+
+                <FormControl error={errorLastName} fullWidth={true}>
+                  <TextField
+                    dir="ltr"
+                    fullWidth={true}
+                    style={{ paddingTop: "6px" }}
+                    label="Sobrenome"
+                    name="lastName"
+                    type="text"
+                    onChange={handleTextInputChange}
+                  />
+                  {errorLastName && (
+                    <FormHelperText id="last-name-component-error-text">
+                      Sobrenome inválido
+                    </FormHelperText>
+                  )}
+                </FormControl>
+
+                <FormControl error={errorDegree} fullWidth={true}>
+                  <Autocomplete
+                    id="degree"
+                    options={graduationCourseData}
+                    getOptionLabel={(option) => option.name}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        style={{ paddingTop: "6px" }}
+                        label="Curso"
+                      />
+                    )}
+                    onInputChange={(_e, v, r) =>
+                      handleAutocompleteChange("degree", v, r)
+                    }
+                  />
+                  {errorDegree && (
+                    <FormHelperText id="degree-component-error-text">
+                      Curso inválido
+                    </FormHelperText>
+                  )}
+                </FormControl>
+
+                <FormControl error={errorAdmissionYear} fullWidth={true}>
+                  <Autocomplete
+                    id="admissionYear"
+                    options={yearsList}
+                    getOptionLabel={(option) => `${option}`}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        style={{ paddingTop: "6px" }}
+                        label="Ano de entrada:"
+                      />
+                    )}
+                    onInputChange={(_e, v, r) =>
+                      handleAutocompleteChange("admissionYear", v, r)
+                    }
+                  />
+                  {errorAdmissionYear && (
+                    <FormHelperText id="admission-year-component-error-text">
+                      Ano de admissão inválido
+                    </FormHelperText>
+                  )}
+                </FormControl>
+
+                <FormControl error={errorUrl} fullWidth={true}>
+                  <TextField
+                    id="url"
+                    dir="ltr"
+                    fullWidth={true}
+                    style={{ paddingTop: "6px" }}
+                    label="Site (LinkedIn):"
+                    name="url"
+                    type="text"
+                    onChange={handleTextInputChange}
+                  />
+                  {errorUrl && (
+                    <FormHelperText id="url-component-error-text">
+                      Link inválido
+                    </FormHelperText>
+                  )}
+                </FormControl>
+
                 <Button
-                  label="Quero realizar meu cadastro!"
-                  onClick={() => setOpen(!open)}
+                  type="submit"
+                  label="Finalizar cadastro"
                   raised
                   unelevated
+                  disabled={loading}
                   id={styles.defaultButton}
+                  style={{ marginTop: "20px" }}
                 />
-              </>
-            )}
-          </>
-        ) : null}
-
-        {signupFinish ? (
-          <>
-            <h1>
-              Obrigado! Agora você também faz parte dessa corrente do bem!
-            </h1>
-            <Typography use="body1">
-              Agradecemos por escolher fazer parte dessa iniciativa.
-            </Typography>
-            <Button
-              label="Voltar ao site do Reditus"
-              raised
-              unelevated
-              onClick={() => (window.location.href = "https://reditus.org.br")}
-              id={styles.defaultButton}
-            />
-          </>
-        ) : null}
-
-        {open ? (
-          <>
-            <form
-              dir="ltr"
-              action="registration"
-              method="post"
-              onSubmit={handleSubmit}
-            >
-              <FormControl error={errorFirstName} fullWidth={true}>
-                <TextField
-                  id="first-name"
-                  dir="ltr"
-                  fullWidth={true}
-                  style={{ paddingTop: "6px" }}
-                  label="Nome:"
-                  name="firstName"
-                  type="text"
-                  onChange={handleTextInputChange}
-                />
-                {errorFirstName && (
-                  <FormHelperText id="first-name-component-error-text">
-                    Nome inválido
-                  </FormHelperText>
-                )}
-              </FormControl>
-
-              <FormControl error={errorLastName} fullWidth={true}>
-                <TextField
-                  dir="ltr"
-                  fullWidth={true}
-                  style={{ paddingTop: "6px" }}
-                  label="Sobrenome:"
-                  name="lastName"
-                  type="text"
-                  onChange={handleTextInputChange}
-                />
-                {errorLastName && (
-                  <FormHelperText id="last-name-component-error-text">
-                    Sobrenome inválido
-                  </FormHelperText>
-                )}
-              </FormControl>
-
-              <Grid>
-                <GridCell span={6}>
-                  <FormControl error={errorDegree} fullWidth={true}>
-                    <Autocomplete
-                      id="degree"
-                      options={graduationCourseData}
-                      getOptionLabel={(option) => option.name}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          style={{ paddingTop: "6px" }}
-                          label="Curso"
-                        />
-                      )}
-                      onInputChange={(_e, v, r) =>
-                        handleAutocompleteChange("degree", v, r)
-                      }
-                    />
-                    {errorDegree && (
-                      <FormHelperText id="degree-component-error-text">
-                        Curso inválido
-                      </FormHelperText>
-                    )}
-                  </FormControl>
-                </GridCell>
-                <GridCell span={6}>
-                  <FormControl error={errorAdmissionYear} fullWidth={true}>
-                    <Autocomplete
-                      id="admissionYear"
-                      options={yearsList}
-                      getOptionLabel={(option) => `${option}`}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          style={{ paddingTop: "6px" }}
-                          label="Ano de entrada:"
-                        />
-                      )}
-                      onInputChange={(_e, v, r) =>
-                        handleAutocompleteChange("admissionYear", v, r)
-                      }
-                    />
-                    {errorAdmissionYear && (
-                      <FormHelperText id="admission-year-component-error-text">
-                        Ano de admissão inválido
-                      </FormHelperText>
-                    )}
-                  </FormControl>
-                </GridCell>
-              </Grid>
-
-              <FormControl error={errorUniversity} fullWidth={true}>
-                <Autocomplete
-                  id="uni"
-                  options={collegeData}
-                  getOptionLabel={(option) =>
-                    `(${option.name}) ${option.label}`
-                  }
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      style={{ paddingTop: "6px" }}
-                      label="Universidade"
-                    />
-                  )}
-                  onInputChange={(_e, v, r) =>
-                    handleAutocompleteChange("university", v, r)
-                  }
-                />
-                {errorUniversity && (
-                  <FormHelperText id="university-component-error-text">
-                    Univrsidade inválida
-                  </FormHelperText>
-                )}
-              </FormControl>
-
-              <GridCell className={styles.textLabel}>
-                <Typography use="body1">
-                  Como deseja contribuir com o Reditus?
-                </Typography>
-              </GridCell>
-
-              <GridCell className={styles.checkboxGroup}>
-                <Checkbox
-                  className={styles.checkbox}
-                  label="Programas de tutoria de alunos"
-                  type="checkbox"
-                  name="tutorshipInterest"
-                  onChange={handleCheckboxChange}
-                />
-
-                <Checkbox
-                  className={styles.checkbox}
-                  label="Programas de metoria de equipes"
-                  type="checkbox"
-                  name="mentorshipInterest"
-                  onChange={handleCheckboxChange}
-                />
-
-                <Checkbox
-                  className={styles.checkbox}
-                  label="Quero ser voluntário"
-                  type="checkbox"
-                  name="volunteeringInterest"
-                  onChange={handleCheckboxChange}
-                />
-              </GridCell>
-
+                {loading && <LinearProgress color="primary" />}
+              </form>
+            </>
+          ) : (
+            <>
               <Button
-                type="submit"
-                label="Finalizar cadastro"
+                label="Voltar ao site do Reditus"
                 raised
                 unelevated
-                disabled={loading}
+                onClick={() =>
+                  (window.location.href = "https://reditus.org.br")
+                }
                 id={styles.defaultButton}
               />
-              {loading && <LinearProgress color="primary" />}
-            </form>
-          </>
-        ) : (
-          ""
-        )}
+            </>
+          )}
+        </>
       </div>
     </ThemeProvider>
   );

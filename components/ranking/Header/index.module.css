@@ -1,0 +1,43 @@
+/* Title Container */
+
+.titleContainer {
+    max-width: 600px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    gap: 20px;
+  }
+  
+  .titleContainer h1 {
+    margin: 0;
+    font-size: 60px;
+    font-weight: 900;
+    z-index: 3;
+  }
+  
+  .titleContainer p {
+    margin: 0;
+  }
+  
+  .tagButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(240, 212, 72);
+    color: rgb(37, 19, 0);
+    border: none;
+    border-radius: 100px;
+    cursor: pointer;
+    padding: 10px 30px;
+    font-weight: 700;
+    font-size: 16px;
+    transform: scale(1.1) translateY(10px);
+    z-index: 1;
+  }
+
+  
+  .tagButton:hover {
+    transform: scale(1.13) translateY(10px);
+  }
