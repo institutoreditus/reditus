@@ -26,7 +26,7 @@ const WhatsAppButton = () => {
       className={styles.shareBtn}
       onClick={() => {
         window.open(
-          "https://api.whatsapp.com/send?text=Olá! Estou participando do ranking de turmas da UFRJ do Instituto Reditus! Participe também!\nhttps://www.reditus.org.br/ranking"
+          "https://api.whatsapp.com/send?text=Olá! Estou participando do ranking de turmas da UFRJ do Instituto Reditus! Participe também!\nhttps://app.reditus.org.br/ranking"
         );
       }}
     >
@@ -41,7 +41,7 @@ const LinkedInButton = () => {
       className={styles.shareBtn}
       onClick={() => {
         window.open(
-          "https://www.linkedin.com/shareArticle?mini=true&url=https://www.reditus.org.br/ranking&title=Ranking de Turmas&summary=Olá! Estou participando do ranking de turmas do Instituto Reditus e gostaria de te convidar a participar também!&source=www.reditus.org.br",
+          "https://www.linkedin.com/shareArticle?mini=true&url=https://app.reditus.org.br/ranking&title=Ranking de Turmas&summary=Olá! Estou participando do ranking de turmas do Instituto Reditus e gostaria de te convidar a participar também!&source=www.reditus.org.br",
           "_blank"
         );
       }}
