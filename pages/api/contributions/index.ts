@@ -67,9 +67,13 @@ async function runCreateContribution(
   req: DIContainerNextApiRequest,
   res: NextApiResponse
 ) {
+  // TODO: remove log
+  console.log("> runCreateContribution()", req.body);
+
   const prismaClient: PrismaClient = req.scope.resolve("dbClient");
   const validator = CreateContributionSchema.destruct();
   const [err, args] = validator(req.body);
+
   if (!err && args) {
     let birthday: Date | undefined = new Date(args.dob);
     if (!isValidBirthday(birthday)[0]) {
@@ -144,6 +148,9 @@ async function runCreateContribution(
       });
       mail(args.customer.email, args.customer.name);
     } catch (e) {
+      // TODO: remove log
+      console.log(">> error", e);
+
       const err = e as any;
       mailError(args.customer.email, err);
       if (err.response.status === 400) {
