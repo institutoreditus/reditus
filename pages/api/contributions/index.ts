@@ -70,6 +70,7 @@ async function runCreateContribution(
   const prismaClient: PrismaClient = req.scope.resolve("dbClient");
   const validator = CreateContributionSchema.destruct();
   const [err, args] = validator(req.body);
+
   if (!err && args) {
     let birthday: Date | undefined = new Date(args.dob);
     if (!isValidBirthday(birthday)[0]) {

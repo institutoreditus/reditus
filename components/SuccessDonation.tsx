@@ -17,11 +17,7 @@ import { red } from "@material-ui/core/colors";
 import axios from "axios";
 import styles from "./Form.module.css";
 
-import RoxContainer from "../services/rox/RoxContainer";
-import service from "../services/rox/RoxService";
 import { DonationContext } from "./contexts/DonationContext";
-
-service(RoxContainer);
 
 function createYearList(): Array<number> {
   const year = new Date().getFullYear();
@@ -109,8 +105,6 @@ export const SuccessDonation = () => {
   const [errorUrl, setErrorUrl] = useState(false);
 
   const isUserAlreadyRegistered = () => donation.userExists.value;
-  const registrationFlagEnabled = () =>
-    JSON.parse(RoxContainer.shouldShowRegistrationForm.getValue());
 
   const yearsList = createYearList();
 
@@ -242,9 +236,7 @@ export const SuccessDonation = () => {
           <h1>Muito obrigado!</h1>
           <p>Agradecemos por escolher fazer parte dessa iniciativa.</p>
           <p>Enviaremos também um email de confirmando sua doação.</p>
-          {registrationFlagEnabled() &&
-          !isUserAlreadyRegistered() &&
-          !signupFinish ? (
+          {!isUserAlreadyRegistered() && !signupFinish ? (
             <>
               <p>
                 Conclua o seu cadastro para somar pontos à sua turma no Ranking
