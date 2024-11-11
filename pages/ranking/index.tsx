@@ -49,9 +49,9 @@ export default function RankingPage() {
             }}
             title="Ranking de Turmas"
             description="
-              O Instituto Reditus é um grupo de alunos e ex-alunos com o objetivo de fortalecer a comunidade da UFRJ.
-              Fornecemos apoio financeiro a projetos de inovação, mentoria, e suporte para alunos de baixa renda.
-              Retribua pela sua educação e convide a sua turma para participar dessa competição!
+            O Instituto Reditus é um grupo de alunos e ex-alunos com o objetivo de fortalecer a comunidade da UFRJ.
+            Fornecemos apoio financeiro a projetos de inovação, mentoria, e suporte para alunos de baixa renda.
+            Retribua pela sua educação e convide a sua turma para participar dessa competição!
             "
           />
           <ResultsDisplay
