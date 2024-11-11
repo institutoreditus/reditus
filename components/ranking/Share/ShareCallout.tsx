@@ -40,7 +40,7 @@ const WhatsAppButton = () => {
 
 const LinkedInButton = () => {
   return (
-    <button 
+    <button
       className={styles.shareBtn}
       onClick={() => {
         window.open(
@@ -58,9 +58,7 @@ const CopyButton = () => {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = () => {
-    window.navigator.clipboard.writeText(
-      "https://www.reditus.org.br/ranking"
-    );
+    window.navigator.clipboard.writeText("https://www.reditus.org.br/ranking");
     setCopied(true);
     setTimeout(() => {
       setCopied(false);
