@@ -62,13 +62,26 @@ export default function DegreeRankingPage() {
 }
 
 const Table = (props: { ranking: GetRankingData["ranking"] }) => {
+  const place = (position: number) => {
+    if (position === 1) {
+      return "🥇";
+    } else if (position === 2) {
+      return "🥈";
+    } else if (position === 3) {
+      return "🥉";
+    } else {
+      return position + "º";
+    }
+  };
+
   return (
     <div className={styles.groupsTable}>
       <table>
         <thead>
-          <th>Rank</th>
-          <th>Turma</th>
-          <th>Valor de doação (R$)</th>
+          <th>#</th>
+          <th>Anos de entrada</th>
+          <th>Doadores</th>
+          <th>Total</th>
         </thead>
         <tbody>
           {props.ranking.map((row, index) => (
@@ -81,9 +94,19 @@ const Table = (props: { ranking: GetRankingData["ranking"] }) => {
                 );
               }}
             >
-              <td style={{ fontWeight: "bold" }}>#{row.position}</td>
+              <td
+                style={{
+                  fontWeight: "bold",
+                  fontSize: row.position <= 3 ? "28px" : undefined,
+                }}
+              >
+                {place(row.position)}
+              </td>
               <td>{`${row.initialYear} - ${row.finalYear}`}</td>
-              <td>{new Intl.NumberFormat("pt-BR", {}).format(row.amount)}</td>
+              <td>{row.numberOfDonors}</td>
+              <td>
+                R$ {new Intl.NumberFormat("pt-BR", {}).format(row.amount)}
+              </td>
             </tr>
           ))}
         </tbody>
