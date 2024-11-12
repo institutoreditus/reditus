@@ -49,9 +49,9 @@ export default function RankingPage() {
             }}
             title="Ranking de Turmas"
             description="
-            O Instituto Reditus é uma associação privada, sem fins lucrativos, formada por alunos e ex-alunos da UFRJ.
-            Nosso objetivo é fortalecer a comunidade da UFRJ e fomentar a cultura de retribuição para aprimorar a experiência educacional.
-            Convide sua turma para participar! :)
+            O Instituto Reditus é uma instituição formada por alunos e ex-alunos com o objetivo de fortalecer a comunidade da UFRJ.
+            Fornecemos apoio financeiro a projetos de inovação, mentoria, e suporte para alunos de baixa renda.
+            Retribua pela sua educação e convide a sua turma para participar dessa competição!
             "
           />
           <ResultsDisplay
@@ -71,14 +71,26 @@ const Table = (props: { ranking: GetRankingData["ranking"] }) => {
     window.open(`/ranking/degrees/${degree}/${year}`, "_self");
   };
 
+  const place = (position: number) => {
+    if (position === 1) {
+      return "🥇";
+    } else if (position === 2) {
+      return "🥈";
+    } else if (position === 3) {
+      return "🥉";
+    } else {
+      return position + "º";
+    }
+  };
+
   return (
     <div className={styles.groupsTable}>
       <table>
         <thead>
-          <th>Rank</th>
-          <th>Turma</th>
-          <th>Curso</th>
-          <th>Valor de doação (R$)</th>
+          <th>#</th>
+          <th style={{ textAlign: "left" }}>Curso (anos de entrada)</th>
+          <th>Doadores</th>
+          <th>Total</th>
         </thead>
         <tbody>
           {props.ranking.map((row, index) => (
@@ -86,10 +98,21 @@ const Table = (props: { ranking: GetRankingData["ranking"] }) => {
               key={index}
               onClick={goToClass.bind(null, row.degree, row.initialYear)}
             >
-              <td style={{ fontWeight: "bold" }}>#{row.position}</td>
-              <td>{`${row.initialYear}-${row.finalYear}`}</td>
-              <td style={{ textAlign: "left" }}>{row.degree}</td>
-              <td>{new Intl.NumberFormat("pt-BR", {}).format(row.amount)}</td>
+              <td
+                style={{
+                  fontWeight: "bold",
+                  fontSize: row.position <= 3 ? "28px" : undefined,
+                }}
+              >
+                {place(row.position)}
+              </td>
+              <td style={{ textAlign: "left" }}>
+                {row.degree} ({row.initialYear} - {row.finalYear})
+              </td>
+              <td>{row.numberOfDonors}</td>
+              <td>
+                R$ {new Intl.NumberFormat("pt-BR", {}).format(row.amount)}
+              </td>
             </tr>
           ))}
         </tbody>

@@ -2,7 +2,9 @@ import styles from "./index.module.css";
 import WhatsApp from "@material-ui/icons/WhatsApp";
 import LinkedIn from "@material-ui/icons/LinkedIn";
 import ContentCopyIcon from "@material-ui/icons/FileCopy";
+import CheckIcon from "@material-ui/icons/Check";
 import { DonateButton } from "../Donate/DonateBanner";
+import { useState } from "react";
 
 const ShareCallout = (props: {
   donate?: boolean;
@@ -23,10 +25,11 @@ const ShareCallout = (props: {
 const WhatsAppButton = () => {
   return (
     <button
+      aria-label="Compartilhar no WhatsApp"
       className={styles.shareBtn}
       onClick={() => {
         window.open(
-          "https://api.whatsapp.com/send?text=Olá! Estou participando do ranking de turmas da UFRJ do Instituto Reditus! Participe também!\nhttps://app.reditus.org.br/ranking"
+          "https://api.whatsapp.com/send?text=Olá! Estou participando do ranking de turmas da UFRJ do Instituto Reditus! Participe também! \nhttps://app.reditus.org.br/ranking"
         );
       }}
     >
@@ -52,16 +55,23 @@ const LinkedInButton = () => {
 };
 
 const CopyButton = () => {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = () => {
+    window.navigator.clipboard.writeText("https://www.reditus.org.br/ranking");
+    setCopied(true);
+    setTimeout(() => {
+      setCopied(false);
+    }, 2000);
+  };
+
   return (
     <button
       className={styles.shareBtn}
-      onClick={() => {
-        window.navigator.clipboard.writeText(
-          "https://www.reditus.org.br/ranking"
-        );
-      }}
+      onClick={handleCopy}
+      aria-label="Copiar link"
     >
-      <ContentCopyIcon />
+      {copied ? <CheckIcon /> : <ContentCopyIcon />}
     </button>
   );
 };
