@@ -55,3 +55,50 @@
 .groupsTable tr:hover {
   background-color: rgb(239, 254, 255);
 }
+
+
+/* Tooltip styles */
+.degreeHeader {
+  text-align: left;
+  position: relative;
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  cursor: help;
+  z-index: 1000;
+}
+
+.tooltipIcon {
+  font-size: 12px;
+  margin-left: 5px;
+  vertical-align: middle;
+}
+
+
+.tooltipText {
+  visibility: hidden;
+  width: 230px;
+  background-color: #fff;
+  color: #000;
+  text-align: left;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 12px;
+  position: absolute;
+  top: 100%;
+  left: 50%; 
+  transform: translateX(-50%); 
+  z-index: 2000; 
+  opacity: 0;
+  transition: opacity 0.3s ease, visibility 0s 0.3s;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.tooltip:hover .tooltipText {
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 0.3s ease, visibility 0s 0s;
+}
