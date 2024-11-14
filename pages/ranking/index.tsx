@@ -7,6 +7,7 @@ import Header from "../../components/ranking/Header/Header";
 import { useEffect, useState } from "react";
 import { GetRankingData } from "../api/ranking/types";
 import InfoIcon from "@material-ui/icons/Info";
+import InfoIcon from "@material-ui/icons/Info";
 
 export default function RankingPage() {
   const [rankingData, setRankingData] = useState<GetRankingData>({
