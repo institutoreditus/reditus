@@ -6,6 +6,7 @@ import ResultsDisplay from "../../components/ranking/ResultsDisplay/ResultsDispl
 import Header from "../../components/ranking/Header/Header";
 import { useEffect, useState } from "react";
 import { GetRankingData } from "../api/ranking/types";
+import InfoIcon from "@material-ui/icons/Info";
 
 export default function RankingPage() {
   const [rankingData, setRankingData] = useState<GetRankingData>({
@@ -88,7 +89,19 @@ const Table = (props: { ranking: GetRankingData["ranking"] }) => {
       <table>
         <thead>
           <th>#</th>
-          <th style={{ textAlign: "left" }}>Curso (anos de entrada)</th>
+          <th className={styles.degreeHeader}>
+            Curso (anos de entrada)
+            <span className={styles.tooltip}>
+              <span className={styles.tooltipIcon}>
+                <InfoIcon style={{ fontSize: 14 }} />
+              </span>
+              <span className={styles.tooltipText}>
+                Estamos agrupando alunos com anos de entrada próximos,
+                considerando intervalos de 5 anos. Por exemplo, alunos que
+                ingressaram entre 2010 e 2014 serão agrupados juntos.
+              </span>
+            </span>
+          </th>
           <th>Doadores</th>
           <th>Total</th>
         </thead>
